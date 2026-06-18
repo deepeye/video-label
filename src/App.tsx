@@ -4,6 +4,7 @@ import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
 import type { DatasetId, DemoStep, Speed } from './types';
 import { Step4Review } from './steps/Step4Review';
+import { Step5Export } from './steps/Step5Export';
 
 function StepPlaceholder({ step }: { step: number }) {
   return (
@@ -108,7 +109,7 @@ export default function App() {
         {demoStep === 2 && <StepPlaceholder step={2} />}
         {demoStep === 3 && <StepPlaceholder step={3} />}
         {demoStep === 4 && <Step4Review />}
-        {demoStep === 5 && <StepPlaceholder step={5} />}
+        {demoStep === 5 && <Step5Export />}
       </main>
     </div>
   );
