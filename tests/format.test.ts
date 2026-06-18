@@ -78,3 +78,55 @@ describe('toNative', () => {
     expect(back.dataset.dataset_id).toBe('city-road');
   });
 });
+
+import { toCocoVideo } from '@/lib/format/cocoVideo';
+
+describe('toCocoVideo', () => {
+  beforeEach(() => {
+    useDemoStore.getState().selectDataset('city-road');
+  });
+
+  it('builds proper COCO-Video structure', () => {
+    const ds = getDataset('city-road');
+    const out = toCocoVideo(ds.annotations, ds, 1718700000000);
+
+    expect(out.info.version).toBe('2.0-demo');
+    expect(out.info.date_created).toMatch(/^\d{4}-/);
+    expect(out.videos.length).toBe(1);
+    expect(out.videos[0]!.width).toBe(1920);
+    expect(out.videos[0]!.height).toBe(1080);
+    expect(out.videos[0]!.frame_rate).toBe(30);
+    expect(out.videos[0]!.duration).toBe(30);
+
+    // categories sorted alphabetically
+    const cats = out.categories.map((c) => c.name);
+    expect(cats).toEqual(['pedestrian', 'traffic_sign', 'vehicle']);
+
+    // annotations: every keyframe → 1 entry; 47 tracks × ~6 frames ≈ 280 entries
+    expect(out.annotations.length).toBeGreaterThan(200);
+    expect(out.annotations.length).toBeLessThan(400);
+  });
+
+  it('includes x_review and x_source extension fields', () => {
+    useDemoStore.getState().correctBoxGeometry('trk_9', 0, [100, 200, 300, 400]);
+    const annotations = useDemoStore.getState().annotations;
+    const ds = getDataset('city-road');
+    const out = toCocoVideo(annotations, ds, 1);
+
+    // trk_9 无前缀 → trackIdToNumber 返回 9
+    const trk9Ann = out.annotations.find(
+      (a) => a.track_id === 9 && a.frame_no === ds.annotations.find(x => x.track_id === 'trk_9')!.keyframes[0]!.frame_no,
+    );
+    expect(trk9Ann).toBeDefined();
+    expect(trk9Ann!.x_source).toBe('human');
+    expect(trk9Ann!.x_review.status).toBe('corrected');
+    expect(trk9Ann!.bbox).toEqual([100, 200, 300, 400]);
+  });
+
+  it('annotation ids are unique', () => {
+    const ds = getDataset('city-road');
+    const out = toCocoVideo(ds.annotations, ds, 1);
+    const ids = out.annotations.map((a) => a.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+});
