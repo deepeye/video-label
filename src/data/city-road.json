@@ -1,0 +1,5078 @@
+{
+  "version": "2.0-demo",
+  "dataset_id": "city-road",
+  "display": "城市道路样例",
+  "video_src": "/mock/city-road/road_demo.mp4",
+  "thumb": "/mock/city-road/road_thumb.jpg",
+  "metadata": {
+    "duration_ms": 30000,
+    "frame_count": 900,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "codec": "h264",
+    "audio_tracks": 1,
+    "sampled_frames": 132
+  },
+  "annotations": [
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_2",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.41,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 8000,
+          "frame_no": 240,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              620,
+              90,
+              220
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10333,
+          "frame_no": 310,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              410,
+              617,
+              90,
+              219
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12667,
+          "frame_no": 380,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              440,
+              613,
+              91,
+              218
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              470,
+              610,
+              91,
+              218
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17333,
+          "frame_no": 520,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              500,
+              607,
+              91,
+              217
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19667,
+          "frame_no": 590,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              530,
+              603,
+              92,
+              216
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22000,
+          "frame_no": 660,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              600,
+              92,
+              215
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_9",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.48,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 4000,
+          "frame_no": 120,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1100,
+              480,
+              320,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6000,
+          "frame_no": 180,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1071,
+              486,
+              323,
+              203
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8000,
+          "frame_no": 240,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1043,
+              491,
+              326,
+              206
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10000,
+          "frame_no": 300,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1014,
+              497,
+              329,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12000,
+          "frame_no": 360,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              986,
+              503,
+              331,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14000,
+          "frame_no": 420,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              957,
+              509,
+              334,
+              214
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16000,
+          "frame_no": 480,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              929,
+              514,
+              337,
+              217
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18000,
+          "frame_no": 540,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              900,
+              520,
+              340,
+              220
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_5",
+      "label_id": "traffic_sign",
+      "label_display": "交通标志",
+      "source": "machine",
+      "confidence": 0.49,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              120,
+              180,
+              220
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 7500,
+          "frame_no": 225,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              120,
+              180,
+              220
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              120,
+              180,
+              220
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              120,
+              180,
+              220
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              120,
+              180,
+              220
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v1",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 11471,
+          "frame_no": 344,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              451,
+              787,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12791,
+          "frame_no": 384,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              450,
+              787,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14111,
+          "frame_no": 423,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              448,
+              788,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15431,
+          "frame_no": 463,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              447,
+              788,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16751,
+          "frame_no": 503,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              445,
+              788,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18071,
+          "frame_no": 542,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              444,
+              789,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19391,
+          "frame_no": 582,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              442,
+              789,
+              269,
+              172
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v2",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 6972,
+          "frame_no": 209,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1038,
+              972,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9238,
+          "frame_no": 277,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1029,
+              967,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11503,
+          "frame_no": 345,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1021,
+              962,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13769,
+          "frame_no": 413,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1012,
+              957,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16034,
+          "frame_no": 481,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1004,
+              952,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18300,
+          "frame_no": 549,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              995,
+              947,
+              187,
+              92
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v3",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10384,
+          "frame_no": 312,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              218,
+              734,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11749,
+          "frame_no": 352,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              214,
+              738,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13114,
+          "frame_no": 393,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              209,
+              743,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14479,
+          "frame_no": 434,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              205,
+              747,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15843,
+          "frame_no": 475,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              751,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17208,
+          "frame_no": 516,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              196,
+              755,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18573,
+          "frame_no": 557,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              191,
+              760,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19938,
+          "frame_no": 598,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              187,
+              764,
+              163,
+              75
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v4",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 24081,
+          "frame_no": 722,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              701,
+              581,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24592,
+          "frame_no": 738,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              689,
+              579,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25104,
+          "frame_no": 753,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              676,
+              576,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25615,
+          "frame_no": 768,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              664,
+              574,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26126,
+          "frame_no": 784,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              651,
+              571,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26638,
+          "frame_no": 799,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              639,
+              569,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27149,
+          "frame_no": 814,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              626,
+              566,
+              177,
+              92
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v5",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.97,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10922,
+          "frame_no": 328,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1522,
+              686,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11390,
+          "frame_no": 342,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1520,
+              687,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11858,
+          "frame_no": 356,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1518,
+              688,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12326,
+          "frame_no": 370,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1516,
+              689,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12793,
+          "frame_no": 384,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1514,
+              690,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13261,
+          "frame_no": 398,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1512,
+              691,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13729,
+          "frame_no": 412,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1510,
+              692,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14197,
+          "frame_no": 426,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1508,
+              693,
+              353,
+              211
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v6",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 14830,
+          "frame_no": 445,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1676,
+              846,
+              179,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17805,
+          "frame_no": 534,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1677,
+              849,
+              179,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20781,
+          "frame_no": 623,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1678,
+              852,
+              179,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23756,
+          "frame_no": 713,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1678,
+              855,
+              179,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26731,
+          "frame_no": 802,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1679,
+              858,
+              179,
+              116
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v7",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.94,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 6839,
+          "frame_no": 205,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              613,
+              860,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8278,
+          "frame_no": 248,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              624,
+              858,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9717,
+          "frame_no": 292,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              636,
+              855,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11156,
+          "frame_no": 335,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              647,
+              853,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12596,
+          "frame_no": 378,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              659,
+              851,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14035,
+          "frame_no": 421,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              670,
+              849,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15474,
+          "frame_no": 464,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              682,
+              846,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16913,
+          "frame_no": 507,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              693,
+              844,
+              333,
+              190
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v8",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.88,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 19632,
+          "frame_no": 589,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              738,
+              607,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20753,
+          "frame_no": 623,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              738,
+              607,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21875,
+          "frame_no": 656,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              738,
+              607,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22996,
+          "frame_no": 690,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              738,
+              607,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24117,
+          "frame_no": 724,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              737,
+              608,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25238,
+          "frame_no": 757,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              737,
+              608,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26360,
+          "frame_no": 791,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              737,
+              608,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27481,
+          "frame_no": 824,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              737,
+              608,
+              254,
+              166
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v9",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 7358,
+          "frame_no": 221,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              123,
+              820,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8768,
+          "frame_no": 263,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              131,
+              818,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10178,
+          "frame_no": 305,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              139,
+              816,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11588,
+          "frame_no": 348,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              147,
+              814,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12998,
+          "frame_no": 390,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              155,
+              812,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14408,
+          "frame_no": 432,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              163,
+              810,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15818,
+          "frame_no": 475,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              171,
+              808,
+              302,
+              133
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v10",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.87,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 15790,
+          "frame_no": 474,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              765,
+              934,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16850,
+          "frame_no": 506,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              767,
+              936,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17909,
+          "frame_no": 537,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              770,
+              939,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18969,
+          "frame_no": 569,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              772,
+              941,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20029,
+          "frame_no": 601,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              774,
+              943,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21089,
+          "frame_no": 633,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              776,
+              945,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22148,
+          "frame_no": 664,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              779,
+              948,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23208,
+          "frame_no": 696,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              781,
+              950,
+              189,
+              83
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v11",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 15537,
+          "frame_no": 466,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              463,
+              598,
+              211,
+              94
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18345,
+          "frame_no": 550,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              473,
+              591,
+              211,
+              94
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21153,
+          "frame_no": 635,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              483,
+              585,
+              211,
+              94
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23961,
+          "frame_no": 719,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              493,
+              578,
+              211,
+              94
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26769,
+          "frame_no": 803,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              503,
+              571,
+              211,
+              94
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v12",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.9,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 17697,
+          "frame_no": 531,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              741,
+              424,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20093,
+          "frame_no": 603,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              730,
+              419,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22490,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              719,
+              415,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24886,
+          "frame_no": 747,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              707,
+              410,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27283,
+          "frame_no": 818,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              696,
+              406,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 29679,
+          "frame_no": 890,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              685,
+              401,
+              313,
+              178
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v13",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 1489,
+          "frame_no": 45,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              232,
+              694,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 2741,
+          "frame_no": 82,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              240,
+              697,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3992,
+          "frame_no": 120,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              248,
+              701,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 5244,
+          "frame_no": 157,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              256,
+              704,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6495,
+          "frame_no": 195,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              264,
+              707,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 7747,
+          "frame_no": 232,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              272,
+              711,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8998,
+          "frame_no": 270,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              280,
+              714,
+              201,
+              84
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v14",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 17571,
+          "frame_no": 527,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              74,
+              865,
+              301,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18454,
+          "frame_no": 554,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              78,
+              865,
+              301,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19337,
+          "frame_no": 580,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              81,
+              865,
+              301,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20220,
+          "frame_no": 607,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              85,
+              865,
+              301,
+              172
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21103,
+          "frame_no": 633,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              88,
+              865,
+              301,
+              172
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v15",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.87,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 8474,
+          "frame_no": 254,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1573,
+              799,
+              140,
+              67
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9387,
+          "frame_no": 282,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1580,
+              804,
+              140,
+              67
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10300,
+          "frame_no": 309,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1588,
+              809,
+              140,
+              67
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11212,
+          "frame_no": 336,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1595,
+              813,
+              140,
+              67
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12125,
+          "frame_no": 364,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1602,
+              818,
+              140,
+              67
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v16",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.92,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 21815,
+          "frame_no": 654,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              348,
+              520,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23432,
+          "frame_no": 703,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              353,
+              516,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25049,
+          "frame_no": 751,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              357,
+              512,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26667,
+          "frame_no": 800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              362,
+              507,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28284,
+          "frame_no": 849,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              366,
+              503,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 29901,
+          "frame_no": 897,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              371,
+              499,
+              208,
+              125
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v17",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.95,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 5890,
+          "frame_no": 177,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              333,
+              873,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 7560,
+          "frame_no": 227,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              338,
+              875,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9229,
+          "frame_no": 277,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              342,
+              876,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10899,
+          "frame_no": 327,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              347,
+              878,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12568,
+          "frame_no": 377,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              352,
+              880,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14238,
+          "frame_no": 427,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              357,
+              882,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15907,
+          "frame_no": 477,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              361,
+              883,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17577,
+          "frame_no": 527,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              366,
+              885,
+              209,
+              129
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v18",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.97,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 3177,
+          "frame_no": 95,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              130,
+              661,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3711,
+          "frame_no": 111,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              125,
+              663,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4245,
+          "frame_no": 127,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              120,
+              664,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4779,
+          "frame_no": 143,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              115,
+              666,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 5313,
+          "frame_no": 159,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              109,
+              668,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 5847,
+          "frame_no": 175,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              104,
+              669,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6381,
+          "frame_no": 191,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              99,
+              671,
+              185,
+              116
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v19",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.95,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 7732,
+          "frame_no": 232,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              901,
+              942,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9146,
+          "frame_no": 274,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              894,
+              946,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10561,
+          "frame_no": 317,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              887,
+              951,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11975,
+          "frame_no": 359,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              955,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13390,
+          "frame_no": 402,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              872,
+              959,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14804,
+          "frame_no": 444,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              865,
+              963,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16219,
+          "frame_no": 487,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              858,
+              968,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17633,
+          "frame_no": 529,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              851,
+              972,
+              226,
+              103
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v20",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 25617,
+          "frame_no": 769,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1013,
+              610,
+              153,
+              72
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26713,
+          "frame_no": 801,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1023,
+              614,
+              153,
+              72
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27809,
+          "frame_no": 834,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1032,
+              618,
+              153,
+              72
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28904,
+          "frame_no": 867,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1042,
+              622,
+              153,
+              72
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1051,
+              626,
+              153,
+              72
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v21",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.9,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 23880,
+          "frame_no": 716,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              47,
+              737,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24767,
+          "frame_no": 743,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              739,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25655,
+          "frame_no": 770,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              54,
+              741,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26542,
+          "frame_no": 796,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              57,
+              744,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27430,
+          "frame_no": 823,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              61,
+              746,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28317,
+          "frame_no": 850,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              64,
+              748,
+              155,
+              91
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v22",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.97,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 17373,
+          "frame_no": 521,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              551,
+              553,
+              214,
+              104
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18726,
+          "frame_no": 562,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              568,
+              546,
+              214,
+              104
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20080,
+          "frame_no": 602,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              585,
+              540,
+              214,
+              104
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21433,
+          "frame_no": 643,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              601,
+              533,
+              214,
+              104
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22786,
+          "frame_no": 684,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              618,
+              526,
+              214,
+              104
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v23",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 1233,
+          "frame_no": 37,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              8,
+              521,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 1886,
+          "frame_no": 57,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              6,
+              518,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 2540,
+          "frame_no": 76,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              5,
+              515,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3193,
+          "frame_no": 96,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              3,
+              512,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3847,
+          "frame_no": 115,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              2,
+              509,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4500,
+          "frame_no": 135,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              0,
+              506,
+              342,
+              209
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v24",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 19509,
+          "frame_no": 585,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              764,
+              607,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20557,
+          "frame_no": 617,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              769,
+              603,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21605,
+          "frame_no": 648,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              775,
+              598,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22653,
+          "frame_no": 680,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              780,
+              594,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23701,
+          "frame_no": 711,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              785,
+              589,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24749,
+          "frame_no": 742,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              791,
+              585,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25797,
+          "frame_no": 774,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              796,
+              580,
+              142,
+              69
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v25",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.94,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 19675,
+          "frame_no": 590,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              787,
+              679,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20513,
+          "frame_no": 615,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              792,
+              683,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21352,
+          "frame_no": 641,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              798,
+              687,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22190,
+          "frame_no": 666,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              803,
+              691,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23028,
+          "frame_no": 691,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              809,
+              696,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23866,
+          "frame_no": 716,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              814,
+              700,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24705,
+          "frame_no": 741,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              704,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25543,
+          "frame_no": 766,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              825,
+              708,
+              192,
+              91
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v26",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 9637,
+          "frame_no": 289,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              303,
+              803,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10539,
+          "frame_no": 316,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              295,
+              807,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11440,
+          "frame_no": 343,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              286,
+              810,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12342,
+          "frame_no": 370,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              278,
+              814,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13244,
+          "frame_no": 397,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              269,
+              817,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14146,
+          "frame_no": 424,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              261,
+              821,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15047,
+          "frame_no": 451,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              252,
+              824,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15949,
+          "frame_no": 478,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              244,
+              828,
+              327,
+              152
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v27",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 15181,
+          "frame_no": 455,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              277,
+              512,
+              196,
+              126
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17453,
+          "frame_no": 524,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              273,
+              513,
+              196,
+              126
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19726,
+          "frame_no": 592,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              269,
+              514,
+              196,
+              126
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21998,
+          "frame_no": 660,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              265,
+              515,
+              196,
+              126
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24270,
+          "frame_no": 728,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              261,
+              516,
+              196,
+              126
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_v28",
+      "label_id": "vehicle",
+      "label_display": "车辆",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 18994,
+          "frame_no": 570,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1501,
+              555,
+              249,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21151,
+          "frame_no": 635,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1485,
+              551,
+              249,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23307,
+          "frame_no": 699,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1469,
+              548,
+              249,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25464,
+          "frame_no": 764,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1453,
+              544,
+              249,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27620,
+          "frame_no": 829,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1437,
+              540,
+              249,
+              105
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p1",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.9,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 23924,
+          "frame_no": 718,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              579,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24792,
+          "frame_no": 744,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              575,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25660,
+          "frame_no": 770,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              572,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26528,
+          "frame_no": 796,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              568,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27396,
+          "frame_no": 822,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              564,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28264,
+          "frame_no": 848,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 29132,
+          "frame_no": 874,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              557,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              553,
+              744,
+              115,
+              235
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p2",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.84,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 25812,
+          "frame_no": 774,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              57,
+              644,
+              109,
+              192
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 26654,
+          "frame_no": 800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              53,
+              644,
+              109,
+              192
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27496,
+          "frame_no": 825,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              49,
+              644,
+              109,
+              192
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28338,
+          "frame_no": 850,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              45,
+              644,
+              109,
+              192
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 29180,
+          "frame_no": 875,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              41,
+              644,
+              109,
+              192
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p3",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 8175,
+          "frame_no": 245,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              844,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8756,
+          "frame_no": 263,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              849,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9337,
+          "frame_no": 280,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              853,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9919,
+          "frame_no": 298,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              858,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 10500,
+          "frame_no": 315,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              863,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11081,
+          "frame_no": 332,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              867,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11662,
+          "frame_no": 350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              872,
+              779,
+              129,
+              254
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p4",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 12594,
+          "frame_no": 378,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              723,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13273,
+          "frame_no": 398,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              720,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13951,
+          "frame_no": 419,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              717,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14630,
+          "frame_no": 439,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              715,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15309,
+          "frame_no": 459,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              712,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15987,
+          "frame_no": 480,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              709,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16666,
+          "frame_no": 500,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              706,
+              733,
+              104,
+              248
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p5",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 18963,
+          "frame_no": 569,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              253,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20254,
+          "frame_no": 608,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              253,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21546,
+          "frame_no": 646,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              254,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22837,
+          "frame_no": 685,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              254,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24129,
+          "frame_no": 724,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              255,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25420,
+          "frame_no": 763,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              255,
+              744,
+              110,
+              230
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p6",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10221,
+          "frame_no": 307,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              188,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11089,
+          "frame_no": 333,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              184,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11958,
+          "frame_no": 359,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              180,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12826,
+          "frame_no": 385,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              177,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13695,
+          "frame_no": 411,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              173,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14563,
+          "frame_no": 437,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              169,
+              755,
+              74,
+              200
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p7",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.81,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 2588,
+          "frame_no": 78,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              994,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3385,
+          "frame_no": 102,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              992,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4182,
+          "frame_no": 125,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              991,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4980,
+          "frame_no": 149,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              989,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 5777,
+          "frame_no": 173,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              988,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6574,
+          "frame_no": 197,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              986,
+              767,
+              92,
+              231
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p8",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.92,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10444,
+          "frame_no": 313,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              442,
+              585,
+              123,
+              228
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12122,
+          "frame_no": 364,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              434,
+              585,
+              123,
+              228
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13800,
+          "frame_no": 414,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              425,
+              585,
+              123,
+              228
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15478,
+          "frame_no": 464,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              417,
+              585,
+              123,
+              228
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17156,
+          "frame_no": 515,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              408,
+              585,
+              123,
+              228
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p9",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.94,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 1510,
+          "frame_no": 45,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1479,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 2767,
+          "frame_no": 83,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1475,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4024,
+          "frame_no": 121,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1470,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 5282,
+          "frame_no": 158,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1466,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6539,
+          "frame_no": 196,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1461,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 7796,
+          "frame_no": 234,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1457,
+              718,
+              135,
+              265
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p10",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 8381,
+          "frame_no": 251,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              614,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 9928,
+          "frame_no": 298,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              609,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11476,
+          "frame_no": 344,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              604,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 13023,
+          "frame_no": 391,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              599,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 14571,
+          "frame_no": 437,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              594,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16118,
+          "frame_no": 484,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              589,
+              734,
+              135,
+              233
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p11",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.84,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 22995,
+          "frame_no": 690,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1346,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24396,
+          "frame_no": 732,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1349,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25797,
+          "frame_no": 774,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1351,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27198,
+          "frame_no": 816,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1354,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 28599,
+          "frame_no": 858,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1356,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1359,
+              586,
+              81,
+              204
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p12",
+      "label_id": "pedestrian",
+      "label_display": "行人",
+      "source": "machine",
+      "confidence": 0.88,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 1181,
+          "frame_no": 35,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              134,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 1711,
+          "frame_no": 51,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              133,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 2240,
+          "frame_no": 67,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              132,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 2770,
+          "frame_no": 83,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              131,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3299,
+          "frame_no": 99,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              130,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 3829,
+          "frame_no": 115,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              129,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4358,
+          "frame_no": 131,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              128,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4888,
+          "frame_no": 147,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              127,
+              828,
+              123,
+              247
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_s1",
+      "label_id": "traffic_sign",
+      "label_display": "交通标志",
+      "source": "machine",
+      "confidence": 0.84,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              7,
+              153,
+              140,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 7500,
+          "frame_no": 225,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              7,
+              153,
+              140,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              7,
+              153,
+              140,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              7,
+              153,
+              140,
+              105
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              7,
+              153,
+              140,
+              105
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_s2",
+      "label_id": "traffic_sign",
+      "label_display": "交通标志",
+      "source": "machine",
+      "confidence": 0.82,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4286,
+          "frame_no": 129,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8571,
+          "frame_no": 257,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12857,
+          "frame_no": 386,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17143,
+          "frame_no": 514,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21429,
+          "frame_no": 643,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25714,
+          "frame_no": 771,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1636,
+              71,
+              92,
+              118
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_s3",
+      "label_id": "traffic_sign",
+      "label_display": "交通标志",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 4286,
+          "frame_no": 129,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 8571,
+          "frame_no": 257,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12857,
+          "frame_no": 386,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17143,
+          "frame_no": 514,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21429,
+          "frame_no": 643,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25714,
+          "frame_no": 771,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              492,
+              121,
+              136,
+              113
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_s4",
+      "label_id": "traffic_sign",
+      "label_display": "交通标志",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 6000,
+          "frame_no": 180,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12000,
+          "frame_no": 360,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18000,
+          "frame_no": 540,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 24000,
+          "frame_no": 720,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              232,
+              120,
+              137
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    }
+  ],
+  "demo_script": {
+    "metadata_reveal_ms": 1500,
+    "inference_reveal_ms": 2500,
+    "review_focus_ids": [
+      "trk_2",
+      "trk_9",
+      "trk_5"
+    ]
+  }
+}
