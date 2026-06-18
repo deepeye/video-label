@@ -85,6 +85,8 @@ export function BoxLayer({ videoWidth, videoHeight, currentTimeMs, scale }: BoxL
             y={y}
             width={w}
             height={h}
+            trackId={annotation.track_id}
+            draggable={isSelected}
             onClick={(e) => {
               e.cancelBubble = true;
               selectTrack(annotation.track_id);
