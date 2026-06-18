@@ -58,9 +58,17 @@ export function ReviewCanvas() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.play().catch(() => {
-      // 自动播放被拦截, 等用户点击恢复
-    });
+    try {
+      const p = video.play();
+      // jsdom 等环境下 play() 可能返回 undefined
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+          // 自动播放被拦截, 等用户点击恢复
+        });
+      }
+    } catch {
+      // jsdom: HTMLMediaElement.prototype.play 未实现
+    }
   }, []);
 
   // 选中的 annotation, 用于 Transformer 计算 frameIdx
