@@ -1,2 +1,39 @@
+# Superpowers brainstorm artifacts
 .superpowers/
+
+# Local video assets (out of scope for this Demo)
 video_asset/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Test coverage
+coverage/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Vite
+*.local
+.vite/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
