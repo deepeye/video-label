@@ -6,6 +6,12 @@ import type { DatasetId, DemoStep, Speed } from './types';
 import { Step4Review } from './steps/Step4Review';
 import { Step5Export } from './steps/Step5Export';
 
+// dev 期把 store 暴露到 window.__demoStore 供 E2E 测试用 (生产不暴露)
+if (import.meta.env.DEV) {
+  type W = typeof window & { __demoStore?: typeof useDemoStore };
+  (window as W).__demoStore = useDemoStore;
+}
+
 function StepPlaceholder({ step }: { step: number }) {
   return (
     <div
