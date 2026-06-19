@@ -133,3 +133,30 @@ describe('demoStore', () => {
     expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(true);
   });
 });
+
+describe('userTakeover', () => {
+  beforeEach(() => {
+    useDemoStore.getState().selectDataset('city-road');
+  });
+
+  it('switches auto to manual', () => {
+    useDemoStore.getState().togglePlayMode();
+    expect(useDemoStore.getState().playMode).toBe('auto');
+    useDemoStore.getState().userTakeover();
+    expect(useDemoStore.getState().playMode).toBe('manual');
+  });
+
+  it('is no-op when already manual', () => {
+    expect(useDemoStore.getState().playMode).toBe('manual');
+    useDemoStore.getState().userTakeover();
+    expect(useDemoStore.getState().playMode).toBe('manual');
+  });
+
+  it('clears paused flag', () => {
+    useDemoStore.getState().togglePlayMode();
+    useDemoStore.getState().pause();
+    expect(useDemoStore.getState().paused).toBe(true);
+    useDemoStore.getState().userTakeover();
+    expect(useDemoStore.getState().paused).toBe(false);
+  });
+});

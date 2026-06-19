@@ -39,6 +39,9 @@ export interface DemoStore extends Snapshot {
   // ── 揭示动画进度 ────────────────────────────────────
   setRevealProgress: (p: Partial<RevealProgress>) => void;
 
+  // ── 自动模式接管 ────────────────────────────────────
+  userTakeover: () => void;
+
   // ── Helpers / Selectors ─────────────────────────────
   canAdvanceFromStep4: () => boolean;
 }
@@ -192,6 +195,15 @@ export const useDemoStore = create<DemoStore>()(
     setRevealProgress: (p) =>
       set((s) => {
         s.revealProgress = { ...s.revealProgress, ...p };
+      }),
+
+    // ── 自动模式接管 ────────────────────────────────────
+    userTakeover: () =>
+      set((s) => {
+        if (s.playMode === 'auto') {
+          s.playMode = 'manual';
+          s.paused = false;
+        }
       }),
 
     // ── Helpers ────────────────────────────────────────
