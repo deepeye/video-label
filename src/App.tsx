@@ -5,6 +5,7 @@ import { tokens } from './styles/tokens';
 import type { DatasetId, DemoStep, Speed } from './types';
 import { Step1Upload } from './steps/Step1Upload';
 import { Step2Metadata } from './steps/Step2Metadata';
+import { Step3AutoAnnotate } from './steps/Step3AutoAnnotate';
 import { Step4Review } from './steps/Step4Review';
 import { Step5Export } from './steps/Step5Export';
 
@@ -12,24 +13,6 @@ import { Step5Export } from './steps/Step5Export';
 if (import.meta.env.DEV) {
   type W = typeof window & { __demoStore?: typeof useDemoStore };
   (window as W).__demoStore = useDemoStore;
-}
-
-function StepPlaceholder({ step }: { step: number }) {
-  return (
-    <div
-      style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        gap: tokens.space[2],
-      }}
-    >
-      <h2 style={{ margin: 0, color: tokens.color.neutral[900] }}>步骤 {step}</h2>
-      <p style={{ margin: 0, color: tokens.color.neutral[500] }}>占位 — 后续天数实现</p>
-    </div>
-  );
 }
 
 function useUrlParams() {
@@ -115,7 +98,7 @@ export default function App() {
       >
         {demoStep === 1 && <Step1Upload />}
         {demoStep === 2 && <Step2Metadata />}
-        {demoStep === 3 && <StepPlaceholder step={3} />}
+        {demoStep === 3 && <Step3AutoAnnotate />}
         {demoStep === 4 && <Step4Review />}
         {demoStep === 5 && <Step5Export />}
       </main>
