@@ -1758,17 +1758,25 @@ P3 (锦上添花):
 
 ### A.1 city-road（主样例，30s / 1920×1080 / H.264）
 
-| 候选 | 来源 | URL | 授权 |
+**最终选用素材：**
+
+| 来源 | 页面 | 实际视频源 | 授权 |
 |---|---|---|---|
-| 1 | Pexels Videos | https://www.pexels.com/search/videos/traffic%20road/ | Pexels License（可商用，无需署名） |
-| 2 | Coverr | https://coverr.co/s?q=traffic | CC0（公有领域） |
-| 3 | Mixkit | https://mixkit.co/free-stock-video/traffic/ | Mixkit License |
+| Pexels Videos | https://www.pexels.com/video/a-city-street-with-cars-and-buses-on-it-18437773/ | https://videos.pexels.com/video-files/18437773/18437773-uhd_2560_1440_50fps.mp4 | Pexels License（可商用，无需署名） |
 
-挑选标准：
+**处理结果：**
 
-- 时长 ≥ 30s（截取前 30s 作演示）
-- 含明显车辆 + 行人 + 交通标志（贴合 47 个标注的分布）
-- 1920×1080 30fps H.264（否则 ffmpeg 转码）
+- 原素材：44.201667s / 2560×1440 / 50fps / H.264 / AAC
+- Demo 资产：`public/mock/city-road/road_demo.mp4`
+- 转码参数：截取前 30 秒，缩放为 1920×1080，降为 30fps，移除音轨，`libx264 + yuv420p + crf 28`
+- 派生资源：
+  - `public/mock/city-road/road_thumb.jpg`
+  - `public/mock/city-road/frames/00003333.jpg`
+  - `public/mock/city-road/frames/00010000.jpg`
+
+**当前说明：**
+
+这条素材是标准横屏城市道路交通画面，包含车辆、公交车和街景元素，和 `city-road` 命名匹配度高于此前的临时止血素材。现有 47 个 Mock 标注框仍是基于演示数据生成，坐标与真实视频只做了运行时兼容保证，未做逐框人工校正。
 
 ### A.2 meeting-room（副样例，45s / 1280×720 / H.264）
 
