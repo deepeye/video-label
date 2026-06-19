@@ -47,9 +47,9 @@ export function Step2Metadata() {
     return () => cancelAnimationFrame(raf);
   }, [speed]);
 
-  // 揭示完成自动推进
+  // 揭示完成自动推进 (用 >= 兼容 StrictMode 双跑导致的 completedCount 超出)
   useEffect(() => {
-    if (completedCount === fields.length) {
+    if (completedCount >= fields.length) {
       setProgressPhase('done');
       const t = setTimeout(() => goToStep(3), applySpeed(800, speed));
       return () => clearTimeout(t);
