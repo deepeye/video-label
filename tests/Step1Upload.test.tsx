@@ -18,8 +18,14 @@ describe('Step1Upload', () => {
     expect(useDemoStore.getState().demoStep).toBe(2);
   });
 
-  // NOTE: meeting-room / retail-cam 副样例在 Task 5.12-5.14 才注册;
-  // 那时再补一个切换副样例的测试。
+  it('clicking meeting-room sample card switches dataset', async () => {
+    const user = userEvent.setup();
+    render(<Step1Upload />);
+    await user.click(screen.getByTestId('sample-card-meeting-room'));
+    expect(useDemoStore.getState().activeDatasetId).toBe('meeting-room');
+    expect(useDemoStore.getState().demoStep).toBe(2);
+    expect(useDemoStore.getState().annotations.length).toBe(15);
+  });
 
   it('non-video file shows error toast', async () => {
     render(<Step1Upload />);
