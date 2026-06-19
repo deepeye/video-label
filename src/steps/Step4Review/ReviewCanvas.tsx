@@ -46,12 +46,31 @@ export function ReviewCanvas() {
     const node = imageNodeRef.current;
     if (!video || !node) return;
 
-    const handle = watchVideoFrames(video, () => {
+    let handle: ReturnType<typeof watchVideoFrames> | null = null;
+
+    const onLoaded = () => {
+      // 先画一帧确保首次渲染有画面
       node.image(video);
       node.getLayer()?.batchDraw();
-      setCurrentTimeMs(Math.round(video.currentTime * 1000));
-    });
-    return () => handle.cancel();
+      // 再开始帧同步
+      handle = watchVideoFrames(video, () => {
+        node.image(video);
+        node.getLayer()?.batchDraw();
+        setCurrentTimeMs(Math.round(video.currentTime * 1000));
+      });
+    };
+
+    // 视频可能已经 loaded (浏览器缓存等), 也可能还在加载中
+    if (video.readyState >= 2) {
+      onLoaded();
+    } else {
+      video.addEventListener('loadeddata', onLoaded);
+    }
+
+    return () => {
+      video.removeEventListener('loadeddata', onLoaded);
+      handle?.cancel();
+    };
   }, []);
 
   // 视频自动播放

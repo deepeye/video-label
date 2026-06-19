@@ -51,7 +51,12 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
       node.image(video);
       node.getLayer()?.batchDraw();
     };
-    video.addEventListener('loadeddata', onLoaded);
+    // 视频可能已经 loaded (浏览器缓存等), 也可能还在加载中
+    if (video.readyState >= 2) {
+      onLoaded();
+    } else {
+      video.addEventListener('loadeddata', onLoaded);
+    }
     return () => video.removeEventListener('loadeddata', onLoaded);
   }, []);
 
