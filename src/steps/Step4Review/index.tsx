@@ -3,6 +3,8 @@ import { ReviewCanvas } from './ReviewCanvas';
 import { PropertyPanel } from './PropertyPanel';
 import { QueueTrack } from './QueueTrack';
 import { useReviewKeyboard } from './keyboard';
+import { VirtualPresenter } from './VirtualPresenter';
+import { AutoModeBadge } from '../../chrome/AutoModeBadge';
 
 export function Step4Review() {
   useReviewKeyboard();
@@ -16,6 +18,7 @@ export function Step4Review() {
         minHeight: 0,
       }}
     >
+      <VirtualPresenter />
       {/* 中央: 画布 + 队列轨道 */}
       <div
         style={{
@@ -49,8 +52,12 @@ export function Step4Review() {
           background: tokens.color.neutral[0],
           borderLeft: `1px solid ${tokens.color.neutral[200]}`,
           padding: tokens.space[4],
+          display: 'flex',
+          flexDirection: 'column',
+          gap: tokens.space[3],
         }}
       >
+        <AutoModeBadge />
         <PropertyPanel />
       </aside>
     </div>
