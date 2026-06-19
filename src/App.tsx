@@ -3,6 +3,7 @@ import { useDemoStore } from './store/demoStore';
 import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
 import type { DatasetId, DemoStep, Speed } from './types';
+import { Step1Upload } from './steps/Step1Upload';
 import { Step4Review } from './steps/Step4Review';
 import { Step5Export } from './steps/Step5Export';
 
@@ -111,7 +112,7 @@ export default function App() {
         }}
         data-testid={`step-view-${demoStep}`}
       >
-        {demoStep === 1 && <StepPlaceholder step={1} />}
+        {demoStep === 1 && <Step1Upload />}
         {demoStep === 2 && <StepPlaceholder step={2} />}
         {demoStep === 3 && <StepPlaceholder step={3} />}
         {demoStep === 4 && <Step4Review />}
