@@ -26,6 +26,13 @@ export function Step2Metadata() {
   const [progress, setProgress] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
 
+  // 样例或速度切换时重置局部 reveal 状态
+  useEffect(() => {
+    setProgressPhase('progress');
+    setProgress(0);
+    setCompletedCount(0);
+  }, [datasetId, speed]);
+
   // 解析进度条 (600ms × speed)
   useEffect(() => {
     if (speed === 'instant') {

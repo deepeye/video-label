@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { tokens } from '../../styles/tokens';
 import { applySpeed } from '../../lib/animation/speed';
 import type { Speed } from '../../types';
@@ -14,15 +14,24 @@ interface TypewriterFieldProps {
 export function TypewriterField({ label, value, startAtMs, speed, onComplete }: TypewriterFieldProps) {
   const [shownChars, setShownChars] = useState(0);
   const [framePhase, setFramePhase] = useState<'hidden' | 'frame' | 'typing' | 'done'>('hidden');
+  const completedRef = useRef(false);
 
   useEffect(() => {
     setShownChars(0);
     setFramePhase('hidden');
+    completedRef.current = false;
+
+    const finish = () => {
+      if (completedRef.current) return;
+      completedRef.current = true;
+      setFramePhase('done');
+      // 避免在 render / state updater 链路里同步更新父组件
+      queueMicrotask(() => onComplete?.());
+    };
 
     if (speed === 'instant') {
       setShownChars(value.length);
-      setFramePhase('done');
-      onComplete?.();
+      finish();
       return;
     }
 
@@ -39,8 +48,7 @@ export function TypewriterField({ label, value, startAtMs, speed, onComplete }: 
           setShownChars((c) => {
             if (c + 1 >= value.length) {
               if (typing) clearInterval(typing);
-              setFramePhase('done');
-              onComplete?.();
+              finish();
               return value.length;
             }
             return c + 1;
