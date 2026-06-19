@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDemoStore } from './store/demoStore';
 import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
+import { useDemoOrchestrator } from './lib/animation/orchestrator';
 import type { DatasetId, DemoStep, Speed } from './types';
 import { Step1Upload } from './steps/Step1Upload';
 import { Step2Metadata } from './steps/Step2Metadata';
@@ -51,8 +52,49 @@ function useNarrowGuard() {
   return tooNarrow;
 }
 
+/**
+ * 全局接管监听: 自动模式下任意 mousedown / keydown (除控制条 + 输入框外)
+ * 立即切换到 manual 模式 (spec §3.4.2)。
+ */
+function useGlobalTakeoverListener() {
+  useEffect(() => {
+    const isControlBar = (el: Element | null): boolean => {
+      let cur = el;
+      while (cur) {
+        if (cur instanceof HTMLElement && cur.dataset.controlBar === 'true') return true;
+        cur = cur.parentElement;
+      }
+      return false;
+    };
+
+    const onMousedown = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (isControlBar(target)) return;
+      if (useDemoStore.getState().playMode === 'auto') {
+        useDemoStore.getState().userTakeover();
+      }
+    };
+    const onKeydown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && ['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName)) return;
+      if (useDemoStore.getState().playMode === 'auto') {
+        useDemoStore.getState().userTakeover();
+      }
+    };
+
+    window.addEventListener('mousedown', onMousedown);
+    window.addEventListener('keydown', onKeydown);
+    return () => {
+      window.removeEventListener('mousedown', onMousedown);
+      window.removeEventListener('keydown', onKeydown);
+    };
+  }, []);
+}
+
 export default function App() {
   useUrlParams();
+  useDemoOrchestrator();
+  useGlobalTakeoverListener();
   const tooNarrow = useNarrowGuard();
   const demoStep = useDemoStore((s) => s.demoStep);
 
