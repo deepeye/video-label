@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Stage, Layer, Image as KonvaImage, Transformer } from 'react-konva';
+import { Stage, Layer, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import { useDemoStore } from '../../store/demoStore';
 import { getDataset } from '../../data';
@@ -11,7 +11,6 @@ import type { BBox } from '../../types';
 export function ReviewCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const imageNodeRef = useRef<Konva.Image>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
 
@@ -22,12 +21,9 @@ export function ReviewCanvas() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const dataset = getDataset(datasetId);
 
-  // 容器尺寸 (响应式)
   const [size, setSize] = useState({ width: 0, height: 0 });
-  // 当前视频时间 (ms)
   const [currentTimeMs, setCurrentTimeMs] = useState(0);
 
-  // 监听容器 resize
   useEffect(() => {
     if (!containerRef.current) return;
     const obs = new ResizeObserver((entries) => {
@@ -40,32 +36,20 @@ export function ReviewCanvas() {
     return () => obs.disconnect();
   }, []);
 
-  // 视频帧 → Konva.Image
+  // 用可见 video 的实际帧时间驱动 BoxLayer，而不是把视频画进 Konva canvas
   useEffect(() => {
     const video = videoRef.current;
-    const node = imageNodeRef.current;
-    if (!video || !node) return;
+    if (!video) return;
 
     let handle: ReturnType<typeof watchVideoFrames> | null = null;
-
     const onLoaded = () => {
-      // 先画一帧确保首次渲染有画面
-      node.image(video);
-      node.getLayer()?.batchDraw();
-      // 再开始帧同步
       handle = watchVideoFrames(video, () => {
-        node.image(video);
-        node.getLayer()?.batchDraw();
         setCurrentTimeMs(Math.round(video.currentTime * 1000));
       });
     };
 
-    // 视频可能已经 loaded (浏览器缓存等), 也可能还在加载中
-    if (video.readyState >= 2) {
-      onLoaded();
-    } else {
-      video.addEventListener('loadeddata', onLoaded);
-    }
+    if (video.readyState >= 2) onLoaded();
+    else video.addEventListener('loadeddata', onLoaded);
 
     return () => {
       video.removeEventListener('loadeddata', onLoaded);
@@ -73,30 +57,26 @@ export function ReviewCanvas() {
     };
   }, []);
 
-  // 视频自动播放
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     try {
       const p = video.play();
-      // jsdom 等环境下 play() 可能返回 undefined
       if (p && typeof p.catch === 'function') {
         p.catch(() => {
-          // 自动播放被拦截, 等用户点击恢复
+          // 自动播放被拦截，等待用户交互
         });
       }
     } catch {
-      // jsdom: HTMLMediaElement.prototype.play 未实现
+      // jsdom: HTMLMediaElement.play 未实现
     }
   }, []);
 
-  // 选中的 annotation, 用于 Transformer 计算 frameIdx
   const selectedAnnotation = useMemo(
     () => (selectedTrackId ? annotations.find((a) => a.track_id === selectedTrackId) ?? null : null),
     [selectedTrackId, annotations],
   );
 
-  // 选中变化时, 把 Transformer 挂到对应 Group
   useEffect(() => {
     const tr = transformerRef.current;
     const stage = stageRef.current;
@@ -106,7 +86,6 @@ export function ReviewCanvas() {
       tr.getLayer()?.batchDraw();
       return;
     }
-    // 通过自定义 attr 找到对应的 Group (BoxLayer 在 Group 上设置了 attr)
     const node = stage.findOne((n: Konva.Node) => n.getAttr('trackId') === selectedTrackId);
     if (node) {
       tr.nodes([node]);
@@ -117,7 +96,6 @@ export function ReviewCanvas() {
     }
   }, [selectedTrackId, annotations, currentTimeMs]);
 
-  // 计算画布缩放
   const scale = size.width > 0 && size.height > 0
     ? Math.min(size.width / dataset.metadata.width, size.height / dataset.metadata.height)
     : 0;
@@ -136,7 +114,17 @@ export function ReviewCanvas() {
         loop
         autoPlay
         crossOrigin="anonymous"
-        style={{ display: 'none' }}
+        style={{
+          position: 'absolute',
+          left: offsetX,
+          top: offsetY,
+          width: stageWidth,
+          height: stageHeight,
+          objectFit: 'fill',
+          pointerEvents: 'none',
+          display: scale > 0 ? 'block' : 'none',
+          background: '#000',
+        }}
         data-testid="review-video"
       />
       {scale > 0 && (
@@ -158,15 +146,6 @@ export function ReviewCanvas() {
             }}
             data-testid="konva-stage"
           >
-            <Layer listening={false}>
-              <KonvaImage
-                ref={imageNodeRef}
-                image={undefined}
-                width={stageWidth}
-                height={stageHeight}
-                listening={false}
-              />
-            </Layer>
             <BoxLayer
               videoWidth={dataset.metadata.width}
               videoHeight={dataset.metadata.height}
@@ -188,9 +167,8 @@ export function ReviewCanvas() {
                 borderStroke="transparent"
                 onTransformEnd={(e) => {
                   const node = e.target;
-                  if (!selectedTrackId || !selectedAnnotation) return;
+                  if (!selectedTrackId || !selectedAnnotation || scale === 0) return;
 
-                  // 找到当前帧对应的 keyframe index (取最近的关键帧, 用 timestamp_ms)
                   let frameIdx = 0;
                   let minDiff = Infinity;
                   selectedAnnotation.keyframes.forEach((kf, i) => {
@@ -201,13 +179,11 @@ export function ReviewCanvas() {
                     }
                   });
 
-                  // 节点的 x/y/width/height 是 Konva 坐标 (已 scale), 还原回视频坐标
                   const newX = node.x() / scale;
                   const newY = node.y() / scale;
                   const newW = (node.width() * node.scaleX()) / scale;
                   const newH = (node.height() * node.scaleY()) / scale;
 
-                  // 重置 scale, 防止下次再次 transform 累积
                   node.scaleX(1);
                   node.scaleY(1);
                   node.width(newW * scale);

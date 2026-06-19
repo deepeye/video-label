@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Stage, Layer, Image as KonvaImage, Rect, Group, Text, Label, Tag } from 'react-konva';
-import type Konva from 'konva';
+import { Stage, Layer, Rect, Group, Text, Label, Tag } from 'react-konva';
 import { useDemoStore } from '../../store/demoStore';
 import { getDataset } from '../../data';
 import { interpolateBox } from '../../lib/interpolate';
@@ -13,17 +12,17 @@ interface BoxRevealCanvasProps {
   onComplete: () => void;
 }
 
-const REVEAL_START_MS = 800;     // 推理进度开始 800ms 后开始浮现
-const PER_BOX_MS = 53;           // 每个框间隔
+const REVEAL_START_MS = 800;
+const PER_BOX_MS = 53;
 
 export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const dataset = getDataset(datasetId);
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageNodeRef = useRef<Konva.Image>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [revealedCount, setRevealedCount] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
 
   const annotations = dataset.annotations;
 
@@ -37,30 +36,31 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
     return () => obs.disconnect();
   }, []);
 
-  // 视频静止显示首帧 (Step 3 不播放, 只渲染当前帧标注)
+  // Step 3 只需要显示一个静止画面：loaded 后 seek 到 0.5s，并把 video 显示出来
   useEffect(() => {
     const video = videoRef.current;
-    const node = imageNodeRef.current;
-    if (!video || !node) return;
+    if (!video) return;
+
     const onLoaded = () => {
+      const markReady = () => setVideoReady(true);
       try {
-        video.currentTime = 0.5; // 显示稍后第 0.5s 的画面
+        video.currentTime = 0.5;
+        const onSeeked = () => {
+          video.removeEventListener('seeked', onSeeked);
+          markReady();
+        };
+        video.addEventListener('seeked', onSeeked, { once: true });
       } catch {
-        // jsdom 不支持
+        markReady();
       }
-      node.image(video);
-      node.getLayer()?.batchDraw();
     };
-    // 视频可能已经 loaded (浏览器缓存等), 也可能还在加载中
-    if (video.readyState >= 2) {
-      onLoaded();
-    } else {
-      video.addEventListener('loadeddata', onLoaded);
-    }
+
+    if (video.readyState >= 2) onLoaded();
+    else video.addEventListener('loadeddata', onLoaded);
+
     return () => video.removeEventListener('loadeddata', onLoaded);
   }, []);
 
-  // 揭示动画
   useEffect(() => {
     if (speed === 'instant') {
       setRevealedCount(annotations.length);
@@ -80,8 +80,7 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
       timers.push(t);
     }
     return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [annotations.length, speed]);
+  }, [annotations.length, speed, onComplete]);
 
   const scale = size.width > 0
     ? Math.min(size.width / dataset.metadata.width, size.height / dataset.metadata.height)
@@ -91,7 +90,6 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
   const offsetX = (size.width - stageWidth) / 2;
   const offsetY = (size.height - stageHeight) / 2;
 
-  // 用每个 annotation 的第一个关键帧时间戳作为渲染时刻
   const referenceTimeMs = 500;
 
   return (
@@ -102,7 +100,17 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
         muted
         playsInline
         crossOrigin="anonymous"
-        style={{ display: 'none' }}
+        style={{
+          position: 'absolute',
+          left: offsetX,
+          top: offsetY,
+          width: stageWidth,
+          height: stageHeight,
+          objectFit: 'fill',
+          pointerEvents: 'none',
+          display: scale > 0 && videoReady ? 'block' : 'none',
+          background: '#000',
+        }}
       />
       {scale > 0 && (
         <div
@@ -115,9 +123,6 @@ export function BoxRevealCanvas({ speed, onComplete }: BoxRevealCanvasProps) {
           }}
         >
           <Stage width={stageWidth} height={stageHeight}>
-            <Layer listening={false}>
-              <KonvaImage ref={imageNodeRef} image={undefined} width={stageWidth} height={stageHeight} listening={false} />
-            </Layer>
             <Layer listening={false}>
               {annotations.slice(0, revealedCount).map((ann) => {
                 const coords = interpolateBox(ann.keyframes, referenceTimeMs);
