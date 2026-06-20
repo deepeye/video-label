@@ -2,12 +2,24 @@ import { test, expect } from '@playwright/test';
 import { unzipDownload } from './helpers';
 
 test.describe('full flow: review → export zip reflects all changes', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/?step=4&speed=instant');
-    await page.waitForSelector('[data-testid="step4-review"]');
-  });
+  test('manual full flow: sample → step2 → step3 → step4 → export zip', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('[data-testid="sample-card-city-road"]');
 
-  test('A/D + correctBoxGeometry + accept-all → export zip native.json reflects all', async ({ page }) => {
+    // 选样例进入 step2
+    await page.click('[data-testid="sample-card-city-road"]');
+    await page.waitForSelector('[data-testid="step2-metadata"]');
+    // 确认仍停在 step2
+    await page.waitForTimeout(1500);
+    await expect(page.locator('[data-testid="step-view-2"]')).toBeVisible();
+    // 主讲手动点下一步
+    await page.click('[data-testid="btn-next"]');
+    await page.waitForSelector('[data-testid="step3-autoannotate"]');
+    await page.waitForTimeout(2500);
+    await expect(page.locator('[data-testid="step-view-3"]')).toBeVisible();
+    await page.click('[data-testid="btn-next"]');
+    await page.waitForSelector('[data-testid="step4-review"]');
+
     // 1. 选 trk_2 → A 接受
     await page.click('[data-testid="queue-card-trk_2"]');
     await page.keyboard.press('a');
@@ -69,6 +81,9 @@ test.describe('full flow: review → export zip reflects all changes', () => {
   });
 
   test('reset returns to step 1 and preserves dataset', async ({ page }) => {
+    await page.goto('/?step=4&speed=instant');
+    await page.waitForSelector('[data-testid="step4-review"]');
+
     await page.click('[data-testid="queue-card-trk_2"]');
     await page.keyboard.press('a');
 
@@ -96,6 +111,9 @@ test.describe('full flow: review → export zip reflects all changes', () => {
   });
 
   test('next button disabled when focus items pending', async ({ page }) => {
+    await page.goto('/?step=4&speed=instant');
+    await page.waitForSelector('[data-testid="step4-review"]');
+
     // step 4 时, 控制条上 ⏭ 应该置灰
     const nextBtn = page.locator('[data-testid="btn-next"]');
     await expect(nextBtn).toBeDisabled();
