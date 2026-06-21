@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { useDemoStore } from '../../store/demoStore';
 import { getDataset } from '../../data';
 import { tokens } from '../../styles/tokens';
-import { applySpeed } from '../../lib/animation/speed';
 import { InferenceProgress } from './InferenceProgress';
 import { BoxRevealCanvas } from './BoxRevealCanvas';
 
 export function Step3AutoAnnotate() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const speed = useDemoStore((s) => s.speed);
-  const goToStep = useDemoStore((s) => s.goToStep);
   const dataset = getDataset(datasetId);
   const focusCount = dataset.demo_script.review_focus_ids.length;
 
@@ -17,8 +15,6 @@ export function Step3AutoAnnotate() {
 
   const handleComplete = () => {
     setRevealDone(true);
-    // 1.5s 缓冲后自动进入 Step 4 (spec §3.3.1 step3to4Buffer)
-    setTimeout(() => goToStep(4), applySpeed(1500, speed));
   };
 
   return (

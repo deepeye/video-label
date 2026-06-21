@@ -9,7 +9,6 @@ import { TypewriterField } from './TypewriterField';
 export function Step2Metadata() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const speed = useDemoStore((s) => s.speed);
-  const goToStep = useDemoStore((s) => s.goToStep);
   const dataset = getDataset(datasetId);
   const m = dataset.metadata;
 
@@ -54,16 +53,12 @@ export function Step2Metadata() {
     return () => cancelAnimationFrame(raf);
   }, [speed]);
 
-  // 揭示完成自动推进 (用 >= 兼容 StrictMode 双跑导致的 completedCount 超出)
+  // 揭示完成后停留在当前步骤，由主讲手动切换
   useEffect(() => {
     if (completedCount >= fields.length) {
       setProgressPhase('done');
-      const t = setTimeout(() => goToStep(3), applySpeed(800, speed));
-      return () => clearTimeout(t);
     }
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [completedCount, fields.length, goToStep, speed]);
+  }, [completedCount, fields.length]);
 
   return (
     <div

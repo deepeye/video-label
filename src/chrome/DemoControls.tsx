@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { useDemoStore } from '../store/demoStore';
 import { tokens } from '../styles/tokens';
-import { Play, Pause, SkipForward, RotateCcw } from 'lucide-react';
+import { Play, SkipForward, RotateCcw } from 'lucide-react';
 import type { Speed } from '../types';
 
 const SPEEDS: { id: Speed; label: string }[] = [
@@ -11,30 +11,13 @@ const SPEEDS: { id: Speed; label: string }[] = [
 ];
 
 export function DemoControls() {
-  const playMode = useDemoStore((s) => s.playMode);
-  const paused = useDemoStore((s) => s.paused);
   const speed = useDemoStore((s) => s.speed);
   const demoStep = useDemoStore((s) => s.demoStep);
   const dirty = useDemoStore((s) => s.dirty);
-  const togglePlayMode = useDemoStore((s) => s.togglePlayMode);
-  const pause = useDemoStore((s) => s.pause);
-  const resume = useDemoStore((s) => s.resume);
   const setSpeed = useDemoStore((s) => s.setSpeed);
   const reset = useDemoStore((s) => s.reset);
   const goToStep = useDemoStore((s) => s.goToStep);
   const canAdvance = useDemoStore((s) => s.canAdvanceFromStep4);
-
-  const isAutoActive = playMode === 'auto' && !paused;
-
-  // ▶/⏸ 切换
-  const handlePlayPause = () => {
-    if (playMode === 'manual') {
-      togglePlayMode(); // → auto
-      return;
-    }
-    if (paused) resume();
-    else pause();
-  };
 
   // ⏭ 下一步
   const nextDisabled = (() => {
@@ -66,11 +49,11 @@ export function DemoControls() {
     >
       <CtrlBtn
         testid="btn-play-pause"
-        onClick={handlePlayPause}
-        active={isAutoActive}
-        title={playMode === 'manual' ? '自动演示' : paused ? '继续' : '暂停'}
+        onClick={() => {}}
+        disabled
+        title="自动演示已关闭，当前为手动演示模式"
       >
-        {playMode === 'manual' || paused ? <Play size={16} /> : <Pause size={16} />}
+        <Play size={16} />
       </CtrlBtn>
       <CtrlBtn testid="btn-next" onClick={handleNext} disabled={nextDisabled} title="下一步">
         <SkipForward size={16} />
