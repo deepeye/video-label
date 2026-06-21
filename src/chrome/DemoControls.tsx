@@ -87,14 +87,12 @@ function CtrlBtn({
   testid,
   onClick,
   disabled = false,
-  active = false,
   title,
   children,
 }: {
   testid: string;
   onClick: () => void;
   disabled?: boolean;
-  active?: boolean;
   title: string;
   children: ReactNode;
 }) {
@@ -102,9 +100,9 @@ function CtrlBtn({
     width: 32,
     height: 32,
     borderRadius: tokens.radius.md,
-    border: `1px solid ${active ? tokens.color.brand[500] : tokens.color.neutral[200]}`,
-    background: active ? tokens.color.brand[400] + '20' : tokens.color.neutral[0],
-    color: disabled ? tokens.color.neutral[400] : active ? tokens.color.brand[600] : tokens.color.neutral[700],
+    border: `1px solid ${tokens.color.neutral[200]}`,
+    background: tokens.color.neutral[0],
+    color: disabled ? tokens.color.neutral[400] : tokens.color.neutral[700],
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.5 : 1,
     display: 'flex',

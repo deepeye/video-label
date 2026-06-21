@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDemoStore } from './store/demoStore';
 import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
-import { PauseOverlay } from './chrome/PauseOverlay';
 import type { DatasetId, DemoStep, Speed } from './types';
 import { Step1Upload } from './steps/Step1Upload';
 import { Step2Metadata } from './steps/Step2Metadata';
@@ -103,7 +102,6 @@ export default function App() {
         {demoStep === 4 && <Step4Review />}
         {demoStep === 5 && <Step5Export />}
       </main>
-      <PauseOverlay />
     </div>
   );
 }
