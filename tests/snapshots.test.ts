@@ -28,8 +28,7 @@ describe('snapshot factory', () => {
   it('snapshot includes initial demo state', () => {
     const snap = createSnapshot('city-road');
     expect(snap.demoStep).toBe(1);
-    expect(snap.playMode).toBe('manual');
-    expect(snap.paused).toBe(false);
+    expect(snap.speed).toBe('1x');
     expect(snap.dirty).toBe(false);
     expect(snap.selectedTrackId).toBeNull();
     expect(snap.reviewQueueIndex).toBe(0);

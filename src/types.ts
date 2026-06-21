@@ -6,7 +6,6 @@ export type DatasetId = 'city-road' | 'meeting-room' | 'retail-cam';
 export type BBox = [x: number, y: number, w: number, h: number];
 export type AnnotationSource = 'machine' | 'human';
 export type ReviewStatus = 'pending' | 'accepted' | 'corrected' | 'rejected';
-export type PlayMode = 'manual' | 'auto';
 
 export interface Dataset {
   version: '2.0-demo';

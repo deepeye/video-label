@@ -12,7 +12,6 @@ describe('demoStore', () => {
   it('initial state matches snapshot defaults', () => {
     const s = useDemoStore.getState();
     expect(s.demoStep).toBe(1);
-    expect(s.playMode).toBe('manual');
     expect(s.speed).toBe('1x');
     expect(s.activeDatasetId).toBe('city-road');
     expect(s.annotations.length).toBe(47);
@@ -134,29 +133,3 @@ describe('demoStore', () => {
   });
 });
 
-describe('userTakeover', () => {
-  beforeEach(() => {
-    useDemoStore.getState().selectDataset('city-road');
-  });
-
-  it('switches auto to manual', () => {
-    useDemoStore.getState().togglePlayMode();
-    expect(useDemoStore.getState().playMode).toBe('auto');
-    useDemoStore.getState().userTakeover();
-    expect(useDemoStore.getState().playMode).toBe('manual');
-  });
-
-  it('is no-op when already manual', () => {
-    expect(useDemoStore.getState().playMode).toBe('manual');
-    useDemoStore.getState().userTakeover();
-    expect(useDemoStore.getState().playMode).toBe('manual');
-  });
-
-  it('clears paused flag', () => {
-    useDemoStore.getState().togglePlayMode();
-    useDemoStore.getState().pause();
-    expect(useDemoStore.getState().paused).toBe(true);
-    useDemoStore.getState().userTakeover();
-    expect(useDemoStore.getState().paused).toBe(false);
-  });
-});

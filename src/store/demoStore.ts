@@ -16,10 +16,7 @@ import { getDataset } from '../data';
 export interface DemoStore extends Snapshot {
   // ── 编排 ────────────────────────────────────────────
   goToStep: (step: DemoStep) => void;
-  togglePlayMode: () => void;
   setSpeed: (s: Speed) => void;
-  pause: () => void;
-  resume: () => void;
 
   // ── 样例 / 重置 ─────────────────────────────────────
   selectDataset: (id: DatasetId) => void;
@@ -39,9 +36,6 @@ export interface DemoStore extends Snapshot {
   // ── 揭示动画进度 ────────────────────────────────────
   setRevealProgress: (p: Partial<RevealProgress>) => void;
 
-  // ── 自动模式接管 ────────────────────────────────────
-  userTakeover: () => void;
-
   // ── Helpers / Selectors ─────────────────────────────
   canAdvanceFromStep4: () => boolean;
 }
@@ -58,25 +52,9 @@ export const useDemoStore = create<DemoStore>()(
         s.demoStep = step;
       }),
 
-    togglePlayMode: () =>
-      set((s) => {
-        s.playMode = s.playMode === 'manual' ? 'auto' : 'manual';
-        s.paused = false;
-      }),
-
     setSpeed: (speed) =>
       set((s) => {
         s.speed = speed;
-      }),
-
-    pause: () =>
-      set((s) => {
-        if (s.playMode === 'auto') s.paused = true;
-      }),
-
-    resume: () =>
-      set((s) => {
-        if (s.playMode === 'auto') s.paused = false;
       }),
 
     // ── 样例 / 重置 ─────────────────────────────────────
@@ -195,15 +173,6 @@ export const useDemoStore = create<DemoStore>()(
     setRevealProgress: (p) =>
       set((s) => {
         s.revealProgress = { ...s.revealProgress, ...p };
-      }),
-
-    // ── 自动模式接管 ────────────────────────────────────
-    userTakeover: () =>
-      set((s) => {
-        if (s.playMode === 'auto') {
-          s.playMode = 'manual';
-          s.paused = false;
-        }
       }),
 
     // ── Helpers ────────────────────────────────────────

@@ -1,4 +1,4 @@
-import type { AnnotationState, DatasetId, DemoStep, PlayMode, ReviewAction, Speed } from '../types';
+import type { AnnotationState, DatasetId, DemoStep, ReviewAction, Speed } from '../types';
 import { deepClone } from '../lib/deepClone';
 import { getDataset } from '../data';
 
@@ -11,9 +11,7 @@ export interface RevealProgress {
 export interface Snapshot {
   // 编排
   demoStep: DemoStep;
-  playMode: PlayMode;
   speed: Speed;
-  paused: boolean;
   dirty: boolean;
 
   // 当前样例
@@ -46,9 +44,7 @@ export function createSnapshot(datasetId: DatasetId): Snapshot {
   const dataset = getDataset(datasetId);
   return {
     demoStep: 1,
-    playMode: 'manual',
     speed: '1x',
-    paused: false,
     dirty: false,
     activeDatasetId: datasetId,
     annotations: deepClone(dataset.annotations),
