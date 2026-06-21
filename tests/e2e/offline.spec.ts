@@ -17,7 +17,15 @@ test.describe('offline guarantees', () => {
     await page.goto('/?step=1&speed=instant');
     await page.waitForSelector('[data-testid="step1-upload"]');
     await page.click('[data-testid="sample-card-city-road"]');
-    await page.waitForSelector('[data-testid="step4-review"]', { timeout: 10_000 });
+    await page.waitForSelector('[data-testid="step2-metadata"]');
+    await page.waitForTimeout(1500);
+    await expect(page.locator('[data-testid="step-view-2"]')).toBeVisible();
+    await page.click('[data-testid="btn-next"]');
+    await page.waitForSelector('[data-testid="step3-autoannotate"]');
+    await page.waitForTimeout(2500);
+    await expect(page.locator('[data-testid="step-view-3"]')).toBeVisible();
+    await page.click('[data-testid="btn-next"]');
+    await page.waitForSelector('[data-testid="step4-review"]');
 
     await page.evaluate(() => {
       type W = typeof window & {
