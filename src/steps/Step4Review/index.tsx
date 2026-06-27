@@ -65,10 +65,10 @@ export function Step4Review() {
             type="button"
             onClick={() => (playbackState === 'playing' ? pause() : play())}
             style={{
-              border: `1px solid ${tokens.color.neutral[300]}`,
+              border: `1px solid ${tokens.color.neutral[200]}`,
               background: tokens.color.neutral[0],
               color: tokens.color.neutral[700],
-              borderRadius: tokens.radius.pill,
+              borderRadius: tokens.radius.full,
               padding: `${tokens.space[1]} ${tokens.space[3]}`,
               fontSize: 13,
               fontWeight: 600,
@@ -86,10 +86,10 @@ export function Step4Review() {
                 onClick={() => setTimelineTool(tool.value)}
                 aria-pressed={active}
                 style={{
-                  border: `1px solid ${active ? tokens.color.brand[500] : tokens.color.neutral[300]}`,
-                  background: active ? tokens.color.brand[50] : tokens.color.neutral[0],
-                  color: active ? tokens.color.brand[700] : tokens.color.neutral[700],
-                  borderRadius: tokens.radius.pill,
+                  border: `1px solid ${active ? tokens.color.brand[500] : tokens.color.neutral[200]}`,
+                  background: active ? `${tokens.color.brand[400]}1A` : tokens.color.neutral[0],
+                  color: active ? tokens.color.brand[600] : tokens.color.neutral[700],
+                  borderRadius: tokens.radius.full,
                   padding: `${tokens.space[1]} ${tokens.space[3]}`,
                   fontSize: 13,
                   fontWeight: 600,

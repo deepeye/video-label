@@ -201,7 +201,7 @@ describe('Step4Review integration', () => {
     expect(createdEvent).toBeDefined();
 
     act(() => {
-      useDemoStore.getState().selectEvent(createdEvent.id);
+      useDemoStore.getState().selectEvent(createdEvent!.id);
       useDemoStore.getState().setTimelineTool('region');
     });
 
@@ -212,7 +212,7 @@ describe('Step4Review integration', () => {
     fireEvent.mouseMove(stage, { clientX: 210, clientY: 160 });
     fireEvent.mouseUp(stage, { clientX: 210, clientY: 160 });
 
-    const updatedEvent = useDemoStore.getState().events.find((item) => item.id === createdEvent.id);
+    const updatedEvent = useDemoStore.getState().events.find((item) => item.id === createdEvent!.id);
     expect(updatedEvent?.regionBox).toEqual([40, 40, 160, 100]);
     expect(updatedEvent?.regionAnchorMs).toBe(useDemoStore.getState().currentTimeMs);
     expect(useDemoStore.getState().timelineTool).toBe('browse');

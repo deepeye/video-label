@@ -7,7 +7,6 @@ import type {
   DemoStep,
   EventMarker,
   Geometry,
-  Keyframe,
   Point,
   ReviewAction,
   Speed,
