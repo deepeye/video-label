@@ -1,59 +1,55 @@
 import { test, expect } from '@playwright/test';
 import { unzipDownload } from './helpers';
 
-test.describe('full flow: review → export zip reflects all changes', () => {
-  test('manual full flow: sample → step2 → step3 → step4 → export zip', async ({ page }) => {
+test.describe('full flow: timestamping → export zip reflects event-based stats', () => {
+  test('manual full flow: sample → step2 → step3 → step4 → step5 export', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="sample-card-city-road"]');
 
-    // 选样例进入 step2
     await page.click('[data-testid="sample-card-city-road"]');
     await page.waitForSelector('[data-testid="step2-metadata"]');
-    // 确认仍停在 step2
     await page.waitForTimeout(1500);
     await expect(page.locator('[data-testid="step-view-2"]')).toBeVisible();
-    // 主讲手动点下一步
+
     await page.click('[data-testid="btn-next"]');
     await page.waitForSelector('[data-testid="step3-autoannotate"]');
     await page.waitForTimeout(2500);
     await expect(page.locator('[data-testid="step-view-3"]')).toBeVisible();
+
     await page.click('[data-testid="btn-next"]');
     await page.waitForSelector('[data-testid="step4-review"]');
+    await expect(page.locator('[data-testid="btn-next"]')).toBeDisabled();
 
-    // 1. 选 trk_2 → A 接受
-    await page.click('[data-testid="queue-card-trk_2"]');
-    await page.keyboard.press('a');
+    await page.getByRole('button', { name: '新增事件' }).click();
+    await expect(page.locator('[data-testid^="event-row-"]')).toHaveCount(1);
 
-    // 2. trk_9 改框 (走 store action 直接调用, 因为 Konva 拖框难自动化)
-    await page.evaluate(() => {
-      type W = typeof window & { __demoStore?: { getState: () => { correctBoxGeometry: (id: string, idx: number, c: [number, number, number, number]) => void } } };
-      (window as W).__demoStore?.getState().correctBoxGeometry('trk_9', 0, [777, 888, 200, 100]);
-    });
+    await page.getByLabel('事件类型').selectOption('sudden_brake');
+    await page.getByLabel('严重程度').selectOption('high');
+    await page.getByLabel('标签').fill('风险, 夜间');
+    await page.getByLabel('描述').fill('夜间车辆急刹，需要人工复核。');
+    await page.getByLabel('时间(ms)').fill('4200');
 
-    // 3. 选 trk_5 → D 否决
-    await page.click('[data-testid="queue-card-trk_5"]');
-    await page.keyboard.press('d');
-
-    // 4. 一键全部接受
-    const acceptAllBtn = page.locator('[data-testid="accept-all-remaining"]');
-    await expect(acceptAllBtn).toBeEnabled();
-    await acceptAllBtn.click();
-
-    // 5. 跳到 step 5
-    await page.evaluate(() => {
-      type W = typeof window & { __demoStore?: { getState: () => { goToStep: (n: 1 | 2 | 3 | 4 | 5) => void } } };
-      (window as W).__demoStore?.getState().goToStep(5);
-    });
+    await expect(page.locator('[data-testid="btn-next"]')).toBeEnabled();
+    await page.click('[data-testid="btn-next"]');
     await page.waitForSelector('[data-testid="step5-export"]');
 
-    // 6. 触发下载
+    await expect(page.getByText('本次导出统计')).toBeVisible();
+    await expect(page.getByText('总计')).toBeVisible();
+    await expect(page.getByText('点事件')).toBeVisible();
+    await expect(page.getByText('范围事件')).toBeVisible();
+    await expect(page.getByText('带框事件')).toBeVisible();
+
+    const preview = page.locator('[data-testid="json-preview"]');
+    await expect(preview).toContainText('"events"');
+    await expect(preview).toContainText('"eventType": "sudden_brake"');
+    await expect(preview).toContainText('"timeMs": 4200');
+
     const downloadPromise = page.waitForEvent('download');
     await page.click('[data-testid="download-btn"]');
     const download = await downloadPromise;
     const zipPath = await download.path();
     expect(zipPath).toBeTruthy();
 
-    // 7. 解压 + 验证内容
     const files = await unzipDownload(zipPath!);
     expect(files['manifest.json']).toBeDefined();
     expect(files['README.txt']).toBeDefined();
@@ -62,60 +58,56 @@ test.describe('full flow: review → export zip reflects all changes', () => {
     const native = JSON.parse(files['annotations/native.json']!);
     expect(native.version).toBe('2.0-demo');
     expect(native.dataset.dataset_id).toBe('city-road');
-    expect(native.annotations.length).toBe(47);
+    expect(native.events).toHaveLength(1);
+    expect(native.events[0]).toMatchObject({
+      eventType: 'sudden_brake',
+      severity: 'high',
+      tags: ['风险', '夜间'],
+      description: '夜间车辆急刹，需要人工复核。',
+      mode: 'point',
+      timeMs: 4200,
+      startMs: null,
+      endMs: null,
+      regionBox: null,
+      regionAnchorMs: null,
+    });
 
-    const trk2 = native.annotations.find((a: { track_id: string }) => a.track_id === 'trk_2');
-    const trk9 = native.annotations.find((a: { track_id: string }) => a.track_id === 'trk_9');
-    const trk5 = native.annotations.find((a: { track_id: string }) => a.track_id === 'trk_5');
-
-    expect(trk2.review.status).toBe('accepted');
-    expect(trk9.review.status).toBe('corrected');
-    expect(trk9.source).toBe('human');
-    expect(trk9.keyframes[0].geometry.coords).toEqual([777, 888, 200, 100]);
-    expect(trk5.review.status).toBe('rejected');
-
-    // statistics
     const manifest = JSON.parse(files['manifest.json']!);
-    expect(manifest.statistics.accepted + manifest.statistics.corrected + manifest.statistics.rejected).toBe(47);
-    expect(manifest.statistics.pending).toBe(0);
+    expect(manifest.statistics).toEqual({
+      total: 1,
+      point: 1,
+      range: 0,
+      with_region: 0,
+    });
   });
 
-  test('reset returns to step 1 and preserves dataset', async ({ page }) => {
+  test('reset returns to step 1 and clears timestamp events', async ({ page }) => {
     await page.goto('/?step=4&speed=instant');
     await page.waitForSelector('[data-testid="step4-review"]');
 
-    await page.click('[data-testid="queue-card-trk_2"]');
-    await page.keyboard.press('a');
+    await page.getByRole('button', { name: '新增事件' }).click();
+    await expect(page.locator('[data-testid^="event-row-"]')).toHaveCount(1);
 
-    // 点重置, accept dialog
     page.on('dialog', (d) => d.accept());
     await page.click('[data-testid="btn-reset"]');
-
-    // 等步骤切换
     await page.waitForSelector('[data-testid="step-view-1"]');
 
-    // store 应该恢复
     const state = await page.evaluate(() => {
-      type W = typeof window & { __demoStore?: { getState: () => { activeDatasetId: string; demoStep: number; annotations: { track_id: string; review: { status: string } }[] } } };
+      type W = typeof window & {
+        __demoStore?: {
+          getState: () => { activeDatasetId: string; demoStep: number; events: { id: string }[] };
+        };
+      };
       const s = (window as W).__demoStore?.getState();
-      const trk2 = s?.annotations.find((a) => a.track_id === 'trk_2');
       return {
         step: s?.demoStep,
         dataset: s?.activeDatasetId,
-        trk2Status: trk2?.review.status,
+        eventCount: s?.events.length,
       };
     });
+
     expect(state.step).toBe(1);
     expect(state.dataset).toBe('city-road');
-    expect(state.trk2Status).toBe('pending');
-  });
-
-  test('next button disabled when focus items pending', async ({ page }) => {
-    await page.goto('/?step=4&speed=instant');
-    await page.waitForSelector('[data-testid="step4-review"]');
-
-    // step 4 时, 控制条上 ⏭ 应该置灰
-    const nextBtn = page.locator('[data-testid="btn-next"]');
-    await expect(nextBtn).toBeDisabled();
+    expect(state.eventCount).toBe(0);
   });
 });

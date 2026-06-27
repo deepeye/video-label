@@ -1,6 +1,6 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import type { Annotation, Dataset } from '../../types';
+import type { Annotation, Dataset, EventMarker, FrameTagEntry } from '../../types';
 import { toNative } from '../../lib/format/native';
 import { toCocoVideo } from '../../lib/format/cocoVideo';
 import { buildManifest, type ExportFormat } from './manifest';
@@ -24,30 +24,39 @@ const FRAMES_TO_INCLUDE: Record<string, string[]> = {
 
 export interface ExportArgs {
   format: ExportFormat;
-  annotations: Annotation[];
+  events: EventMarker[];
   dataset: Dataset;
   exportedAt: number;
+  annotations?: Annotation[];
+  frameTags?: FrameTagEntry[];
+}
+
+function buildEventStats(events: EventMarker[]) {
+  return {
+    total: events.length,
+    point: events.filter((event) => event.mode === 'point').length,
+    range: events.filter((event) => event.mode === 'range').length,
+    with_region: events.filter((event) => event.regionBox !== null).length,
+  };
 }
 
 /**
  * 生成 zip Blob (不触发下载)。便于测试。
  */
 export async function buildExportZip(args: ExportArgs): Promise<Blob> {
-  const { format, annotations, dataset, exportedAt } = args;
+  const { format, events, dataset, exportedAt, annotations = [], frameTags } = args;
   const zip = new JSZip();
 
-  // 1. annotations/
   const annFolder = zip.folder('annotations')!;
   let annFile: string;
   if (format === 'native') {
     annFile = 'annotations/native.json';
-    annFolder.file('native.json', JSON.stringify(toNative(annotations, dataset, exportedAt), null, 2));
+    annFolder.file('native.json', JSON.stringify(toNative(events, dataset, exportedAt), null, 2));
   } else {
     annFile = 'annotations/coco_video.json';
-    annFolder.file('coco_video.json', JSON.stringify(toCocoVideo(annotations, dataset, exportedAt), null, 2));
+    annFolder.file('coco_video.json', JSON.stringify(toCocoVideo(annotations, dataset, exportedAt, frameTags ?? [], events), null, 2));
   }
 
-  // 2. frames/ (尽力, 失败不阻断)
   const frameNames = FRAMES_TO_INCLUDE[dataset.dataset_id] ?? [];
   const frameFiles: string[] = [];
   if (frameNames.length > 0) {
@@ -62,25 +71,20 @@ export async function buildExportZip(args: ExportArgs): Promise<Blob> {
         framesFolder.file(fname, blob);
         frameFiles.push(`frames/${fname}`);
       } catch {
-        // 帧丢失不阻断导出 (Day 4 占位视频里可能没帧)
         console.warn(`[exportZip] frame missing: ${fname}, skipped`);
       }
     }
   }
 
-  // 3. manifest.json
-  const stats = { total: annotations.length, accepted: 0, corrected: 0, rejected: 0, pending: 0 };
-  for (const a of annotations) stats[a.review.status]++;
   const manifest = buildManifest({
     dataset,
     format,
     exportedAt,
-    statistics: stats,
+    statistics: buildEventStats(events),
     files: [annFile, ...frameFiles],
   });
   zip.file('manifest.json', JSON.stringify(manifest, null, 2));
 
-  // 4. README.txt
   zip.file('README.txt', README_CONTENT);
 
   return await zip.generateAsync({ type: 'blob' });

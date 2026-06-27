@@ -25,13 +25,18 @@ describe('snapshot factory', () => {
     expect(b.annotations[0]!.review.status).toBe('pending');
   });
 
-  it('snapshot includes initial demo state', () => {
+  it('snapshot includes initial timestamping demo state', () => {
     const snap = createSnapshot('city-road');
     expect(snap.demoStep).toBe(1);
     expect(snap.speed).toBe('1x');
     expect(snap.dirty).toBe(false);
-    expect(snap.selectedTrackId).toBeNull();
-    expect(snap.reviewQueueIndex).toBe(0);
+    expect(snap.events).toEqual([]);
+    expect(snap.selectedEventId).toBeNull();
+    expect(snap.timelineTool).toBe('browse');
+    expect(snap.currentTimeMs).toBe(0);
+    expect(snap.playbackState).toBe('paused');
+    expect(snap.pendingSeekMs).toBeNull();
+    expect(snap.seekNonce).toBe(0);
     expect(snap.undoStack).toEqual([]);
     expect(snap.revealProgress).toEqual({
       metadataFieldsShown: 0,

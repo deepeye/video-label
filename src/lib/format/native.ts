@@ -1,4 +1,4 @@
-import type { Annotation, Dataset } from '../../types';
+import type { Dataset, EventMarker } from '../../types';
 
 export interface NativeExport {
   version: '2.0-demo';
@@ -8,28 +8,17 @@ export interface NativeExport {
     display: string;
     metadata: Dataset['metadata'];
   };
-  statistics: {
-    total: number;
-    accepted: number;
-    corrected: number;
-    rejected: number;
-    pending: number;
+  video: {
+    file_name: string;
+    width: number;
+    height: number;
+    frame_rate: number;
+    duration_ms: number;
   };
-  annotations: Annotation[];
+  events: EventMarker[];
 }
 
-export function toNative(annotations: Annotation[], dataset: Dataset, exportedAt: number): NativeExport {
-  const stats = {
-    total: annotations.length,
-    accepted: 0,
-    corrected: 0,
-    rejected: 0,
-    pending: 0,
-  };
-  for (const a of annotations) {
-    stats[a.review.status]++;
-  }
-
+export function toNative(events: EventMarker[], dataset: Dataset, exportedAt: number): NativeExport {
   return {
     version: '2.0-demo',
     exported_at: exportedAt,
@@ -38,7 +27,13 @@ export function toNative(annotations: Annotation[], dataset: Dataset, exportedAt
       display: dataset.display,
       metadata: dataset.metadata,
     },
-    statistics: stats,
-    annotations,
+    video: {
+      file_name: dataset.video_src.split('/').pop()!,
+      width: dataset.metadata.width,
+      height: dataset.metadata.height,
+      frame_rate: dataset.metadata.fps,
+      duration_ms: dataset.metadata.duration_ms,
+    },
+    events,
   };
 }

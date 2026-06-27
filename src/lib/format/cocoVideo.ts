@@ -1,4 +1,5 @@
-import type { Annotation, BBox, Dataset, ReviewRecord, AnnotationSource } from '../../types';
+import type { Annotation, AnnotationSource, BBox, Dataset, EventMarker, FrameTagEntry, Geometry, Point, ReviewRecord } from '../../types';
+import { geometryToBBox } from '../interpolate';
 import { buildCategoryMap, extractCategories, type Category } from './categories';
 
 export interface CocoCategory {
@@ -20,14 +21,15 @@ export interface CocoAnnotation {
   id: number;
   track_id: number;
   video_id: number;
-  timestamp: number;       // 秒, COCO 习惯
+  timestamp: number;
   frame_no: number;
   bbox: BBox;
   category_id: number;
   score: number | null;
-  // 扩展字段
   x_review: ReviewRecord;
   x_source: AnnotationSource;
+  x_geometry_type?: string;
+  x_polygon?: Point[];
 }
 
 export interface CocoVideoExport {
@@ -39,6 +41,8 @@ export interface CocoVideoExport {
   videos: CocoVideoEntry[];
   categories: CocoCategory[];
   annotations: CocoAnnotation[];
+  x_frame_tags?: FrameTagEntry[];
+  x_events?: EventMarker[];
 }
 
 /**
@@ -69,7 +73,7 @@ function trackIdToNumber(trackId: string): number {
   return offset + num;
 }
 
-export function toCocoVideo(annotations: Annotation[], dataset: Dataset, exportedAt: number): CocoVideoExport {
+export function toCocoVideo(annotations: Annotation[], dataset: Dataset, exportedAt: number, frameTags: FrameTagEntry[] = [], events: EventMarker[] = []): CocoVideoExport {
   const categoryMap = buildCategoryMap(annotations);
   const categoriesFull = extractCategories(annotations);
   const categories: CocoCategory[] = categoriesFull.map((c: Category) => ({
@@ -82,18 +86,24 @@ export function toCocoVideo(annotations: Annotation[], dataset: Dataset, exporte
     for (const kf of a.keyframes) {
       const cid = categoryMap[a.label_id];
       if (cid === undefined) continue;
-      cocoAnns.push({
+      const g: Geometry = kf.geometry;
+      const base: CocoAnnotation = {
         id: annotationId(a.track_id, kf.timestamp_ms),
         track_id: trackIdToNumber(a.track_id),
         video_id: 1,
         timestamp: kf.timestamp_ms / 1000,
         frame_no: kf.frame_no,
-        bbox: [...kf.geometry.coords] as BBox,
+        bbox: geometryToBBox(g),
         category_id: cid,
         score: a.confidence,
         x_review: a.review,
         x_source: a.source,
-      });
+      };
+      if (g.type === 'polygon') {
+        base.x_geometry_type = 'polygon';
+        base.x_polygon = g.points;
+      }
+      cocoAnns.push(base);
     }
   }
 
@@ -115,5 +125,7 @@ export function toCocoVideo(annotations: Annotation[], dataset: Dataset, exporte
     ],
     categories,
     annotations: cocoAnns,
+    x_frame_tags: frameTags.length > 0 ? frameTags : undefined,
+    x_events: events.length > 0 ? events : undefined,
   };
 }

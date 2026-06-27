@@ -4,8 +4,15 @@ export type Speed = '1x' | '2x' | 'instant';
 export type DemoStep = 1 | 2 | 3 | 4 | 5;
 export type DatasetId = 'city-road' | 'meeting-room' | 'retail-cam';
 export type BBox = [x: number, y: number, w: number, h: number];
+export type Point = [x: number, y: number];
 export type AnnotationSource = 'machine' | 'human';
 export type ReviewStatus = 'pending' | 'accepted' | 'corrected' | 'rejected';
+export type AnnotationTool = 'select' | 'bbox' | 'polygon';
+export type TimelineTool = 'browse' | 'point' | 'range' | 'region';
+
+export type Geometry =
+  | { type: 'bbox'; coords: BBox }
+  | { type: 'polygon'; points: Point[] };
 
 export interface Dataset {
   version: '2.0-demo';
@@ -16,6 +23,13 @@ export interface Dataset {
   metadata: VideoMetadata;
   annotations: Annotation[];
   demo_script: DemoScript;
+}
+
+export interface FrameTagEntry {
+  frame_no: number;
+  timestamp_ms: number;
+  tags: string[];
+  source: 'human';
 }
 
 export interface VideoMetadata {
@@ -44,7 +58,7 @@ export interface Annotation {
 export interface Keyframe {
   timestamp_ms: number;
   frame_no: number;
-  geometry: { type: 'bbox'; coords: BBox };
+  geometry: Geometry;
   is_keyframe: boolean;
 }
 
@@ -52,6 +66,21 @@ export interface ReviewRecord {
   status: ReviewStatus;
   changed_frames: number;
   reviewed_at: number | null;
+}
+
+export interface EventMarker {
+  id: string;
+  eventType: string;
+  customEventType: string | null;
+  severity: 'high' | 'medium' | 'low';
+  tags: string[];
+  description: string;
+  mode: 'point' | 'range';
+  timeMs: number | null;
+  startMs: number | null;
+  endMs: number | null;
+  regionBox: BBox | null;
+  regionAnchorMs: number | null;
 }
 
 export interface DemoScript {
@@ -62,14 +91,26 @@ export interface DemoScript {
 
 export type AnnotationState = Annotation;
 
-// 撤销栈类型
 export type ReviewAction =
-  | { type: 'accept'; trackId: string; prevStatus: ReviewStatus; prevSource: AnnotationSource }
-  | { type: 'reject'; trackId: string; prevStatus: ReviewStatus }
   | {
-      type: 'correct-geometry';
-      trackId: string;
-      frameIdx: number;
-      prevCoords: BBox;
-      prevSource: AnnotationSource;
+      type: 'create-event';
+      event: EventMarker;
+      selectedEventIdBefore: string | null;
+    }
+  | {
+      type: 'update-event';
+      id: string;
+      prevEvent: EventMarker;
+    }
+  | {
+      type: 'delete-event';
+      event: EventMarker;
+      index: number;
+      selectedEventIdBefore: string | null;
+    }
+  | {
+      type: 'set-scene-tags';
+      frameNo: number;
+      prevTags: string[];
+      prevTimestampMs: number | null;
     };

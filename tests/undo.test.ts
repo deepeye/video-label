@@ -1,25 +1,21 @@
 import { describe, it, expect } from 'vitest';
-import { applyUndo, pushUndo, UNDO_STACK_LIMIT } from '@/store/undo';
-import type { AnnotationState, ReviewAction } from '@/types';
+import { applySceneTagUndo, applyUndo, pushUndo, UNDO_STACK_LIMIT } from '@/store/undo';
+import type { EventMarker, ReviewAction } from '@/types';
 
-function makeAnnotation(overrides: Partial<AnnotationState> = {}): AnnotationState {
+function makeEvent(overrides: Partial<EventMarker> = {}): EventMarker {
   return {
-    version: '2.0-demo',
-    track_id: 'trk_t',
-    label_id: 'pedestrian',
-    label_display: '行人',
-    source: 'machine',
-    confidence: 0.41,
-    needs_review: true,
-    keyframes: [
-      {
-        timestamp_ms: 1000,
-        frame_no: 30,
-        geometry: { type: 'bbox', coords: [10, 20, 30, 40] },
-        is_keyframe: true,
-      },
-    ],
-    review: { status: 'pending', changed_frames: 0, reviewed_at: null },
+    id: 'event-1',
+    eventType: 'sudden_brake',
+    customEventType: null,
+    severity: 'medium',
+    tags: ['风险'],
+    description: '车辆急刹',
+    mode: 'point',
+    timeMs: 1200,
+    startMs: null,
+    endMs: null,
+    regionBox: null,
+    regionAnchorMs: null,
     ...overrides,
   };
 }
@@ -28,51 +24,89 @@ describe('undo stack', () => {
   it('pushUndo respects limit, drops oldest', () => {
     let stack: ReviewAction[] = [];
     for (let i = 0; i < UNDO_STACK_LIMIT + 5; i++) {
-      stack = pushUndo(stack, { type: 'accept', trackId: `t${i}`, prevStatus: 'pending', prevSource: 'machine' });
+      stack = pushUndo(stack, {
+        type: 'create-event',
+        event: makeEvent({ id: `event-${i}` }),
+        selectedEventIdBefore: null,
+      });
     }
     expect(stack.length).toBe(UNDO_STACK_LIMIT);
-    // 最旧的 5 个被丢弃
-    expect((stack[0] as Extract<ReviewAction, { type: 'accept' }>).trackId).toBe('t5');
+    expect((stack[0] as Extract<ReviewAction, { type: 'create-event' }>).event.id).toBe('event-5');
   });
 
-  it('applyUndo of accept reverts review.status to prevStatus', () => {
-    const ann = makeAnnotation({
-      track_id: 'trk_t',
-      review: { status: 'accepted', changed_frames: 0, reviewed_at: 12345 },
-    });
-    const action: ReviewAction = { type: 'accept', trackId: 'trk_t', prevStatus: 'pending', prevSource: 'machine' };
-    const annotations = [ann];
-    applyUndo(annotations, action);
-    expect(annotations[0]!.review.status).toBe('pending');
-    expect(annotations[0]!.source).toBe('machine');
-  });
-
-  it('applyUndo of reject reverts to prevStatus', () => {
-    const ann = makeAnnotation({
-      review: { status: 'rejected', changed_frames: 0, reviewed_at: 12345 },
-    });
-    const action: ReviewAction = { type: 'reject', trackId: 'trk_t', prevStatus: 'pending' };
-    const annotations = [ann];
-    applyUndo(annotations, action);
-    expect(annotations[0]!.review.status).toBe('pending');
-  });
-
-  it('applyUndo of correct-geometry restores prev coords and source', () => {
-    const ann = makeAnnotation({
-      source: 'human',
-      review: { status: 'corrected', changed_frames: 1, reviewed_at: 12345 },
-    });
-    ann.keyframes[0]!.geometry.coords = [100, 200, 300, 400];
+  it('applyUndo of create-event removes the created event and restores previous selection', () => {
+    const created = makeEvent({ id: 'event-2' });
+    const events = [makeEvent({ id: 'event-1' }), created];
     const action: ReviewAction = {
-      type: 'correct-geometry',
-      trackId: 'trk_t',
-      frameIdx: 0,
-      prevCoords: [10, 20, 30, 40],
-      prevSource: 'machine',
+      type: 'create-event',
+      event: created,
+      selectedEventIdBefore: 'event-1',
     };
-    const annotations = [ann];
-    applyUndo(annotations, action);
-    expect(annotations[0]!.keyframes[0]!.geometry.coords).toEqual([10, 20, 30, 40]);
-    expect(annotations[0]!.source).toBe('machine');
+
+    const selectedEventId = applyUndo(events, action);
+
+    expect(events).toHaveLength(1);
+    expect(events[0]!.id).toBe('event-1');
+    expect(selectedEventId).toBe('event-1');
+  });
+
+  it('applyUndo of update-event restores the previous event snapshot', () => {
+    const previous = makeEvent({ description: '车辆急刹', severity: 'medium' });
+    const events = [makeEvent({ description: '已修改', severity: 'high', tags: ['夜间'] })];
+    const action: ReviewAction = {
+      type: 'update-event',
+      id: 'event-1',
+      prevEvent: previous,
+    };
+
+    const selectedEventId = applyUndo(events, action);
+
+    expect(events[0]).toEqual(previous);
+    expect(selectedEventId).toBe('event-1');
+  });
+
+  it('applyUndo of delete-event restores deleted event at original index and previous selection', () => {
+    const deleted = makeEvent({ id: 'event-2', mode: 'range', timeMs: null, startMs: 2000, endMs: 3600 });
+    const events = [makeEvent({ id: 'event-1' }), makeEvent({ id: 'event-3' })];
+    const action: ReviewAction = {
+      type: 'delete-event',
+      event: deleted,
+      index: 1,
+      selectedEventIdBefore: 'event-3',
+    };
+
+    const selectedEventId = applyUndo(events, action);
+
+    expect(events).toHaveLength(3);
+    expect(events[1]).toEqual(deleted);
+    expect(selectedEventId).toBe('event-3');
+  });
+
+  it('applySceneTagUndo removes a newly created frame tag when there was no previous tag', () => {
+    const frameTags = [{ frame_no: 32, timestamp_ms: 1067, tags: ['夜间'], source: 'human' as const }];
+    const action: Extract<ReviewAction, { type: 'set-scene-tags' }> = {
+      type: 'set-scene-tags',
+      frameNo: 32,
+      prevTags: [],
+      prevTimestampMs: null,
+    };
+
+    applySceneTagUndo(frameTags, action);
+    expect(frameTags).toEqual([]);
+  });
+
+  it('applySceneTagUndo restores previous frame tags when a tag already existed', () => {
+    const frameTags = [{ frame_no: 32, timestamp_ms: 1067, tags: ['已修改'], source: 'human' as const }];
+    const action: Extract<ReviewAction, { type: 'set-scene-tags' }> = {
+      type: 'set-scene-tags',
+      frameNo: 32,
+      prevTags: ['夜间', '风险'],
+      prevTimestampMs: 1067,
+    };
+
+    applySceneTagUndo(frameTags, action);
+    expect(frameTags).toEqual([
+      { frame_no: 32, timestamp_ms: 1067, tags: ['夜间', '风险'], source: 'human' },
+    ]);
   });
 });

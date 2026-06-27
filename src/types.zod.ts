@@ -1,14 +1,27 @@
 import { z } from 'zod';
 
 export const BBoxSchema = z.tuple([z.number(), z.number(), z.number(), z.number()]);
+export const PointSchema = z.tuple([z.number(), z.number()]);
+
+export const BBoxGeometrySchema = z.object({
+  type: z.literal('bbox'),
+  coords: BBoxSchema,
+});
+
+export const PolygonGeometrySchema = z.object({
+  type: z.literal('polygon'),
+  points: z.array(PointSchema).min(3),
+});
+
+export const GeometrySchema = z.discriminatedUnion('type', [
+  BBoxGeometrySchema,
+  PolygonGeometrySchema,
+]);
 
 export const KeyframeSchema = z.object({
   timestamp_ms: z.number().int().nonnegative(),
   frame_no: z.number().int().nonnegative(),
-  geometry: z.object({
-    type: z.literal('bbox'),
-    coords: BBoxSchema,
-  }),
+  geometry: GeometrySchema,
   is_keyframe: z.boolean(),
 });
 

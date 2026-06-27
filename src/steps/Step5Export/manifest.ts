@@ -11,10 +11,9 @@ export interface Manifest {
   format: ExportFormat;
   statistics: {
     total: number;
-    accepted: number;
-    corrected: number;
-    rejected: number;
-    pending: number;
+    point: number;
+    range: number;
+    with_region: number;
   };
   metadata: Dataset['metadata'];
   files: string[];

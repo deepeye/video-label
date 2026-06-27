@@ -10,6 +10,10 @@ import { getDataset } from '../../data';
  * - Ctrl/Cmd+Z: 撤销
  * - ←: 上一重点项
  * - →: 下一重点项
+ * - K: 为当前帧添加关键帧
+ * - B: 切换到 bbox 工具
+ * - P: 切换到 polygon 工具
+ * - Escape: 取消 polygon 草稿 / 切换回 select
  */
 export function useReviewKeyboard() {
   useEffect(() => {
@@ -19,9 +23,11 @@ export function useReviewKeyboard() {
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
 
       const store = useDemoStore.getState();
-      if (store.demoStep !== 4) return; // 只在 Step 4 生效
+      if (store.demoStep !== 4) return;
 
       const focusIds = getDataset(store.activeDatasetId).demo_script.review_focus_ids;
+      const fps = getDataset(store.activeDatasetId).metadata.fps;
+      const currentFrameNo = Math.round((store.currentTimeMs / 1000) * fps);
 
       // Ctrl/Cmd+Z 撤销
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
@@ -35,7 +41,6 @@ export function useReviewKeyboard() {
           if (store.selectedTrackId) {
             e.preventDefault();
             store.acceptBox(store.selectedTrackId);
-            // 自动选中下一个 pending 重点项
             advanceToNextFocus(focusIds);
           }
           break;
@@ -62,6 +67,32 @@ export function useReviewKeyboard() {
           store.setReviewQueueIndex(newIdx);
           const id = focusIds[newIdx];
           if (id) store.selectTrack(id);
+          break;
+        }
+        case 'k': {
+          e.preventDefault();
+          if (store.selectedTrackId) {
+            store.upsertKeyframeGeometry(store.selectedTrackId, currentFrameNo, store.currentTimeMs, {
+              type: 'bbox',
+              coords: [100, 100, 200, 200],
+            });
+          }
+          break;
+        }
+        case 'b': {
+          e.preventDefault();
+          store.setAnnotationTool('bbox');
+          break;
+        }
+        case 'p': {
+          e.preventDefault();
+          store.setAnnotationTool('polygon');
+          break;
+        }
+        case 'escape': {
+          e.preventDefault();
+          store.cancelPolygonDraft();
+          store.setAnnotationTool('select');
           break;
         }
       }

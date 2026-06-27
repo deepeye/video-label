@@ -1,4 +1,14 @@
-import type { AnnotationState, DatasetId, DemoStep, ReviewAction, Speed } from '../types';
+import type {
+  AnnotationState,
+  AnnotationTool,
+  DatasetId,
+  DemoStep,
+  EventMarker,
+  FrameTagEntry,
+  ReviewAction,
+  Speed,
+  TimelineTool,
+} from '../types';
 import { deepClone } from '../lib/deepClone';
 import { getDataset } from '../data';
 
@@ -9,37 +19,25 @@ export interface RevealProgress {
 }
 
 export interface Snapshot {
-  // 编排
   demoStep: DemoStep;
   speed: Speed;
   dirty: boolean;
-
-  // 当前样例
   activeDatasetId: DatasetId;
-
-  // 标注内存状态 (深拷贝自 dataset)
   annotations: AnnotationState[];
-
-  // Step 4 UI 子状态
-  selectedTrackId: string | null;
-  reviewQueueIndex: number;
-
-  // 揭示动画进度
+  events: EventMarker[];
+  selectedEventId: string | null;
+  timelineTool: TimelineTool;
   revealProgress: RevealProgress;
-
-  // 撤销栈
   undoStack: ReviewAction[];
+  annotationTool: AnnotationTool;
+  draftPolygon: [number, number][];
+  frameTags: FrameTagEntry[];
+  currentTimeMs: number;
+  playbackState: 'playing' | 'paused';
+  pendingSeekMs: number | null;
+  seekNonce: number;
 }
 
-/**
- * 从指定数据集生成一份初始快照。
- * 关键: annotations 通过 deepClone 拷贝, 后续审核操作改它不会污染源数据。
- *
- * 用于:
- *   - 应用启动时的初始 store 状态 (initialState)
- *   - reset() 时整体替换 store
- *   - selectDataset(id) 切换样例时整体替换 store
- */
 export function createSnapshot(datasetId: DatasetId): Snapshot {
   const dataset = getDataset(datasetId);
   return {
@@ -48,13 +46,21 @@ export function createSnapshot(datasetId: DatasetId): Snapshot {
     dirty: false,
     activeDatasetId: datasetId,
     annotations: deepClone(dataset.annotations),
-    selectedTrackId: null,
-    reviewQueueIndex: 0,
+    events: [],
+    selectedEventId: null,
+    timelineTool: 'browse',
     revealProgress: {
       metadataFieldsShown: 0,
       inferenceProgress: 0,
       boxesRevealed: 0,
     },
     undoStack: [],
+    annotationTool: 'select',
+    draftPolygon: [],
+    frameTags: [],
+    currentTimeMs: 0,
+    playbackState: 'paused',
+    pendingSeekMs: null,
+    seekNonce: 0,
   };
 }

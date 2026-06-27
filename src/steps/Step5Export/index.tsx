@@ -13,31 +13,37 @@ import type { ExportFormat } from './manifest';
 export function Step5Export() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const annotations = useDemoStore((s) => s.annotations);
+  const events = useDemoStore((s) => s.events);
   const [format, setFormat] = useState<ExportFormat>('native');
   const [downloading, setDownloading] = useState(false);
 
+  const frameTags = useDemoStore((s) => s.frameTags);
   const dataset = getDataset(datasetId);
-  // 预览用稳定的 exported_at (0), 避免每次 render 时间变化
   const previewJson = useMemo(() => {
     return format === 'native'
-      ? toNative(annotations, dataset, 0)
-      : toCocoVideo(annotations, dataset, 0);
-  }, [format, annotations, dataset]);
+      ? toNative(events, dataset, 0)
+      : toCocoVideo(annotations, dataset, 0, frameTags, events);
+  }, [format, annotations, dataset, events, frameTags]);
 
   const stats = useMemo(() => {
-    const s = { total: annotations.length, accepted: 0, corrected: 0, rejected: 0, pending: 0 };
-    for (const a of annotations) s[a.review.status]++;
-    return s;
-  }, [annotations]);
+    return {
+      total: events.length,
+      point: events.filter((event) => event.mode === 'point').length,
+      range: events.filter((event) => event.mode === 'range').length,
+      withRegion: events.filter((event) => event.regionBox !== null).length,
+    };
+  }, [events]);
 
   const handleDownload = async () => {
     setDownloading(true);
     try {
       await downloadExportZip({
         format,
+        events,
         annotations,
         dataset,
         exportedAt: Date.now(),
+        frameTags,
       });
     } finally {
       setDownloading(false);
@@ -87,10 +93,9 @@ export function Step5Export() {
               }}
             >
               <Stat label="总计" value={stats.total} />
-              <Stat label="已接受" value={stats.accepted} color={tokens.color.success[500]} />
-              <Stat label="已纠正" value={stats.corrected} color={tokens.color.info[500]} />
-              <Stat label="已否决" value={stats.rejected} color={tokens.color.neutral[500]} />
-              <Stat label="待审核" value={stats.pending} color={tokens.color.warning[500]} />
+              <Stat label="点事件" value={stats.point} color={tokens.color.success[500]} />
+              <Stat label="范围事件" value={stats.range} color={tokens.color.info[500]} />
+              <Stat label="带框事件" value={stats.withRegion} color={tokens.color.warning[500]} />
             </div>
           </div>
 

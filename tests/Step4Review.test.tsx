@@ -1,110 +1,236 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import type { ReactNode } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Step4Review } from '@/steps/Step4Review';
 import { useDemoStore } from '@/store/demoStore';
 
-// Mock react-konva: jsdom 没 canvas, react-konva 在 jsdom 里渲染会出错
-// 用一个 stub 让 BoxLayer / ReviewCanvas 不渲染 Konva, 但 PropertyPanel / QueueTrack / 键盘 hook 仍可测
-vi.mock('react-konva', () => ({
-  Stage: ({ children }: { children: ReactNode }) => <div data-testid="konva-stage-mock">{children}</div>,
-  Layer: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  Group: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  Rect: () => null,
-  Image: () => null,
-  Text: () => null,
-  Label: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  Tag: () => null,
-  Transformer: () => null,
-}));
-
-// Mock ResizeObserver (jsdom 不支持)
 class ROStub {
   observe() {}
   unobserve() {}
   disconnect() {}
 }
+
 (globalThis as { ResizeObserver?: unknown }).ResizeObserver = ROStub;
+
+const playSpy = vi
+  .spyOn(HTMLMediaElement.prototype, 'play')
+  .mockImplementation(() => Promise.resolve());
+const pauseSpy = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => undefined);
+
+function mockRect(node: HTMLElement, rect: Partial<DOMRect> & Pick<DOMRect, 'width' | 'height'>) {
+  Object.defineProperty(node, 'getBoundingClientRect', {
+    configurable: true,
+    value: () => ({
+      x: 0,
+      y: 0,
+      top: rect.top ?? 0,
+      left: rect.left ?? 0,
+      bottom: rect.bottom ?? (rect.top ?? 0) + rect.height,
+      right: rect.right ?? (rect.left ?? 0) + rect.width,
+      width: rect.width,
+      height: rect.height,
+      toJSON: () => ({}),
+    }),
+  });
+}
+
+function mockVideoCurrentTime(video: HTMLVideoElement) {
+  let currentTime = 0;
+  Object.defineProperty(video, 'currentTime', {
+    configurable: true,
+    get: () => currentTime,
+    set: (value: number) => {
+      currentTime = value;
+    },
+  });
+
+  return {
+    set(value: number) {
+      currentTime = value;
+    },
+  };
+}
 
 describe('Step4Review integration', () => {
   beforeEach(() => {
+    useDemoStore.getState().reset();
     useDemoStore.getState().selectDataset('city-road');
     useDemoStore.getState().goToStep(4);
+    playSpy.mockClear();
+    pauseSpy.mockClear();
   });
 
-  it('clicking queue card selects the track in store', async () => {
-    const user = userEvent.setup();
+  it('renders the final Step4 shell with mode switcher, video stage, timeline, and event panel', () => {
     render(<Step4Review />);
-    const card = screen.getByTestId('queue-card-trk_2');
-    await user.click(card);
-    expect(useDemoStore.getState().selectedTrackId).toBe('trk_2');
+
+    expect(screen.getByRole('button', { name: '播放' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '浏览' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '点' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '范围' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '区域' })).toBeInTheDocument();
+    expect(screen.getByTestId('step4-video-stage')).toBeInTheDocument();
+    expect(screen.getByTestId('step4-timeline-surface')).toBeInTheDocument();
+    expect(screen.getByText('事件列表')).toBeInTheDocument();
+    expect(screen.queryByTestId('btn-accept')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('queue-card-trk_2')).not.toBeInTheDocument();
+    expect(playSpy).not.toHaveBeenCalled();
   });
 
-  it('clicking accept button writes review.status=accepted to store', async () => {
-    const user = userEvent.setup();
+  it('store-driven seek updates video.currentTime and pauses playback', async () => {
     render(<Step4Review />);
-    await user.click(screen.getByTestId('queue-card-trk_2'));
-    await user.click(screen.getByTestId('btn-accept'));
-    const ann = useDemoStore.getState().annotations.find((a) => a.track_id === 'trk_2')!;
-    expect(ann.review.status).toBe('accepted');
-    expect(useDemoStore.getState().dirty).toBe(true);
-  });
 
-  it('clicking reject button writes review.status=rejected', async () => {
-    const user = userEvent.setup();
-    render(<Step4Review />);
-    await user.click(screen.getByTestId('queue-card-trk_5'));
-    await user.click(screen.getByTestId('btn-reject'));
-    const ann = useDemoStore.getState().annotations.find((a) => a.track_id === 'trk_5')!;
-    expect(ann.review.status).toBe('rejected');
-  });
+    const video = screen.getByTestId('step4-video-stage').querySelector('video') as HTMLVideoElement;
+    mockVideoCurrentTime(video);
 
-  it('accept-all-remaining is disabled when focus items still pending', () => {
-    render(<Step4Review />);
-    const btn = screen.getByTestId('accept-all-remaining') as HTMLButtonElement;
-    expect(btn.disabled).toBe(true);
-  });
-
-  it('accept-all-remaining is enabled after all focus items reviewed', async () => {
-    const user = userEvent.setup();
-    useDemoStore.getState().acceptBox('trk_2');
-    useDemoStore.getState().correctBoxGeometry('trk_9', 0, [100, 200, 300, 400]);
-    useDemoStore.getState().rejectBox('trk_5');
-
-    render(<Step4Review />);
-    const btn = screen.getByTestId('accept-all-remaining') as HTMLButtonElement;
-    expect(btn.disabled).toBe(false);
-
-    await user.click(btn);
-    const remaining = useDemoStore.getState().annotations.filter((a) => a.review.status === 'pending');
-    expect(remaining.length).toBe(0);
-  });
-
-  it('full review flow: 3 focus + accept all → store reflects every change', async () => {
-    const user = userEvent.setup();
-    render(<Step4Review />);
-    // 1. trk_2 接受
-    await user.click(screen.getByTestId('queue-card-trk_2'));
-    await user.click(screen.getByTestId('btn-accept'));
-    // 2. trk_9 (模拟 transform — 直接调 store action)
-    useDemoStore.getState().correctBoxGeometry('trk_9', 0, [100, 200, 300, 400]);
-    // 3. trk_5 否决
-    await user.click(screen.getByTestId('queue-card-trk_5'));
-    await user.click(screen.getByTestId('btn-reject'));
-    // 4. 一键剩余
-    expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(true);
-    useDemoStore.getState().acceptAllRemaining();
-
-    const stats = {
-      accepted: 0, corrected: 0, rejected: 0, pending: 0,
-    };
-    useDemoStore.getState().annotations.forEach((a) => {
-      stats[a.review.status]++;
+    act(() => {
+      useDemoStore.getState().seekToMs(7500);
     });
-    expect(stats.pending).toBe(0);
-    expect(stats.rejected).toBe(1);
-    expect(stats.corrected).toBe(1);
-    expect(stats.accepted).toBe(45);  // 47 - 1 rejected - 1 corrected
+
+    await waitFor(() => {
+      expect(video.currentTime).toBeCloseTo(7.5, 1);
+      expect(pauseSpy).toHaveBeenCalled();
+      expect(useDemoStore.getState().pendingSeekMs).toBeNull();
+      expect(useDemoStore.getState().playbackState).toBe('paused');
+    });
+  });
+
+  it('store play() resumes video from a paused seek location and syncs currentTimeMs while playing', async () => {
+    render(<Step4Review />);
+
+    const video = screen.getByTestId('step4-video-stage').querySelector('video') as HTMLVideoElement;
+    const mockedTime = mockVideoCurrentTime(video);
+
+    act(() => {
+      useDemoStore.getState().seekToMs(3200);
+    });
+
+    await waitFor(() => {
+      expect(video.currentTime).toBeCloseTo(3.2, 1);
+      expect(pauseSpy).toHaveBeenCalled();
+    });
+
+    act(() => {
+      useDemoStore.getState().play();
+    });
+
+    expect(useDemoStore.getState().playbackState).toBe('playing');
+    expect(playSpy).toHaveBeenCalled();
+
+    act(() => {
+      mockedTime.set(4.8);
+      fireEvent(video, new Event('timeupdate'));
+    });
+
+    expect(useDemoStore.getState().currentTimeMs).toBe(4800);
+  });
+
+  it('stops syncing currentTimeMs after playback is paused', async () => {
+    render(<Step4Review />);
+
+    const video = screen.getByTestId('step4-video-stage').querySelector('video') as HTMLVideoElement;
+    const mockedTime = mockVideoCurrentTime(video);
+
+    act(() => {
+      useDemoStore.getState().play();
+    });
+
+    act(() => {
+      mockedTime.set(2.1);
+      fireEvent(video, new Event('timeupdate'));
+    });
+
+    expect(useDemoStore.getState().currentTimeMs).toBe(2100);
+
+    act(() => {
+      useDemoStore.getState().pause();
+    });
+
+    expect(useDemoStore.getState().playbackState).toBe('paused');
+
+    act(() => {
+      mockedTime.set(3.4);
+      fireEvent(video, new Event('timeupdate'));
+    });
+
+    expect(useDemoStore.getState().currentTimeMs).toBe(2100);
+  });
+
+  it('clicking the shell playback button toggles playbackState', () => {
+    render(<Step4Review />);
+
+    const playButton = screen.getByRole('button', { name: '播放' });
+    fireEvent.click(playButton);
+
+    expect(useDemoStore.getState().playbackState).toBe('playing');
+    expect(playSpy).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('button', { name: '暂停' })).toBeInTheDocument();
+
+    pauseSpy.mockClear();
+    fireEvent.click(screen.getByRole('button', { name: '暂停' }));
+
+    expect(useDemoStore.getState().playbackState).toBe('paused');
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('button', { name: '播放' })).toBeInTheDocument();
+  });
+  it('clicking shell mode buttons updates timelineTool', () => {
+    render(<Step4Review />);
+
+    fireEvent.click(screen.getByRole('button', { name: '点' }));
+    expect(useDemoStore.getState().timelineTool).toBe('point');
+
+    fireEvent.click(screen.getByRole('button', { name: '范围' }));
+    expect(useDemoStore.getState().timelineTool).toBe('range');
+
+    fireEvent.click(screen.getByRole('button', { name: '区域' }));
+    expect(useDemoStore.getState().timelineTool).toBe('region');
+
+    fireEvent.click(screen.getByRole('button', { name: '浏览' }));
+    expect(useDemoStore.getState().timelineTool).toBe('browse');
+  });
+
+  it('dragging on the video stage in region mode attaches a region box and returns to browse', () => {
+    render(<Step4Review />);
+
+    const timeline = screen.getByTestId('step4-timeline-surface');
+    mockRect(timeline, { left: 0, top: 0, width: 1000, height: 56 });
+    act(() => {
+      useDemoStore.getState().setTimelineTool('point');
+    });
+    fireEvent.click(timeline, { clientX: 250 });
+
+    const createdEvent = useDemoStore.getState().events[0];
+    expect(createdEvent).toBeDefined();
+
+    act(() => {
+      useDemoStore.getState().selectEvent(createdEvent.id);
+      useDemoStore.getState().setTimelineTool('region');
+    });
+
+    const stage = screen.getByTestId('step4-video-stage');
+    mockRect(stage, { left: 10, top: 20, width: 400, height: 200 });
+
+    fireEvent.mouseDown(stage, { clientX: 50, clientY: 60 });
+    fireEvent.mouseMove(stage, { clientX: 210, clientY: 160 });
+    fireEvent.mouseUp(stage, { clientX: 210, clientY: 160 });
+
+    const updatedEvent = useDemoStore.getState().events.find((item) => item.id === createdEvent.id);
+    expect(updatedEvent?.regionBox).toEqual([40, 40, 160, 100]);
+    expect(updatedEvent?.regionAnchorMs).toBe(useDemoStore.getState().currentTimeMs);
+    expect(useDemoStore.getState().timelineTool).toBe('browse');
+  });
+
+  it('canAdvanceFromStep4 becomes true after creating one event', () => {
+    render(<Step4Review />);
+
+    expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(false);
+
+    const timeline = screen.getByTestId('step4-timeline-surface');
+    mockRect(timeline, { left: 0, top: 0, width: 1000, height: 56 });
+    act(() => {
+      useDemoStore.getState().setTimelineTool('point');
+    });
+    fireEvent.click(timeline, { clientX: 320 });
+
+    expect(useDemoStore.getState().events).toHaveLength(1);
+    expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(true);
   });
 });
