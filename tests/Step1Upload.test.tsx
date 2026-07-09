@@ -4,27 +4,40 @@ import userEvent from '@testing-library/user-event';
 import { Step1Upload } from '@/steps/Step1Upload';
 import { useDemoStore } from '@/store/demoStore';
 
-beforeEach(() => {
+beforeEach(async () => {
   vi.useRealTimers();
-  useDemoStore.getState().selectDataset('city-road');
+  globalThis.fetch = vi.fn().mockResolvedValue({
+    ok: true,
+    json: () => Promise.resolve({
+      video_name: 'test.mp4',
+      concatenated_subtitles: '',
+      all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
+    }),
+  });
+  vi.spyOn(HTMLVideoElement.prototype, 'addEventListener').mockImplementation((event, handler) => {
+    if (event === 'loadedmetadata') {
+      queueMicrotask(() => (handler as EventListener)(new Event('loadedmetadata')));
+    }
+  });
+  await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
 });
 
 describe('Step1Upload', () => {
-  it('clicking city-road sample card advances to step 2', async () => {
+  it('clicking jiazhengnvhuang_13 sample card advances to step 2', async () => {
     const user = userEvent.setup();
     render(<Step1Upload />);
-    await user.click(screen.getByTestId('sample-card-city-road'));
-    expect(useDemoStore.getState().activeDatasetId).toBe('city-road');
+    await user.click(screen.getByTestId('sample-card-jiazhengnvhuang_13'));
+    expect(useDemoStore.getState().activeDatasetId).toBe('jiazhengnvhuang_13');
     expect(useDemoStore.getState().demoStep).toBe(2);
   });
 
-  it('clicking meeting-room sample card switches dataset', async () => {
+  it('clicking jiazhengnvhuang_5 sample card switches dataset', async () => {
     const user = userEvent.setup();
     render(<Step1Upload />);
-    await user.click(screen.getByTestId('sample-card-meeting-room'));
-    expect(useDemoStore.getState().activeDatasetId).toBe('meeting-room');
+    await user.click(screen.getByTestId('sample-card-jiazhengnvhuang_5'));
+    expect(useDemoStore.getState().activeDatasetId).toBe('jiazhengnvhuang_5');
     expect(useDemoStore.getState().demoStep).toBe(2);
-    expect(useDemoStore.getState().annotations.length).toBe(15);
+    expect(useDemoStore.getState().annotations.length).toBe(0);
   });
 
   it('non-video file shows error toast', async () => {
@@ -37,7 +50,7 @@ describe('Step1Upload', () => {
     });
   });
 
-  it('video file triggers fake upload then falls back to city-road', async () => {
+  it('video file triggers fake upload then falls back to jiazhengnvhuang_13', async () => {
     render(<Step1Upload />);
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     const file = new File(['video-bytes'], 'custom.mp4', { type: 'video/mp4' });
@@ -49,6 +62,6 @@ describe('Step1Upload', () => {
       () => expect(useDemoStore.getState().demoStep).toBe(2),
       { timeout: 6000 },
     );
-    expect(useDemoStore.getState().activeDatasetId).toBe('city-road');
+    expect(useDemoStore.getState().activeDatasetId).toBe('jiazhengnvhuang_13');
   });
 });
