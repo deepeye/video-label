@@ -14,10 +14,26 @@ export function Step5Export() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const annotations = useDemoStore((s) => s.annotations);
   const events = useDemoStore((s) => s.events);
+  const frameTags = useDemoStore((s) => s.frameTags);
+  const loadingDataset = useDemoStore((s) => s.loadingDataset);
+  const loadingDatasetError = useDemoStore((s) => s.loadingDatasetError);
   const [format, setFormat] = useState<ExportFormat>('native');
   const [downloading, setDownloading] = useState(false);
 
-  const frameTags = useDemoStore((s) => s.frameTags);
+  if (loadingDataset) {
+    return (
+      <div data-testid="step5-export" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: tokens.color.neutral[400], fontSize: 14 }}>
+        加载中…
+      </div>
+    );
+  }
+  if (loadingDatasetError) {
+    return (
+      <div data-testid="step5-export" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: tokens.color.danger[500], fontSize: 14 }}>
+        加载失败: {loadingDatasetError}
+      </div>
+    );
+  }
   const dataset = getDataset(datasetId);
   const previewJson = useMemo(() => {
     return format === 'native'

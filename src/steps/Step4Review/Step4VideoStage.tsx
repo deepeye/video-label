@@ -34,6 +34,8 @@ export function Step4VideoStage() {
   const seekNonce = useDemoStore((s) => s.seekNonce);
   const playbackState = useDemoStore((s) => s.playbackState);
   const loadingDataset = useDemoStore((s) => s.loadingDataset);
+  const loadingDatasetError = useDemoStore((s) => s.loadingDatasetError);
+  const selectDataset = useDemoStore((s) => s.selectDataset);
   const selectEvent = useDemoStore((s) => s.selectEvent);
   const attachRegionBox = useDemoStore((s) => s.attachRegionBox);
   const setTimelineTool = useDemoStore((s) => s.setTimelineTool);
@@ -141,6 +143,31 @@ export function Step4VideoStage() {
   };
 
   if (!dataset) {
+    if (loadingDatasetError) {
+      return (
+        <div
+          data-testid="step4-video-stage"
+          style={{ width: '100%', height: '100%', minHeight: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: tokens.color.danger[500], fontSize: 14, background: '#000', gap: tokens.space[2] }}
+        >
+          <span>加载失败: {loadingDatasetError}</span>
+          <button
+            type="button"
+            onClick={() => selectDataset(datasetId)}
+            style={{
+              border: `1px solid ${tokens.color.danger[500]}`,
+              background: 'transparent',
+              color: tokens.color.danger[500],
+              borderRadius: tokens.radius.md,
+              padding: `${tokens.space[1]} ${tokens.space[3]}`,
+              fontSize: 12,
+              cursor: 'pointer',
+            }}
+          >
+            重试
+          </button>
+        </div>
+      );
+    }
     return (
       <div
         data-testid="step4-video-stage"

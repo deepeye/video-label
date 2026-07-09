@@ -9,6 +9,22 @@ import { TypewriterField } from './TypewriterField';
 export function Step2Metadata() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
   const speed = useDemoStore((s) => s.speed);
+  const loadingDataset = useDemoStore((s) => s.loadingDataset);
+  const loadingDatasetError = useDemoStore((s) => s.loadingDatasetError);
+  if (loadingDataset) {
+    return (
+      <div data-testid="step2-metadata" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: tokens.color.neutral[400], fontSize: 14 }}>
+        加载中…
+      </div>
+    );
+  }
+  if (loadingDatasetError) {
+    return (
+      <div data-testid="step2-metadata" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: tokens.color.danger[500], fontSize: 14 }}>
+        加载失败: {loadingDatasetError}
+      </div>
+    );
+  }
   const dataset = getDataset(datasetId);
   const m = dataset.metadata;
 
