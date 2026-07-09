@@ -17,23 +17,34 @@ function mockRect(node: HTMLElement, rect: { left?: number; top?: number; width:
   Object.defineProperty(node, 'getBoundingClientRect', {
     configurable: true,
     value: () => ({
-      x: 0,
-      y: 0,
-      top: rect.top ?? 0,
-      left: rect.left ?? 0,
-      bottom: (rect.top ?? 0) + rect.height,
-      right: (rect.left ?? 0) + rect.width,
-      width: rect.width,
-      height: rect.height,
+      x: 0, y: 0,
+      top: rect.top ?? 0, left: rect.left ?? 0,
+      bottom: (rect.top ?? 0) + rect.height, right: (rect.left ?? 0) + rect.width,
+      width: rect.width, height: rect.height,
       toJSON: () => ({}),
     }),
   });
 }
 
 describe('Step4 frame boxes overlay', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     useDemoStore.getState().reset();
-    useDemoStore.getState().selectDataset('city-road');
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: 'hello',
+        all_frames: [
+          {
+            frame_index: 0,
+            subtitle_text: 'hello',
+            parts: [{ part_id: 0, text: 'OCR', box: [[0,0],[100,0],[100,50],[0,50]] }],
+            objects: [{ label: 'person', probability: 0.9, box_px: [10,20,200,300] }],
+          },
+        ],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().goToStep(4);
   });
 
@@ -44,13 +55,10 @@ describe('Step4 frame boxes overlay', () => {
     mockRect(video, { left: 0, top: 0, width: 1920, height: 1080 });
     mockRect(stage, { left: 0, top: 0, width: 1920, height: 1080 });
 
-    act(() => {
-      useDemoStore.getState().seekToMs(0);
-    });
+    act(() => { useDemoStore.getState().seekToMs(0); });
 
     const overlay = screen.getByTestId('frame-boxes-overlay');
     expect(overlay).toBeInTheDocument();
-    // 第一帧 frame_index=0 应有多个框（parts + objects 都渲染）
     const rects = container.querySelectorAll('[data-testid^="frame-box-"]');
     expect(rects.length).toBeGreaterThan(0);
   });
@@ -62,9 +70,7 @@ describe('Step4 frame boxes overlay', () => {
     mockRect(video, { left: 0, top: 0, width: 1920, height: 1080 });
     mockRect(stage, { left: 0, top: 0, width: 1920, height: 1080 });
 
-    act(() => {
-      useDemoStore.getState().seekToMs(0);
-    });
+    act(() => { useDemoStore.getState().seekToMs(0); });
 
     const textBox = container.querySelector('[data-testid^="frame-box-text-"]') as HTMLElement | null;
     expect(textBox).toBeTruthy();
@@ -79,17 +85,15 @@ describe('Step4 frame boxes overlay', () => {
     expect(events[0]!.description.length).toBeGreaterThan(0);
   });
 
-  it('does not render overlay for meeting-room dataset', () => {
+  it('shows overlay for real dataset (has frame_boxes)', () => {
     render(<Step4Review />);
     const stage = screen.getByTestId('step4-video-stage');
     const video = stage.querySelector('video') as HTMLVideoElement;
     mockRect(video, { left: 0, top: 0, width: 1920, height: 1080 });
     mockRect(stage, { left: 0, top: 0, width: 1920, height: 1080 });
 
-    act(() => {
-      useDemoStore.getState().selectDataset('meeting-room');
-    });
+    act(() => { useDemoStore.getState().seekToMs(0); });
 
-    expect(screen.queryByTestId('frame-boxes-overlay')).not.toBeInTheDocument();
+    expect(screen.getByTestId('frame-boxes-overlay')).toBeInTheDocument();
   });
 });

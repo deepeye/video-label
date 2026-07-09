@@ -99,7 +99,13 @@ export const FrameBoxesOverlaySchema = z.object({
 
 export const DatasetSchema = z.object({
   version: z.literal('2.0-demo'),
-  dataset_id: z.enum(['city-road', 'meeting-room', 'retail-cam']),
+  dataset_id: z.enum([
+    'jiazhengnvhuang_13',
+    'jiazhengnvhuang_5',
+    'meilihebeisegment_001_2',
+    'mingyilaile_17-0',
+    'mingyilaile_17-4',
+  ]),
   display: z.string().min(1),
   video_src: z.string().min(1),
   thumb: z.string().min(1),

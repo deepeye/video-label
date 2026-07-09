@@ -51,9 +51,9 @@ function mockVideoCurrentTime(video: HTMLVideoElement) {
 }
 
 describe('Step4Review integration', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().reset();
-    useDemoStore.getState().selectDataset('city-road');
     useDemoStore.getState().goToStep(4);
     playSpy.mockClear();
     pauseSpy.mockClear();

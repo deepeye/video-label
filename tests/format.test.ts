@@ -5,9 +5,11 @@ import { toNative } from '@/lib/format/native';
 import { toCocoVideo } from '@/lib/format/cocoVideo';
 import type { Point } from '@/types';
 
+const DS_ID = 'jiazhengnvhuang_13' as const;
+
 describe('toNative', () => {
-  beforeEach(() => {
-    useDemoStore.getState().selectDataset('city-road');
+  beforeEach(async () => {
+    await useDemoStore.getState().selectDataset(DS_ID);
     useDemoStore.getState().reset();
   });
 
@@ -20,11 +22,11 @@ describe('toNative', () => {
       description: '车辆急刹',
     });
 
-    const ds = getDataset('city-road');
+    const ds = getDataset(DS_ID);
     const out = toNative(useDemoStore.getState().events, ds, 1718700000000);
 
     expect(out.version).toBe('2.0-demo');
-    expect(out.dataset.dataset_id).toBe('city-road');
+    expect(out.dataset.dataset_id).toBe(DS_ID);
     expect(out.exported_at).toBe(1718700000000);
     expect(out.video.file_name).toBe(ds.video_src.split('/').pop());
     expect(out.video.width).toBe(ds.metadata.width);
@@ -51,7 +53,7 @@ describe('toNative', () => {
     });
     useDemoStore.getState().attachRegionBox(eventId, [100, 200, 300, 400], 3200);
 
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const out = toNative(useDemoStore.getState().events, ds, 1);
     const event = out.events.find((item) => item.id === eventId)!;
 
@@ -67,26 +69,26 @@ describe('toNative', () => {
   });
 
   it('serialization is JSON-roundtrip-safe', () => {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const eventId = useDemoStore.getState().createPointEvent(800);
     useDemoStore.getState().updateEvent(eventId, { eventType: 'incident' });
     const out = toNative(useDemoStore.getState().events, ds, 1718700000000);
     const back = JSON.parse(JSON.stringify(out));
 
     expect(back.events).toHaveLength(1);
-    expect(back.dataset.dataset_id).toBe('city-road');
+    expect(back.dataset.dataset_id).toBe('jiazhengnvhuang_13');
     expect(back.events[0].eventType).toBe('incident');
   });
 });
 
 describe('toCocoVideo', () => {
-  beforeEach(() => {
-    useDemoStore.getState().selectDataset('city-road');
+  beforeEach(async () => {
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().reset();
   });
 
   it('builds proper COCO-Video structure from dataset annotations', () => {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const out = toCocoVideo(ds.annotations, ds, 1718700000000);
 
     expect(out.info.version).toBe('2.0-demo');
@@ -97,10 +99,10 @@ describe('toCocoVideo', () => {
     expect(out.videos[0]!.frame_rate).toBe(30);
     expect(out.videos[0]!.duration).toBe(30);
 
+    // mock fetch provides 1 frame with a 'person' object
     const cats = out.categories.map((c) => c.name);
-    expect(cats).toEqual(['pedestrian', 'traffic_sign', 'vehicle']);
-    expect(out.annotations.length).toBeGreaterThan(200);
-    expect(out.annotations.length).toBeLessThan(400);
+    expect(cats).toContain('person');
+    expect(out.annotations.length).toBeGreaterThanOrEqual(1);
   });
 
   it('includes x_events extension field when events are provided', () => {
@@ -111,7 +113,7 @@ describe('toCocoVideo', () => {
       description: '行人横穿',
     });
 
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const out = toCocoVideo(ds.annotations, ds, 1, [], useDemoStore.getState().events);
 
     expect(out.x_events).toHaveLength(1);
@@ -123,7 +125,7 @@ describe('toCocoVideo', () => {
   });
 
   it('annotation ids are unique', () => {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const out = toCocoVideo(ds.annotations, ds, 1);
     const ids = out.annotations.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
@@ -131,7 +133,7 @@ describe('toCocoVideo', () => {
 
   it('converts polygon annotations to COCO with x_geometry_type and x_polygon', () =>
   {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const polygonAnn = {
       ...ds.annotations[0]!,
       track_id: 'trk_polygon_test',
@@ -165,7 +167,7 @@ describe('toCocoVideo', () => {
   });
 
   it('maps track_id prefixes to numeric track_ids without collisions', () => {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const base = ds.annotations[0]!;
     const anns = [
       { ...base, track_id: 'trk_1', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },

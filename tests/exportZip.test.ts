@@ -7,14 +7,31 @@ import { Step5Export } from '@/steps/Step5Export';
 import { useDemoStore } from '@/store/demoStore';
 import { getDataset } from '@/data';
 
-// Mock fetch for frame loading (jsdom 没真 server)
-beforeEach(() => {
-  vi.stubGlobal('fetch', vi.fn(async () => ({
-    ok: false,
-    status: 404,
-    blob: async () => new Blob(),
-  } as unknown as Response)));
-  useDemoStore.getState().selectDataset('city-road');
+// Mock fetch: dataset JSON (.json) returns ok payload so loadRealDataset succeeds;
+// frame images return 404 (jsdom has no real server).
+beforeEach(async () => {
+  vi.stubGlobal('fetch', vi.fn(async (input: string | URL | Request) => {
+    const url = typeof input === 'string' ? input : input.toString();
+    if (url.endsWith('.json')) {
+      return {
+        ok: true,
+        json: async () => ({
+          video_name: 'jiazhengnvhuang_13.mp4',
+          concatenated_subtitles: 'sample',
+          all_frames: [
+            {
+              frame_index: 0,
+              subtitle_text: 'sample',
+              parts: [{ part_id: 0, text: 'OCR', box: [[0, 0], [100, 0], [100, 50], [0, 50]] }],
+              objects: [{ label: 'person', probability: 0.9, box_px: [10, 20, 200, 300] }],
+            },
+          ],
+        }),
+      } as unknown as Response;
+    }
+    return { ok: false, status: 404, blob: async () => new Blob() } as unknown as Response;
+  }));
+  await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
 });
 
 describe('buildExportZip', () => {
@@ -27,7 +44,7 @@ describe('buildExportZip', () => {
       tags: ['vehicle'],
     });
 
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const events = useDemoStore.getState().events;
     const blob = await buildExportZip({
       format: 'native',
@@ -46,7 +63,7 @@ describe('buildExportZip', () => {
 
     const text = await zip.files['annotations/native.json']!.async('string');
     const data = JSON.parse(text);
-    expect(data.dataset.dataset_id).toBe('city-road');
+    expect(data.dataset.dataset_id).toBe('jiazhengnvhuang_13');
     expect(data.video.file_name).toBe(ds.video_src.split('/').pop());
     expect(data.events).toHaveLength(1);
     expect(data.events[0].id).toBe(eventId);
@@ -54,7 +71,7 @@ describe('buildExportZip', () => {
   });
 
   it('switches file path based on format', async () => {
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const eventId = useDemoStore.getState().createRangeEvent(1000, 2500);
     useDemoStore.getState().updateEvent(eventId, { eventType: 'pedestrian', tags: ['crossing'] });
     const events = useDemoStore.getState().events;
@@ -75,7 +92,7 @@ describe('buildExportZip', () => {
     const rangeId = useDemoStore.getState().createRangeEvent(2400, 3600);
     useDemoStore.getState().attachRegionBox(rangeId, [10, 20, 30, 40], 2600);
 
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const events = useDemoStore.getState().events;
     const blob = await buildExportZip({
       format: 'native',
@@ -104,7 +121,7 @@ describe('buildExportZip', () => {
     });
     useDemoStore.getState().attachRegionBox(eventId, [777, 888, 999, 222], 6400);
 
-    const ds = getDataset('city-road');
+    const ds = getDataset('jiazhengnvhuang_13');
     const events = useDemoStore.getState().events;
     const blob = await buildExportZip({
       format: 'native',

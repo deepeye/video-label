@@ -16,11 +16,8 @@ const README_CONTENT = `视频语料标注 Demo · 导出包
 完整 schema 与字段含义见: docs/视频语料标注平台 · 演示 Demo PRD.md (第五章)
 `;
 
-const FRAMES_TO_INCLUDE: Record<string, string[]> = {
-  'city-road': ['00003333.jpg', '00010000.jpg'],
-  'meeting-room': [],
-  'retail-cam': [],
-};
+// 真实数据集无样例帧图片导出；保留入口以便后续按需补充。
+const FRAMES_TO_INCLUDE: Record<string, string[]> = {};
 
 export interface ExportArgs {
   format: ExportFormat;

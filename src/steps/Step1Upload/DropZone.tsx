@@ -30,7 +30,7 @@ export function DropZone() {
     setFallbackToast(
       '为了让演示更贴近真实标注效果，已为您切换至『城市道路』样例数据。您上传的文件不会上传至任何服务器。',
     );
-    selectDataset('city-road');
+    selectDataset('jiazhengnvhuang_13');
     setTimeout(() => {
       setFallbackToast(null);
       goToStep(2);

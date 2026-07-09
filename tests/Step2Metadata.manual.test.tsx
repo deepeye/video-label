@@ -22,9 +22,9 @@ vi.mock('@/steps/Step2Metadata/TypewriterField', () => ({
 import { Step2Metadata } from '@/steps/Step2Metadata';
 
 describe('Step2 manual mode', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.useFakeTimers();
-    useDemoStore.getState().selectDataset('city-road');
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().goToStep(2);
     useDemoStore.getState().setSpeed('instant');
   });

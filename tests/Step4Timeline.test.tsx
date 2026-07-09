@@ -38,11 +38,11 @@ describe('Step4 timeline workflow', () => {
     });
   };
 
-  beforeEach(() => {
-    useDemoStore.getState().reset();
+  beforeEach(async () => {
     vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
     vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => undefined);
-    useDemoStore.getState().selectDataset('city-road');
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+    useDemoStore.getState().reset();
     useDemoStore.getState().goToStep(4);
     useDemoStore.getState().setCurrentTimeMs(0);
     useDemoStore.getState().setTimelineTool('browse');

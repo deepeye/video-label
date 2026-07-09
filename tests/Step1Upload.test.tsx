@@ -14,11 +14,6 @@ beforeEach(async () => {
       all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
     }),
   });
-  vi.spyOn(HTMLVideoElement.prototype, 'addEventListener').mockImplementation((event, handler) => {
-    if (event === 'loadedmetadata') {
-      queueMicrotask(() => (handler as EventListener)(new Event('loadedmetadata')));
-    }
-  });
   await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
 });
 

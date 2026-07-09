@@ -4,8 +4,8 @@ import { StepPills } from '@/chrome/StepPills';
 import { useDemoStore } from '@/store/demoStore';
 
 describe('StepPills manual navigation', () => {
-  beforeEach(() => {
-    useDemoStore.getState().selectDataset('city-road');
+  beforeEach(async () => {
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
   });
 
   it('clicks step 3 pill and jumps to step 3', () => {

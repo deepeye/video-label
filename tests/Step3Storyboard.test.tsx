@@ -4,7 +4,8 @@ import { Step3Storyboard } from '@/steps/Step3Storyboard';
 import { useDemoStore } from '@/store/demoStore';
 
 describe('Step3Storyboard', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().reset();
     vi.useFakeTimers();
   });

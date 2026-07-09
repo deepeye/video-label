@@ -139,7 +139,7 @@ describe('adaptRealData', () => {
     expect(ds.frame_boxes!.frames).toHaveLength(0);
   });
 
-  it('generates empty annotations and segments', () => {
+  it('generates annotations from frame objects and 5 storyboard segments', () => {
     const ds = adaptRealData(
       SAMPLE_JSON,
       VIDEO_META,
@@ -147,8 +147,41 @@ describe('adaptRealData', () => {
       'test',
       '/mock/test.mp4',
     );
-    expect(ds.annotations).toEqual([]);
-    expect(ds.segments).toEqual([]);
+    expect(ds.segments).toHaveLength(5);
+    expect(ds.segments[0]!.content_type).toBe('美食');
+    // frame 0 has 2 objects → 2 annotations, each one keyframe
+    expect(ds.annotations).toHaveLength(2);
+    const person = ds.annotations.find(a => a.label_id === 'person')!;
+    expect(person.source).toBe('machine');
+    expect(person.confidence).toBe(0.95);
+    expect(person.needs_review).toBe(false);
+    expect(person.keyframes).toHaveLength(1);
+    expect(person.keyframes[0]!.geometry).toMatchObject({
+      type: 'bbox',
+      coords: [10, 20, 190, 280],
+    });
+    expect(person.review.status).toBe('pending');
+  });
+
+  it('marks low-confidence objects as needs_review', () => {
+    const lowJson = {
+      ...SAMPLE_JSON,
+      all_frames: [{
+        frame_index: 0,
+        subtitle_text: '',
+        parts: [],
+        objects: [{ label: 'logo', probability: 0.3, box_px: [0, 0, 10, 10] }],
+      }],
+    };
+    const ds = adaptRealData(
+      lowJson,
+      VIDEO_META,
+      'jiazhengnvhuang_13' as DatasetId,
+      'test',
+      '/mock/test.mp4',
+    );
+    expect(ds.annotations[0]!.needs_review).toBe(true);
+    expect(ds.annotations[0]!.confidence).toBe(0.3);
   });
 
   it('generates default demo_script', () => {

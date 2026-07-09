@@ -13,12 +13,7 @@ describe('demoStore', () => {
         all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
       }),
     });
-    // speed up video metadata resolution in jsdom
-    vi.spyOn(HTMLVideoElement.prototype, 'addEventListener').mockImplementation((event, handler) => {
-      if (event === 'loadedmetadata') {
-        queueMicrotask(() => (handler as EventListener)(new Event('loadedmetadata')));
-      }
-    });
+    // loadedmetadata resolution handled by global test setup
     await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
   });
 

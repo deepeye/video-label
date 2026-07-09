@@ -25,11 +25,19 @@ class ROStub {
 (globalThis as { ResizeObserver?: unknown }).ResizeObserver = ROStub;
 
 describe('Step4 event panel', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     useDemoStore.getState().reset();
     vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
     vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => undefined);
-    useDemoStore.getState().selectDataset('city-road');
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
     useDemoStore.getState().goToStep(4);
     useDemoStore.getState().setCurrentTimeMs(12_345);
   });
