@@ -1,3 +1,4 @@
+import pdmiLogo from '../../assets/pdmi.jpg';
 import { tokens } from '../styles/tokens';
 import { StepPills } from './StepPills';
 import { DemoControls } from './DemoControls';
@@ -27,8 +28,15 @@ export function TopBar() {
           fontSize: 14,
         }}
       >
-        <span>◆</span>
-        <span>Frameworks Demo</span>
+        <img
+          src={pdmiLogo}
+          alt="PDMI"
+          style={{
+            display: 'block',
+            height: 32,
+            width: 'auto',
+          }}
+        />
       </div>
       <StepPills />
       <DemoControls />
