@@ -3,6 +3,7 @@ import { getDataset } from '../../data';
 import { useDemoStore } from '../../store/demoStore';
 import { tokens } from '../../styles/tokens';
 import type { BBox, EventMarker } from '../../types';
+import { FrameBoxesOverlay } from './FrameBoxesOverlay';
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -169,6 +170,7 @@ export function Step4VideoStage() {
         autoPlay
         style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
       />
+      <FrameBoxesOverlay videoRef={videoRef} />
       {regionEvents.map((event) => {
         const box = event.regionBox;
         if (!box) {
