@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { findVisibleAtTime, interpolateBox } from '@/lib/interpolate';
+import {
+  findKeyframeAtTime,
+  findVisibleAtTime,
+  geometryToBBox,
+  getVisibleGeometryAtTime,
+  interpolateBox,
+  polygonBounds,
+} from '@/lib/interpolate';
 import type { Annotation, Keyframe } from '@/types';
 
 function kf(ts: number, coords: [number, number, number, number]): Keyframe {
@@ -7,6 +14,15 @@ function kf(ts: number, coords: [number, number, number, number]): Keyframe {
     timestamp_ms: ts,
     frame_no: Math.round((ts / 1000) * 30),
     geometry: { type: 'bbox', coords },
+    is_keyframe: true,
+  };
+}
+
+function polyKf(ts: number, points: [number, number][]): Keyframe {
+  return {
+    timestamp_ms: ts,
+    frame_no: Math.round((ts / 1000) * 30),
+    geometry: { type: 'polygon', points },
     is_keyframe: true,
   };
 }
@@ -70,5 +86,100 @@ describe('findVisibleAtTime', () => {
     const a = ann('a', [kf(0, [0, 0, 10, 10]), kf(1000, [0, 0, 10, 10])]);
     a.review.status = 'rejected';
     expect(findVisibleAtTime([a], 500)).toEqual([]);
+  });
+});
+
+describe('getVisibleGeometryAtTime', () => {
+  it('returns polygon geometry when timestamp matches a polygon keyframe within tolerance', () => {
+    const frames = [
+      kf(0, [0, 0, 10, 10]),
+      polyKf(1000, [
+        [0, 0],
+        [10, 0],
+        [10, 10],
+      ]),
+    ];
+    const result = getVisibleGeometryAtTime(frames, 1000);
+    expect(result).toEqual({
+      geometry: { type: 'polygon', points: [
+        [0, 0],
+        [10, 0],
+        [10, 10],
+      ] },
+      isExactKeyframe: true,
+    });
+  });
+
+  it('returns polygon geometry within 50ms tolerance', () => {
+    const frames = [polyKf(1000, [
+      [0, 0],
+      [5, 0],
+      [5, 5],
+    ])];
+    expect(getVisibleGeometryAtTime(frames, 1049)?.isExactKeyframe).toBe(true);
+    expect(getVisibleGeometryAtTime(frames, 951)?.isExactKeyframe).toBe(true);
+  });
+
+  it('falls back to interpolated bbox when no polygon matches', () => {
+    const frames = [kf(0, [0, 0, 10, 10]), kf(1000, [10, 10, 20, 20])];
+    const result = getVisibleGeometryAtTime(frames, 500);
+    expect(result).toEqual({
+      geometry: { type: 'bbox', coords: [5, 5, 15, 15] },
+      isExactKeyframe: false,
+    });
+  });
+
+  it('returns null when no polygon matches and no bbox keyframes exist', () => {
+    const frames = [polyKf(1000, [
+      [0, 0],
+      [10, 0],
+      [10, 10],
+    ])];
+    expect(getVisibleGeometryAtTime(frames, 5000)).toBeNull();
+  });
+});
+
+describe('findKeyframeAtTime', () => {
+  it('returns the keyframe within 50ms tolerance', () => {
+    const frames = [kf(0, [0, 0, 10, 10]), kf(1000, [10, 10, 20, 20])];
+    expect(findKeyframeAtTime(frames, 1000)?.timestamp_ms).toBe(1000);
+    expect(findKeyframeAtTime(frames, 1049)?.timestamp_ms).toBe(1000);
+    expect(findKeyframeAtTime(frames, 951)?.timestamp_ms).toBe(1000);
+  });
+
+  it('returns null when no keyframe is within tolerance', () => {
+    const frames = [kf(0, [0, 0, 10, 10]), kf(1000, [10, 10, 20, 20])];
+    expect(findKeyframeAtTime(frames, 500)).toBeNull();
+  });
+});
+
+describe('polygonBounds', () => {
+  it('computes bounding box for non-empty points', () => {
+    expect(polygonBounds([
+      [10, 20],
+      [30, 15],
+      [25, 40],
+    ])).toEqual([10, 15, 20, 25]);
+  });
+
+  it('returns zero bbox for empty points', () => {
+    expect(polygonBounds([])).toEqual([0, 0, 0, 0]);
+  });
+});
+
+describe('geometryToBBox', () => {
+  it('returns coords for bbox geometry', () => {
+    expect(geometryToBBox({ type: 'bbox', coords: [1, 2, 3, 4] })).toEqual([1, 2, 3, 4]);
+  });
+
+  it('computes bounds for polygon geometry', () => {
+    expect(geometryToBBox({
+      type: 'polygon',
+      points: [
+        [0, 0],
+        [10, 0],
+        [10, 10],
+      ],
+    })).toEqual([0, 0, 10, 10]);
   });
 });

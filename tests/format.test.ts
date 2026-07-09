@@ -3,6 +3,7 @@ import { useDemoStore } from '@/store/demoStore';
 import { getDataset } from '@/data';
 import { toNative } from '@/lib/format/native';
 import { toCocoVideo } from '@/lib/format/cocoVideo';
+import type { Point } from '@/types';
 
 describe('toNative', () => {
   beforeEach(() => {
@@ -126,5 +127,59 @@ describe('toCocoVideo', () => {
     const out = toCocoVideo(ds.annotations, ds, 1);
     const ids = out.annotations.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('converts polygon annotations to COCO with x_geometry_type and x_polygon', () =>
+  {
+    const ds = getDataset('city-road');
+    const polygonAnn = {
+      ...ds.annotations[0]!,
+      track_id: 'trk_polygon_test',
+      label_id: 'vehicle',
+      keyframes: [
+        {
+          timestamp_ms: 1000,
+          frame_no: 30,
+          geometry: {
+            type: 'polygon' as const,
+            points: [
+              [0, 0],
+              [50, 0],
+              [50, 50],
+            ] as Point[],
+          },
+          is_keyframe: true,
+        },
+      ],
+    };
+    const out = toCocoVideo([polygonAnn], ds, 1);
+    const found = out.annotations.find((a) => a.x_geometry_type === 'polygon');
+    expect(found).toBeDefined();
+    expect(found!.x_geometry_type).toBe('polygon');
+    expect(found!.x_polygon).toEqual([
+      [0, 0],
+      [50, 0],
+      [50, 50],
+    ]);
+    expect(found!.bbox).toEqual([0, 0, 50, 50]);
+  });
+
+  it('maps track_id prefixes to numeric track_ids without collisions', () => {
+    const ds = getDataset('city-road');
+    const base = ds.annotations[0]!;
+    const anns = [
+      { ...base, track_id: 'trk_1', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },
+      { ...base, track_id: 'trk_v1', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },
+      { ...base, track_id: 'trk_p1', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },
+      { ...base, track_id: 'trk_s1', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },
+      { ...base, track_id: 'trk_z99', label_id: 'vehicle', keyframes: [base.keyframes[0]!] },
+    ];
+    const out = toCocoVideo(anns, ds, 1);
+    const trackIds = out.annotations.map((a) => a.track_id);
+    expect(new Set(trackIds).size).toBe(trackIds.length);
+    expect(trackIds).toContain(1);
+    expect(trackIds).toContain(1001);
+    expect(trackIds).toContain(2001);
+    expect(trackIds).toContain(3001);
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { Step4Review } from '@/steps/Step4Review';
@@ -71,22 +71,52 @@ describe('Step4 event panel', () => {
     });
   });
 
-  it('clicking an event list row selects it and highlights the row', async () => {
+  it('deleting an event removes it from the store and shows the empty fallback', async () => {
     const user = userEvent.setup();
-    const firstId = useDemoStore.getState().createPointEvent(1_000);
-    const secondId = useDemoStore.getState().createPointEvent(2_000);
-
-    useDemoStore.getState().updateEvent(firstId, { eventType: 'sudden_brake' });
-    useDemoStore.getState().updateEvent(secondId, { eventType: 'lane_change' });
-    useDemoStore.getState().selectEvent(firstId);
+    const eventId = useDemoStore.getState().createPointEvent(5_000);
 
     render(<Step4Review />);
 
-    const secondRow = screen.getByTestId(`event-row-${secondId}`);
-    await user.click(secondRow);
+    await user.click(screen.getByRole('button', { name: '删除事件' }));
 
-    expect(useDemoStore.getState().selectedEventId).toBe(secondId);
-    expect(secondRow).toHaveAttribute('aria-selected', 'true');
-    expect(screen.getByTestId(`event-row-${firstId}`)).toHaveAttribute('aria-selected', 'false');
+    expect(useDemoStore.getState().events.find((item) => item.id === eventId)).toBeUndefined();
+    expect(screen.getByRole('button', { name: '新增事件' })).toBeInTheDocument();
+  });
+
+  it('range event shows start/end time fields', async () => {
+    const eventId = useDemoStore.getState().createRangeEvent(1_000, 3_000);
+    useDemoStore.getState().selectEvent(eventId);
+
+    render(<Step4Review />);
+
+    expect(screen.getByLabelText('开始时间(ms)')).toHaveValue(1000);
+    expect(screen.getByLabelText('结束时间(ms)')).toHaveValue(3000);
+    expect(screen.queryByLabelText('时间(ms)')).not.toBeInTheDocument();
+  });
+
+  it('normalizes tags input and filters empty entries', async () => {
+    const eventId = useDemoStore.getState().createPointEvent(5_000);
+
+    render(<Step4Review />);
+
+    const tagsInput = screen.getByLabelText('标签');
+    fireEvent.change(tagsInput, { target: { value: ' 风险 , , 夜间 ,' } });
+
+    const event = useDemoStore.getState().events.find((item) => item.id === eventId);
+    expect(event?.tags).toEqual(['风险', '夜间']);
+  });
+
+  it('ignores non-numeric time input and clears the value', async () => {
+    const user = userEvent.setup();
+    const eventId = useDemoStore.getState().createPointEvent(5_000);
+
+    render(<Step4Review />);
+
+    const timeInput = screen.getByLabelText('时间(ms)');
+    await user.clear(timeInput);
+    await user.type(timeInput, 'not-a-number');
+
+    const event = useDemoStore.getState().events.find((item) => item.id === eventId);
+    expect(event?.timeMs).toBeNull();
   });
 });

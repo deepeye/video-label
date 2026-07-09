@@ -218,19 +218,86 @@ describe('Step4Review integration', () => {
     expect(useDemoStore.getState().timelineTool).toBe('browse');
   });
 
-  it('canAdvanceFromStep4 becomes true after creating one event', () => {
+  it('clicking a rendered region box selects the associated event', () => {
     render(<Step4Review />);
-
-    expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(false);
 
     const timeline = screen.getByTestId('step4-timeline-surface');
     mockRect(timeline, { left: 0, top: 0, width: 1000, height: 56 });
     act(() => {
       useDemoStore.getState().setTimelineTool('point');
     });
-    fireEvent.click(timeline, { clientX: 320 });
+    fireEvent.click(timeline, { clientX: 250 });
 
-    expect(useDemoStore.getState().events).toHaveLength(1);
-    expect(useDemoStore.getState().canAdvanceFromStep4()).toBe(true);
+    const createdEvent = useDemoStore.getState().events[0];
+    expect(createdEvent).toBeDefined();
+
+    act(() => {
+      useDemoStore.getState().selectEvent(createdEvent!.id);
+      useDemoStore.getState().setTimelineTool('region');
+    });
+
+    const stage = screen.getByTestId('step4-video-stage');
+    mockRect(stage, { left: 10, top: 20, width: 400, height: 200 });
+
+    fireEvent.mouseDown(stage, { clientX: 50, clientY: 60 });
+    fireEvent.mouseMove(stage, { clientX: 210, clientY: 160 });
+    fireEvent.mouseUp(stage, { clientX: 210, clientY: 160 });
+
+    act(() => {
+      useDemoStore.getState().selectEvent(null);
+    });
+
+    const box = screen.getByTestId(`region-box-${createdEvent!.id}`);
+    fireEvent.click(box);
+
+    expect(useDemoStore.getState().selectedEventId).toBe(createdEvent!.id);
+  });
+
+  it('region drag with zero area does not attach a region box', () => {
+    render(<Step4Review />);
+
+    const eventId = useDemoStore.getState().createPointEvent(1000);
+    act(() => {
+      useDemoStore.getState().selectEvent(eventId);
+      useDemoStore.getState().setTimelineTool('region');
+    });
+
+    const stage = screen.getByTestId('step4-video-stage');
+    mockRect(stage, { left: 0, top: 0, width: 400, height: 200 });
+
+    fireEvent.mouseDown(stage, { clientX: 100, clientY: 100 });
+    fireEvent.mouseUp(stage, { clientX: 100, clientY: 100 });
+
+    expect(useDemoStore.getState().events.find((item) => item.id === eventId)?.regionBox).toBeNull();
+  });
+
+  it('does not start region drag when no event is selected', () => {
+    render(<Step4Review />);
+
+    act(() => {
+      useDemoStore.getState().setTimelineTool('region');
+    });
+
+    const stage = screen.getByTestId('step4-video-stage');
+    mockRect(stage, { left: 0, top: 0, width: 400, height: 200 });
+
+    fireEvent.mouseDown(stage, { clientX: 50, clientY: 50 });
+    fireEvent.mouseMove(stage, { clientX: 150, clientY: 150 });
+    fireEvent.mouseUp(stage, { clientX: 150, clientY: 150 });
+
+    expect(useDemoStore.getState().events).toHaveLength(0);
+  });
+
+  it('handles video play() promise rejection gracefully', () => {
+    playSpy.mockRejectedValueOnce(new Error('Autoplay blocked'));
+
+    render(<Step4Review />);
+
+    act(() => {
+      useDemoStore.getState().play();
+    });
+
+    expect(useDemoStore.getState().playbackState).toBe('playing');
+    expect(playSpy).toHaveBeenCalled();
   });
 });

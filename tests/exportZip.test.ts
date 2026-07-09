@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createElement } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import JSZip from 'jszip';
 import { buildExportZip } from '@/steps/Step5Export/exportZip';
 import { Step5Export } from '@/steps/Step5Export';
@@ -126,21 +126,23 @@ describe('buildExportZip', () => {
     });
   });
 
-  it('step5 preview shows event-based stats', () => {
-    const pointId = useDemoStore.getState().createPointEvent(800);
-    useDemoStore.getState().updateEvent(pointId, { eventType: 'brake' });
-    const rangeId = useDemoStore.getState().createRangeEvent(2000, 4200);
-    useDemoStore.getState().attachRegionBox(rangeId, [1, 2, 3, 4], 2400);
+  it('switching export format updates the preview JSON', () => {
+    const eventId = useDemoStore.getState().createPointEvent(800);
+    useDemoStore.getState().updateEvent(eventId, { eventType: 'brake' });
 
     render(createElement(Step5Export));
 
-    expect(screen.getByText('总计')).toBeInTheDocument();
-    expect(screen.getByText('点事件')).toBeInTheDocument();
-    expect(screen.getByText('范围事件')).toBeInTheDocument();
-    expect(screen.getByText('带框事件')).toBeInTheDocument();
-    expect(screen.getByText((_, node) => node?.textContent === '总计2')).toBeInTheDocument();
-    expect(screen.getByText((_, node) => node?.textContent === '点事件1')).toBeInTheDocument();
-    expect(screen.getByText((_, node) => node?.textContent === '范围事件1')).toBeInTheDocument();
-    expect(screen.getByText((_, node) => node?.textContent === '带框事件1')).toBeInTheDocument();
+    expect(screen.getByTestId('format-native')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByTestId('json-preview')).toHaveTextContent('"events"');
+
+    fireEvent.click(screen.getByTestId('format-coco-video'));
+
+    expect(screen.getByTestId('format-coco-video')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByTestId('json-preview')).toHaveTextContent('"annotations"');
+
+    fireEvent.click(screen.getByTestId('format-native'));
+
+    expect(screen.getByTestId('format-native')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByTestId('json-preview')).toHaveTextContent('"events"');
   });
 });

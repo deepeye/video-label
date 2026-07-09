@@ -183,16 +183,123 @@ describe('demoStore', () => {
     expect(afterReset[0]?.keyframes[0]?.timestamp_ms).toBe(sourceDataset.annotations[0]?.keyframes[0]?.timestamp_ms);
   });
 
-  it('selectDataset replaces store with new snapshot', () => {
-    useDemoStore.getState().createPointEvent(1200);
-    expect(useDemoStore.getState().dirty).toBe(true);
+  it('deleteEvent removes the event and clears selection if selected', () => {
+    const id = useDemoStore.getState().createPointEvent(1200);
+    useDemoStore.getState().selectEvent(id);
 
-    useDemoStore.getState().selectDataset('city-road');
-    expect(useDemoStore.getState().events).toEqual([]);
-    expect(useDemoStore.getState().dirty).toBe(false);
+    useDemoStore.getState().deleteEvent(id);
+
+    const s = useDemoStore.getState();
+    expect(s.events.find((item) => item.id === id)).toBeUndefined();
+    expect(s.selectedEventId).toBeNull();
+    expect(s.dirty).toBe(true);
   });
 
-  it('undo on empty stack is a no-op', () => {
-    expect(() => useDemoStore.getState().undo()).not.toThrow();
+  it('removeRegionBox clears regionBox and regionAnchorMs', () => {
+    const id = useDemoStore.getState().createPointEvent(800);
+    useDemoStore.getState().attachRegionBox(id, [10, 20, 30, 40], 900);
+
+    useDemoStore.getState().removeRegionBox(id);
+
+    const event = useDemoStore.getState().events.find((item) => item.id === id);
+    expect(event?.regionBox).toBeNull();
+    expect(event?.regionAnchorMs).toBeNull();
+  });
+
+  it('updateEvent can clear regionBox by passing null', () => {
+    const id = useDemoStore.getState().createPointEvent(800);
+    useDemoStore.getState().attachRegionBox(id, [10, 20, 30, 40], 900);
+
+    useDemoStore.getState().updateEvent(id, { regionBox: null });
+
+    const event = useDemoStore.getState().events.find((item) => item.id === id);
+    expect(event?.regionBox).toBeNull();
+  });
+
+  it('setSceneTags creates a new frame tag entry and tracks it for undo', () => {
+    useDemoStore.getState().setSceneTags(30, 1000, ['夜间']);
+
+    const s = useDemoStore.getState();
+    expect(s.frameTags).toEqual([{ frame_no: 30, timestamp_ms: 1000, tags: ['夜间'], source: 'human' }]);
+    expect(s.dirty).toBe(true);
+    expect(s.undoStack).toHaveLength(1);
+    expect(s.undoStack[0]).toMatchObject({ type: 'set-scene-tags', frameNo: 30, prevTags: [], prevTimestampMs: null });
+  });
+
+  it('setSceneTags updates an existing frame tag entry', () => {
+    useDemoStore.getState().setSceneTags(30, 1000, ['夜间']);
+    useDemoStore.getState().setSceneTags(30, 1000, ['夜间', '风险']);
+
+    const s = useDemoStore.getState();
+    expect(s.frameTags[0]?.tags).toEqual(['夜间', '风险']);
+    expect(s.undoStack).toHaveLength(2);
+    expect(s.undoStack[1]).toMatchObject({ type: 'set-scene-tags', frameNo: 30, prevTags: ['夜间'], prevTimestampMs: 1000 });
+  });
+
+  it('setAnnotationTool clears draftPolygon when switching away from polygon', () => {
+    useDemoStore.getState().setAnnotationTool('polygon');
+    useDemoStore.getState().addPolygonPoint([10, 20]);
+    expect(useDemoStore.getState().draftPolygon).toHaveLength(1);
+
+    useDemoStore.getState().setAnnotationTool('select');
+
+    expect(useDemoStore.getState().draftPolygon).toEqual([]);
+  });
+
+  it('setAnnotationTool keeps draftPolygon when tool is polygon', () => {
+    useDemoStore.getState().setAnnotationTool('polygon');
+    useDemoStore.getState().addPolygonPoint([10, 20]);
+
+    useDemoStore.getState().setAnnotationTool('polygon');
+
+    expect(useDemoStore.getState().draftPolygon).toHaveLength(1);
+  });
+
+  it('polygon draft helpers mutate the draft array', () => {
+    useDemoStore.getState().setAnnotationTool('polygon');
+    useDemoStore.getState().startPolygonDraft();
+    useDemoStore.getState().addPolygonPoint([1, 2]);
+    useDemoStore.getState().addPolygonPoint([3, 4]);
+    useDemoStore.getState().updatePolygonPoint(0, [5, 6]);
+    useDemoStore.getState().updatePolygonPoint(10, [99, 99]);
+
+    const s = useDemoStore.getState();
+    expect(s.draftPolygon).toEqual([
+      [5, 6],
+      [3, 4],
+    ]);
+
+    useDemoStore.getState().commitPolygonDraft('trk_1', 1, 33);
+    expect(useDemoStore.getState().draftPolygon).toEqual([]);
+
+    useDemoStore.getState().addPolygonPoint([7, 8]);
+    useDemoStore.getState().cancelPolygonDraft();
+    expect(useDemoStore.getState().draftPolygon).toEqual([]);
+  });
+
+  it('updateEvent with unknown id is a no-op', () => {
+    expect(() => useDemoStore.getState().updateEvent('event-does-not-exist', { eventType: 'x' })).not.toThrow();
+    expect(useDemoStore.getState().undoStack).toHaveLength(0);
+  });
+
+  it('deleteEvent with unknown id is a no-op', () => {
+    expect(() => useDemoStore.getState().deleteEvent('event-does-not-exist')).not.toThrow();
+  });
+
+  it('removeRegionBox with unknown id is a no-op', () => {
+    expect(() => useDemoStore.getState().removeRegionBox('event-does-not-exist')).not.toThrow();
+  });
+
+  it('attachRegionBox with unknown id is a no-op', () => {
+    expect(() => useDemoStore.getState().attachRegionBox('event-does-not-exist', [1, 2, 3, 4], 100)).not.toThrow();
+  });
+
+  it('createPointEvent generates independent ids across dataset switches', () => {
+    const id1 = useDemoStore.getState().createPointEvent(100);
+    useDemoStore.getState().selectDataset('meeting-room');
+    const id2 = useDemoStore.getState().createPointEvent(200);
+
+    expect(id1).not.toBe(id2);
+    expect(useDemoStore.getState().events).toHaveLength(1);
   });
 });
