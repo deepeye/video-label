@@ -17,6 +17,32 @@ export interface ShotSegment {
   content_type: string;
 }
 
+export interface FrameBox {
+  label: 'text' | 'person' | 'logo';
+  text?: string;
+  probability: number;
+  prompt_used?: string;
+  box: [number, number, number, number]; // x,y,w,h（视频原始像素）
+}
+
+export interface FrameEntry {
+  frame_index: number;
+  timestamp_ms: number;
+  subtitle_text: string | null;
+  parts: Array<{
+    part_id: number;
+    text: string;
+    box: Array<[number, number]>; // 四角点
+  }>;
+  boxes: FrameBox[];
+}
+
+export interface FrameBoxesOverlay {
+  fps: number;
+  video_size: [number, number]; // [1920, 1080]
+  frames: FrameEntry[]; // frame_index 升序
+}
+
 export type AnnotationTool = 'select' | 'bbox' | 'polygon';
 export type TimelineTool = 'browse' | 'point' | 'range' | 'region';
 
@@ -34,6 +60,7 @@ export interface Dataset {
   annotations: Annotation[];
   demo_script: DemoScript;
   segments: ShotSegment[];
+  frame_boxes?: FrameBoxesOverlay;
 }
 
 export interface FrameTagEntry {
