@@ -16,15 +16,15 @@ test.describe('performance hard lines (PRD §10)', () => {
   test('export packaging < 1.5s (P95 estimate)', async ({ page }) => {
     await page.goto('/?step=4&speed=instant');
     await page.waitForSelector('[data-testid="step4-review"]');
+
+    await page.getByRole('button', { name: '新增事件' }).click();
+    await expect(page.locator('[data-testid^="event-row-"]')).toHaveCount(1);
+
     await page.evaluate(() => {
       type W = typeof window & {
-        __demoStore?: { getState: () => {
-          acceptAllRemaining: () => void;
-          goToStep: (n: 5) => void;
-        } };
+        __demoStore?: { getState: () => { goToStep: (n: 5) => void } };
       };
       const s = (window as W).__demoStore!.getState();
-      s.acceptAllRemaining();
       s.goToStep(5);
     });
     await page.waitForSelector('[data-testid="step5-export"]');
@@ -41,12 +41,10 @@ test.describe('performance hard lines (PRD §10)', () => {
     await page.goto('/?step=4&speed=instant');
     await page.waitForSelector('[data-testid="step4-review"]');
 
-    page.on('dialog', (d) => d.accept());
+    await page.getByRole('button', { name: '新增事件' }).click();
+    await expect(page.locator('[data-testid^="event-row-"]')).toHaveCount(1);
 
-    await page.evaluate(() => {
-      type W = typeof window & { __demoStore?: { getState: () => { acceptAllRemaining: () => void } } };
-      (window as W).__demoStore!.getState().acceptAllRemaining();
-    });
+    page.on('dialog', (d) => d.accept());
 
     const t0 = Date.now();
     await page.click('[data-testid="btn-reset"]');

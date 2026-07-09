@@ -27,25 +27,16 @@ test.describe('offline guarantees', () => {
     await page.click('[data-testid="btn-next"]');
     await page.waitForSelector('[data-testid="step4-review"]');
 
-    await page.evaluate(() => {
-      type W = typeof window & {
-        __demoStore?: {
-          getState: () => {
-            acceptBox: (id: string) => void;
-            correctBoxGeometry: (id: string, idx: number, c: [number, number, number, number]) => void;
-            rejectBox: (id: string) => void;
-            acceptAllRemaining: () => void;
-            goToStep: (n: 5) => void;
-          };
-        };
-      };
-      const s = (window as W).__demoStore!.getState();
-      s.acceptBox('trk_2');
-      s.correctBoxGeometry('trk_9', 0, [100, 200, 300, 400]);
-      s.rejectBox('trk_5');
-      s.acceptAllRemaining();
-      s.goToStep(5);
-    });
+    await page.getByRole('button', { name: '新增事件' }).click();
+    await expect(page.locator('[data-testid^="event-row-"]')).toHaveCount(1);
+
+    await page.getByLabel('事件类型').selectOption('sudden_brake');
+    await page.getByLabel('严重程度').selectOption('high');
+    await page.getByLabel('标签').fill('风险, 夜间');
+    await page.getByLabel('描述').fill('夜间车辆急刹，需要人工复核。');
+    await page.getByLabel('时间(ms)').fill('4200');
+
+    await page.click('[data-testid="btn-next"]');
     await page.waitForSelector('[data-testid="step5-export"]');
     const downloadPromise = page.waitForEvent('download');
     await page.click('[data-testid="download-btn"]');
