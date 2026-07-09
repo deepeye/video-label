@@ -85,6 +85,7 @@ const dataset: Dataset = {
     inference_reveal_ms: 2500,
     review_focus_ids: ['trk_p1', 'trk_c1'],
   },
+  segments: [],
 };
 
 console.log(JSON.stringify(dataset, null, 2));

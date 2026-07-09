@@ -213,6 +213,48 @@ function buildDataset(): Dataset {
       inference_reveal_ms: 2500,
       review_focus_ids: ['trk_2', 'trk_9', 'trk_5'],
     },
+    segments: [
+      {
+        id: 'seg-1',
+        clip_src: '/mock/storyboard/jiazhengnvhuang_13.mp4',
+        start_ms: 0,
+        end_ms: 10680,
+        camera_movement: '固定',
+        shot_type: '中景',
+      },
+      {
+        id: 'seg-2',
+        clip_src: '/mock/storyboard/jiazhengnvhuang_5-result.mp4',
+        start_ms: 10680,
+        end_ms: 43760,
+        camera_movement: '推',
+        shot_type: '近景',
+      },
+      {
+        id: 'seg-3',
+        clip_src: '/mock/storyboard/meilihebeisegment_001_2-result.mp4',
+        start_ms: 43760,
+        end_ms: 92000,
+        camera_movement: '摇',
+        shot_type: '远景',
+      },
+      {
+        id: 'seg-4',
+        clip_src: '/mock/storyboard/mingyilaile_17-0-result.mp4',
+        start_ms: 92000,
+        end_ms: 152000,
+        camera_movement: '跟',
+        shot_type: '中景',
+      },
+      {
+        id: 'seg-5',
+        clip_src: '/mock/storyboard/mingyilaile_17-4-result.mp4',
+        start_ms: 152000,
+        end_ms: 185080,
+        camera_movement: '移',
+        shot_type: '全景',
+      },
+    ],
   };
 }
 

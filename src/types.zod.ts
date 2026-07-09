@@ -60,6 +60,15 @@ export const DemoScriptSchema = z.object({
   review_focus_ids: z.array(z.string()),
 });
 
+export const ShotSegmentSchema = z.object({
+  id: z.string().min(1),
+  clip_src: z.string().min(1),
+  start_ms: z.number().int().nonnegative(),
+  end_ms: z.number().int().positive(),
+  camera_movement: z.enum(['推', '拉', '摇', '移', '跟', '固定']),
+  shot_type: z.enum(['远景', '全景', '中景', '近景', '特写']),
+});
+
 export const DatasetSchema = z.object({
   version: z.literal('2.0-demo'),
   dataset_id: z.enum(['city-road', 'meeting-room', 'retail-cam']),
@@ -69,6 +78,7 @@ export const DatasetSchema = z.object({
   metadata: VideoMetadataSchema,
   annotations: z.array(AnnotationSchema),
   demo_script: DemoScriptSchema,
+  segments: z.array(ShotSegmentSchema),
 });
 
 export type DatasetParsed = z.infer<typeof DatasetSchema>;

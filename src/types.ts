@@ -7,6 +7,20 @@ export type BBox = [x: number, y: number, w: number, h: number];
 export type Point = [x: number, y: number];
 export type AnnotationSource = 'machine' | 'human';
 export type ReviewStatus = 'pending' | 'accepted' | 'corrected' | 'rejected';
+
+// 新增：分镜类型
+export type CameraMovement = '推' | '拉' | '摇' | '移' | '跟' | '固定';
+export type ShotType = '远景' | '全景' | '中景' | '近景' | '特写';
+
+export interface ShotSegment {
+  id: string;
+  clip_src: string;
+  start_ms: number;
+  end_ms: number;
+  camera_movement: CameraMovement;
+  shot_type: ShotType;
+}
+
 export type AnnotationTool = 'select' | 'bbox' | 'polygon';
 export type TimelineTool = 'browse' | 'point' | 'range' | 'region';
 
@@ -23,6 +37,7 @@ export interface Dataset {
   metadata: VideoMetadata;
   annotations: Annotation[];
   demo_script: DemoScript;
+  segments: ShotSegment[];
 }
 
 export interface FrameTagEntry {
