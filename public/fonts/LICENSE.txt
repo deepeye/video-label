@@ -1,0 +1,10 @@
+Fonts in this directory are bundled under the SIL Open Font License v1.1.
+
+- Inter (Regular / Medium / SemiBold) by Rasmus Andersson
+  https://github.com/rsms/inter
+- JetBrains Mono (Regular) by JetBrains
+  https://github.com/JetBrains/JetBrainsMono
+
+SIL Open Font License: https://scripts.sil.org/OFL
+
+Bundled locally to satisfy: zero CDN / zero external network dependency.

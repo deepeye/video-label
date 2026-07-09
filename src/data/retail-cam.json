@@ -1,0 +1,1317 @@
+{
+  "version": "2.0-demo",
+  "dataset_id": "retail-cam",
+  "display": "商超监控样例",
+  "video_src": "/mock/retail-cam/retail_demo.mp4",
+  "thumb": "/mock/retail-cam/retail_thumb.jpg",
+  "metadata": {
+    "duration_ms": 60000,
+    "frame_count": 1800,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "codec": "h264",
+    "audio_tracks": 1,
+    "sampled_frames": 200
+  },
+  "annotations": [
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p1",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.42,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 8000,
+          "frame_no": 240,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              480,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 18500,
+          "frame_no": 555,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              500,
+              480,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 29000,
+          "frame_no": 870,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              480,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 39500,
+          "frame_no": 1185,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              700,
+              480,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 50000,
+          "frame_no": 1500,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              480,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c1",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.47,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 5000,
+          "frame_no": 150,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              700,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              675,
+              700,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25000,
+          "frame_no": 750,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              750,
+              700,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 35000,
+          "frame_no": 1050,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              825,
+              700,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              900,
+              700,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p2",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1200,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1200,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1200,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1200,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1200,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p3",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p4",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.88,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10000,
+          "frame_no": 300,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 21250,
+          "frame_no": 638,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 32500,
+          "frame_no": 975,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 43750,
+          "frame_no": 1313,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 55000,
+          "frame_no": 1650,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p5",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1700,
+              500,
+              160,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1700,
+              500,
+              160,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1700,
+              500,
+              160,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1700,
+              500,
+              160,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1700,
+              500,
+              160,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c2",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1300,
+              720,
+              220,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1300,
+              720,
+              220,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1300,
+              720,
+              220,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1300,
+              720,
+              220,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1300,
+              720,
+              220,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c3",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.92,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              720,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              720,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              720,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              720,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              720,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c4",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              760,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              760,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              760,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              760,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1500,
+              760,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c5",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.87,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              740,
+              180,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              740,
+              180,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              740,
+              180,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              740,
+              180,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              740,
+              180,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p6",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.82,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 5000,
+          "frame_no": 150,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 16250,
+          "frame_no": 488,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27500,
+          "frame_no": 825,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 38750,
+          "frame_no": 1163,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 50000,
+          "frame_no": 1500,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              500,
+              200,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p7",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.84,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 12000,
+          "frame_no": 360,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1000,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22750,
+          "frame_no": 683,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1000,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33500,
+          "frame_no": 1005,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1000,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 44250,
+          "frame_no": 1328,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1000,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 55000,
+          "frame_no": 1650,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1000,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c6",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.83,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              740,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              740,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              740,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              740,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              740,
+              200,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p8",
+      "label_id": "person",
+      "label_display": "顾客",
+      "source": "machine",
+      "confidence": 0.81,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1380,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25000,
+          "frame_no": 750,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1380,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 35000,
+          "frame_no": 1050,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1380,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1380,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 55000,
+          "frame_no": 1650,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1380,
+              500,
+              180,
+              480
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_c7",
+      "label_id": "cart",
+      "label_display": "购物车",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              740,
+              160,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15000,
+          "frame_no": 450,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              740,
+              160,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              740,
+              160,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              740,
+              160,
+              240
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 60000,
+          "frame_no": 1800,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              50,
+              740,
+              160,
+              240
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    }
+  ],
+  "demo_script": {
+    "metadata_reveal_ms": 1500,
+    "inference_reveal_ms": 2500,
+    "review_focus_ids": [
+      "trk_p1",
+      "trk_c1"
+    ]
+  }
+}

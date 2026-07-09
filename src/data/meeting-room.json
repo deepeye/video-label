@@ -1,0 +1,1317 @@
+{
+  "version": "2.0-demo",
+  "dataset_id": "meeting-room",
+  "display": "室内会议样例",
+  "video_src": "/mock/meeting-room/meeting_demo.mp4",
+  "thumb": "/mock/meeting-room/meeting_thumb.jpg",
+  "metadata": {
+    "duration_ms": 45000,
+    "frame_count": 1350,
+    "fps": 30,
+    "width": 1280,
+    "height": 720,
+    "codec": "h264",
+    "audio_tracks": 1,
+    "sampled_frames": 90
+  },
+  "annotations": [
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p1",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.43,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 5000,
+          "frame_no": 150,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              200,
+              200,
+              180,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              205,
+              200,
+              180,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17500,
+          "frame_no": 525,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              210,
+              200,
+              180,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23750,
+          "frame_no": 713,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              215,
+              200,
+              180,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30000,
+          "frame_no": 900,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              200,
+              180,
+              380
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l1",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.46,
+      "needs_review": true,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              380,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              380,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              380,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              380,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              600,
+              380,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p2",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.86,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              400,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p3",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.91,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              800,
+              180,
+              200,
+              400
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p4",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.88,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              80,
+              220,
+              160,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              80,
+              220,
+              160,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              80,
+              220,
+              160,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              80,
+              220,
+              160,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              80,
+              220,
+              160,
+              360
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p5",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.93,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 10000,
+          "frame_no": 300,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              200,
+              180,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 17500,
+          "frame_no": 525,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              200,
+              180,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 25000,
+          "frame_no": 750,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              200,
+              180,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 32500,
+          "frame_no": 975,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              200,
+              180,
+              400
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 40000,
+          "frame_no": 1200,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1020,
+              200,
+              180,
+              400
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l2",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.89,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              220,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l3",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.92,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              820,
+              460,
+              220,
+              140
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l4",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.85,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1040,
+              460,
+              200,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1040,
+              460,
+              200,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1040,
+              460,
+              200,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1040,
+              460,
+              200,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1040,
+              460,
+              200,
+              140
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l5",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.87,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              40,
+              460,
+              160,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              40,
+              460,
+              160,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              40,
+              460,
+              160,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              40,
+              460,
+              160,
+              140
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              40,
+              460,
+              160,
+              140
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p6",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.82,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 5000,
+          "frame_no": 150,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              200,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 12500,
+          "frame_no": 375,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              200,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 20000,
+          "frame_no": 600,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              200,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27500,
+          "frame_no": 825,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              200,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 35000,
+          "frame_no": 1050,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              560,
+              200,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p7",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.9,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 8000,
+          "frame_no": 240,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              220,
+              180,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 15500,
+          "frame_no": 465,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              220,
+              180,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 23000,
+          "frame_no": 690,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              220,
+              180,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 30500,
+          "frame_no": 915,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              220,
+              180,
+              360
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 38000,
+          "frame_no": 1140,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              380,
+              220,
+              180,
+              360
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p8",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.84,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 12000,
+          "frame_no": 360,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              220,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 19500,
+          "frame_no": 585,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              220,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 27000,
+          "frame_no": 810,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              220,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 34500,
+          "frame_no": 1035,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              220,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 42000,
+          "frame_no": 1260,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              880,
+              220,
+              200,
+              380
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_l6",
+      "label_id": "laptop",
+      "label_display": "笔记本",
+      "source": "machine",
+      "confidence": 0.83,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              620,
+              580,
+              200,
+              100
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              620,
+              580,
+              200,
+              100
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              620,
+              580,
+              200,
+              100
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              620,
+              580,
+              200,
+              100
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              620,
+              580,
+              200,
+              100
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    },
+    {
+      "version": "2.0-demo",
+      "track_id": "trk_p9",
+      "label_id": "person",
+      "label_display": "人",
+      "source": "machine",
+      "confidence": 0.81,
+      "needs_review": false,
+      "keyframes": [
+        {
+          "timestamp_ms": 0,
+          "frame_no": 0,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1080,
+              280,
+              140,
+              320
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 11250,
+          "frame_no": 338,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1080,
+              280,
+              140,
+              320
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 22500,
+          "frame_no": 675,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1080,
+              280,
+              140,
+              320
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 33750,
+          "frame_no": 1013,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1080,
+              280,
+              140,
+              320
+            ]
+          },
+          "is_keyframe": true
+        },
+        {
+          "timestamp_ms": 45000,
+          "frame_no": 1350,
+          "geometry": {
+            "type": "bbox",
+            "coords": [
+              1080,
+              280,
+              140,
+              320
+            ]
+          },
+          "is_keyframe": true
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "changed_frames": 0,
+        "reviewed_at": null
+      }
+    }
+  ],
+  "demo_script": {
+    "metadata_reveal_ms": 1500,
+    "inference_reveal_ms": 2000,
+    "review_focus_ids": [
+      "trk_p1",
+      "trk_l1"
+    ]
+  }
+}

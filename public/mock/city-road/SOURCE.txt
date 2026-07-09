@@ -1,0 +1,36 @@
+City-road main sample source
+============================
+
+Selected page:
+https://www.pexels.com/video/a-city-street-with-cars-and-buses-on-it-18437773/
+
+Direct media URL:
+https://videos.pexels.com/video-files/18437773/18437773-uhd_2560_1440_50fps.mp4
+
+License:
+Pexels License (commercial use allowed, no attribution required)
+https://www.pexels.com/license/
+
+Original media:
+- duration: 44.201667s
+- resolution: 2560x1440
+- frame rate: 50fps
+- codec: H.264 + AAC
+
+Demo-transcoded asset:
+- file: road_demo.mp4
+- duration: 30.000000s
+- resolution: 1920x1080
+- frame rate: 30fps
+- codec: H.264 / yuv420p
+- audio: removed
+- ffmpeg intent: trim first 30s, scale to 1920x1080, fps=30, crf=28, preset=slow
+
+Derived files:
+- road_thumb.jpg
+- frames/00003333.jpg
+- frames/00010000.jpg
+
+Notes:
+- This replaces the earlier temporary placeholder/stopgap city-road asset.
+- Mock annotation coordinates are demo data and were not frame-by-frame manually re-aligned to this footage.
