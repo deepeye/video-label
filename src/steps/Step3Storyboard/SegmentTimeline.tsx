@@ -2,13 +2,12 @@ import { useMemo } from 'react';
 import type { ShotSegment } from '../../types';
 import { tokens } from '../../styles/tokens';
 
-const MOVEMENT_COLORS: Record<string, string> = {
-  '推': '#6366F1',
-  '拉': '#8B5CF6',
-  '摇': '#F97316',
-  '移': '#10B981',
-  '跟': '#EF4444',
-  '固定': '#3B82F6',
+const CONTENT_TYPE_COLORS: Record<string, string> = {
+  '美食': '#6366F1',
+  '广告': '#F97316',
+  '纪录片': '#10B981',
+  '访谈': '#3B82F6',
+  '医疗': '#EF4444',
 };
 
 interface SegmentTimelineProps {
@@ -58,7 +57,7 @@ export function SegmentTimeline({ segments, revealedCount }: SegmentTimelineProp
                 width: `${widthPct}%`,
                 height: '100%',
                 background: isRevealed
-                  ? MOVEMENT_COLORS[seg.camera_movement] ?? tokens.color.neutral[400]
+                  ? CONTENT_TYPE_COLORS[seg.content_type] ?? tokens.color.neutral[400]
                   : tokens.color.neutral[200],
                 transition: `background ${tokens.duration.slow}ms ${tokens.ease.out}`,
                 position: 'relative',
@@ -67,7 +66,7 @@ export function SegmentTimeline({ segments, revealedCount }: SegmentTimelineProp
                 justifyContent: 'center',
                 minWidth: 0,
               }}
-              title={isRevealed ? `${seg.camera_movement} · ${seg.shot_type} (${formatTime(seg.start_ms)} -> ${formatTime(seg.end_ms)})` : ''}
+              title={isRevealed ? `${seg.title} (${formatTime(seg.start_ms)} -> ${formatTime(seg.end_ms)})` : ''}
             >
               {isRevealed && widthPct > 10 && (
                 <span
@@ -81,7 +80,7 @@ export function SegmentTimeline({ segments, revealedCount }: SegmentTimelineProp
                     padding: '0 4px',
                   }}
                 >
-                  {seg.camera_movement}·{seg.shot_type}
+                  {seg.content_type}
                 </span>
               )}
             </div>
