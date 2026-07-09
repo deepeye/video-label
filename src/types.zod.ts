@@ -65,8 +65,8 @@ export const ShotSegmentSchema = z.object({
   clip_src: z.string().min(1),
   start_ms: z.number().int().nonnegative(),
   end_ms: z.number().int().positive(),
-  camera_movement: z.enum(['推', '拉', '摇', '移', '跟', '固定']),
-  shot_type: z.enum(['远景', '全景', '中景', '近景', '特写']),
+  title: z.string().min(1),
+  content_type: z.string().min(1),
 });
 
 export const DatasetSchema = z.object({
