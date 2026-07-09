@@ -99,6 +99,7 @@ export const useDemoStore = create<DemoStore>()(
       const id = get().activeDatasetId;
       const fresh = createSnapshot(id);
       const currentSpeed = get().speed;
+      nextEventId = 1;
       set(() => ({ ...fresh, activeDatasetId: id, speed: currentSpeed }));
     },
 
