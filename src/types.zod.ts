@@ -69,6 +69,34 @@ export const ShotSegmentSchema = z.object({
   content_type: z.string().min(1),
 });
 
+export const FrameBoxSchema = z.object({
+  label: z.enum(['text', 'person', 'logo']),
+  text: z.string().optional(),
+  probability: z.number(),
+  prompt_used: z.string().optional(),
+  box: BBoxSchema,
+});
+
+export const FrameEntrySchema = z.object({
+  frame_index: z.number().int().nonnegative(),
+  timestamp_ms: z.number().int().nonnegative(),
+  subtitle_text: z.string().nullable(),
+  parts: z.array(
+    z.object({
+      part_id: z.number().int().nonnegative(),
+      text: z.string(),
+      box: z.array(PointSchema),
+    }),
+  ),
+  boxes: z.array(FrameBoxSchema),
+});
+
+export const FrameBoxesOverlaySchema = z.object({
+  fps: z.number().positive(),
+  video_size: z.tuple([z.number(), z.number()]),
+  frames: z.array(FrameEntrySchema),
+});
+
 export const DatasetSchema = z.object({
   version: z.literal('2.0-demo'),
   dataset_id: z.enum(['city-road', 'meeting-room', 'retail-cam']),
@@ -79,6 +107,7 @@ export const DatasetSchema = z.object({
   annotations: z.array(AnnotationSchema),
   demo_script: DemoScriptSchema,
   segments: z.array(ShotSegmentSchema),
+  frame_boxes: FrameBoxesOverlaySchema.optional(),
 });
 
 export type DatasetParsed = z.infer<typeof DatasetSchema>;
