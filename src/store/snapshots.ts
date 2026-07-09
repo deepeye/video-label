@@ -1,6 +1,7 @@
 import type {
   AnnotationState,
   AnnotationTool,
+  Dataset,
   DatasetId,
   DemoStep,
   EventMarker,
@@ -39,15 +40,46 @@ export interface Snapshot {
   seekNonce: number;
   segments: ShotSegment[];
   revealedSegmentCount: number;
+  loadingDataset: boolean;
+  loadingDatasetError: string | null;
 }
 
-export function createSnapshot(datasetId: DatasetId): Snapshot {
-  const dataset = getDataset(datasetId);
+export function createLoadingSnapshot(): Snapshot {
   return {
     demoStep: 1,
     speed: '1x',
     dirty: false,
-    activeDatasetId: datasetId,
+    activeDatasetId: 'jiazhengnvhuang_13',
+    annotations: [],
+    events: [],
+    selectedEventId: null,
+    timelineTool: 'browse',
+    revealProgress: {
+      metadataFieldsShown: 0,
+      inferenceProgress: 0,
+      boxesRevealed: 0,
+    },
+    undoStack: [],
+    annotationTool: 'select',
+    draftPolygon: [],
+    frameTags: [],
+    currentTimeMs: 0,
+    playbackState: 'paused',
+    pendingSeekMs: null,
+    seekNonce: 0,
+    segments: [],
+    revealedSegmentCount: 0,
+    loadingDataset: true,
+    loadingDatasetError: null,
+  };
+}
+
+export function createSnapshotFromDataset(dataset: Dataset, id: DatasetId): Snapshot {
+  return {
+    demoStep: 1,
+    speed: '1x',
+    dirty: false,
+    activeDatasetId: id,
     annotations: deepClone(dataset.annotations),
     events: [],
     selectedEventId: null,
@@ -67,5 +99,12 @@ export function createSnapshot(datasetId: DatasetId): Snapshot {
     seekNonce: 0,
     segments: dataset.segments ?? [],
     revealedSegmentCount: 0,
+    loadingDataset: false,
+    loadingDatasetError: null,
   };
+}
+
+export function createSnapshot(id: DatasetId): Snapshot {
+  const dataset = getDataset(id);
+  return createSnapshotFromDataset(dataset, id);
 }
