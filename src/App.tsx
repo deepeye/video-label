@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDemoStore } from './store/demoStore';
 import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
@@ -27,7 +27,13 @@ function useUrlParams() {
     const speed = params.get('speed');
     const dataset = params.get('dataset');
 
-    if (dataset && ['city-road', 'meeting-room', 'retail-cam'].includes(dataset)) {
+    if (dataset && [
+      'jiazhengnvhuang_13',
+      'jiazhengnvhuang_5',
+      'meilihebeisegment_001_2',
+      'mingyilaile_17-0',
+      'mingyilaile_17-4',
+    ].includes(dataset)) {
       selectDataset(dataset as DatasetId);
     }
     if (speed && ['1x', '2x', 'instant'].includes(speed)) {
@@ -40,42 +46,9 @@ function useUrlParams() {
   }, [goToStep, setSpeed, selectDataset]);
 }
 
-function useNarrowGuard() {
-  const [tooNarrow, setTooNarrow] = useState(false);
-  useEffect(() => {
-    const check = () => setTooNarrow(window.innerWidth < 1280);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-  return tooNarrow;
-}
-
 export default function App() {
   useUrlParams();
-  const tooNarrow = useNarrowGuard();
   const demoStep = useDemoStore((s) => s.demoStep);
-
-  if (tooNarrow) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          gap: tokens.space[3],
-          background: tokens.color.neutral[50],
-          padding: tokens.space[6],
-          textAlign: 'center',
-        }}
-      >
-        <h2 style={{ margin: 0, color: tokens.color.neutral[900] }}>请使用宽屏（≥ 1280×720）演示</h2>
-        <p style={{ margin: 0, color: tokens.color.neutral[500] }}>建议按 F11 切换全屏</p>
-      </div>
-    );
-  }
 
   return (
     <div
