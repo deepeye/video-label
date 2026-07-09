@@ -33,6 +33,7 @@ export function Step4VideoStage() {
   const pendingSeekMs = useDemoStore((s) => s.pendingSeekMs);
   const seekNonce = useDemoStore((s) => s.seekNonce);
   const playbackState = useDemoStore((s) => s.playbackState);
+  const loadingDataset = useDemoStore((s) => s.loadingDataset);
   const selectEvent = useDemoStore((s) => s.selectEvent);
   const attachRegionBox = useDemoStore((s) => s.attachRegionBox);
   const setTimelineTool = useDemoStore((s) => s.setTimelineTool);
@@ -42,7 +43,7 @@ export function Step4VideoStage() {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const [draftBox, setDraftBox] = useState<BBox | null>(null);
-  const dataset = getDataset(datasetId);
+  const dataset = loadingDataset ? null : getDataset(datasetId);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -86,7 +87,7 @@ export function Step4VideoStage() {
     }
 
     video.pause();
-  }, [dataset.video_src, playbackState, setCurrentTimeMs]);
+  }, [dataset?.video_src, playbackState, setCurrentTimeMs]);
 
   const regionEvents = useMemo(() => events.filter((event) => event.regionBox), [events]);
 
@@ -138,6 +139,17 @@ export function Step4VideoStage() {
     attachRegionBox(selectedEventId, nextBox, currentTimeMs);
     setTimelineTool('browse');
   };
+
+  if (!dataset) {
+    return (
+      <div
+        data-testid="step4-video-stage"
+        style={{ width: '100%', height: '100%', minHeight: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', color: tokens.color.neutral[400], fontSize: 14, background: '#000' }}
+      >
+        加载中…
+      </div>
+    );
+  }
 
   return (
     <div

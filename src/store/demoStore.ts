@@ -100,7 +100,9 @@ export const useDemoStore = create<DemoStore>()(
         const dataset = await loadRealDataset(id);
         const fresh = createSnapshotFromDataset(dataset, id);
         const currentSpeed = get().speed;
-        set(() => ({ ...fresh, speed: currentSpeed }));
+        const currentStep = get().demoStep;
+        // 保留当前步骤，避免 URL 直达 step4 时被异步加载覆盖回 step1
+        set(() => ({ ...fresh, speed: currentSpeed, demoStep: currentStep }));
       } catch (e) {
         set((s) => {
           s.loadingDataset = false;

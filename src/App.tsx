@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDemoStore } from './store/demoStore';
+import { defaultDatasetId } from './data';
 import { TopBar } from './chrome/TopBar';
 import { tokens } from './styles/tokens';
 import type { DatasetId, DemoStep, Speed } from './types';
@@ -21,21 +22,22 @@ function useUrlParams() {
   const selectDataset = useDemoStore((s) => s.selectDataset);
 
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const params = new URLSearchParams(window.location.search);
     const step = params.get('step');
     const speed = params.get('speed');
     const dataset = params.get('dataset');
 
-    if (dataset && [
+    // 数据集加载始终生效（真实数据需异步 fetch），URL 未指定则用默认
+    const targetDataset = dataset && [
       'jiazhengnvhuang_13',
       'jiazhengnvhuang_5',
       'meilihebeisegment_001_2',
       'mingyilaile_17-0',
       'mingyilaile_17-4',
-    ].includes(dataset)) {
-      selectDataset(dataset as DatasetId);
-    }
+    ].includes(dataset) ? (dataset as DatasetId) : defaultDatasetId;
+    selectDataset(targetDataset);
+
+    if (!import.meta.env.DEV) return;
     if (speed && ['1x', '2x', 'instant'].includes(speed)) {
       setSpeed(speed as Speed);
     }

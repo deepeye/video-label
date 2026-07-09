@@ -444,6 +444,10 @@ export function Step4Timeline({ durationMs }: Step4TimelineProps) {
 
 export function Step4TimelineConnected() {
   const datasetId = useDemoStore((s) => s.activeDatasetId);
+  const loadingDataset = useDemoStore((s) => s.loadingDataset);
+  if (loadingDataset) {
+    return <div data-testid="step4-timeline" style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: 12 }}>加载中…</div>;
+  }
   const durationMs = getDataset(datasetId).metadata.duration_ms;
 
   return <Step4Timeline durationMs={durationMs} />;
