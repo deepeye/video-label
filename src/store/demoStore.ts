@@ -69,6 +69,7 @@ export interface DemoStore extends Snapshot {
   pause: () => void;
   undo: () => void;
   setRevealProgress: (p: Partial<RevealProgress>) => void;
+  revealNextSegment: () => void;
   canAdvanceFromStep4: () => boolean;
 }
 
@@ -334,6 +335,13 @@ export const useDemoStore = create<DemoStore>()(
     setRevealProgress: (p) =>
       set((s) => {
         s.revealProgress = { ...s.revealProgress, ...p };
+      }),
+
+    revealNextSegment: () =>
+      set((s) => {
+        if (s.revealedSegmentCount < s.segments.length) {
+          s.revealedSegmentCount += 1;
+        }
       }),
 
     canAdvanceFromStep4: () => get().events.length > 0,

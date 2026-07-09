@@ -6,6 +6,7 @@ import type {
   EventMarker,
   FrameTagEntry,
   ReviewAction,
+  ShotSegment,
   Speed,
   TimelineTool,
 } from '../types';
@@ -36,6 +37,8 @@ export interface Snapshot {
   playbackState: 'playing' | 'paused';
   pendingSeekMs: number | null;
   seekNonce: number;
+  segments: ShotSegment[];
+  revealedSegmentCount: number;
 }
 
 export function createSnapshot(datasetId: DatasetId): Snapshot {
@@ -62,5 +65,7 @@ export function createSnapshot(datasetId: DatasetId): Snapshot {
     playbackState: 'paused',
     pendingSeekMs: null,
     seekNonce: 0,
+    segments: dataset.segments ?? [],
+    revealedSegmentCount: 0,
   };
 }
