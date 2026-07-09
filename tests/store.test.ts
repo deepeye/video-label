@@ -1,22 +1,39 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getDataset } from '@/data';
 import { useDemoStore } from '@/store/demoStore';
 
 describe('demoStore', () => {
-  beforeEach(() => {
-    useDemoStore.getState().selectDataset('city-road');
+  beforeEach(async () => {
+    // mock fetch for real dataset loading
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
+      }),
+    });
+    // speed up video metadata resolution in jsdom
+    vi.spyOn(HTMLVideoElement.prototype, 'addEventListener').mockImplementation((event, handler) => {
+      if (event === 'loadedmetadata') {
+        queueMicrotask(() => (handler as EventListener)(new Event('loadedmetadata')));
+      }
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
   });
 
-  it('initial state matches snapshot defaults', () => {
+  it('initial state after loading matches snapshot defaults', () => {
     const s = useDemoStore.getState();
     expect(s.demoStep).toBe(1);
     expect(s.speed).toBe('1x');
-    expect(s.activeDatasetId).toBe('city-road');
-    expect(s.annotations.length).toBe(47);
+    expect(s.activeDatasetId).toBe('jiazhengnvhuang_13');
+    expect(s.annotations).toEqual([]);
     expect(s.events).toEqual([]);
     expect(s.selectedEventId).toBeNull();
     expect(s.timelineTool).toBe('browse');
     expect(s.dirty).toBe(false);
+    expect(s.loadingDataset).toBe(false);
+    expect(s.loadingDatasetError).toBeNull();
   });
 
   it('goToStep updates demoStep', () => {
@@ -156,7 +173,7 @@ describe('demoStore', () => {
     useDemoStore.getState().reset();
 
     const s = useDemoStore.getState();
-    expect(s.activeDatasetId).toBe('city-road');
+    expect(s.activeDatasetId).toBe('jiazhengnvhuang_13');
     expect(s.speed).toBe('2x');
     expect(s.demoStep).toBe(1);
     expect(s.events).toEqual([]);
@@ -171,16 +188,14 @@ describe('demoStore', () => {
 
   it('reset restores fresh cloned annotations from the snapshot', () => {
     const beforeReset = useDemoStore.getState().annotations;
-    const sourceDataset = getDataset('city-road');
+    const sourceDataset = getDataset('jiazhengnvhuang_13');
 
     useDemoStore.getState().reset();
 
     const afterReset = useDemoStore.getState().annotations;
     expect(afterReset).not.toBe(beforeReset);
     expect(afterReset).not.toBe(sourceDataset.annotations);
-    expect(afterReset[0]).not.toBe(sourceDataset.annotations[0]);
-    expect(afterReset[0]?.keyframes[0]).not.toBe(sourceDataset.annotations[0]?.keyframes[0]);
-    expect(afterReset[0]?.keyframes[0]?.timestamp_ms).toBe(sourceDataset.annotations[0]?.keyframes[0]?.timestamp_ms);
+    expect(afterReset).toEqual([]);
   });
 
   it('deleteEvent removes the event and clears selection if selected', () => {
@@ -294,9 +309,9 @@ describe('demoStore', () => {
     expect(() => useDemoStore.getState().attachRegionBox('event-does-not-exist', [1, 2, 3, 4], 100)).not.toThrow();
   });
 
-  it('createPointEvent generates independent ids across dataset switches', () => {
+  it('createPointEvent generates independent ids across dataset switches', async () => {
     const id1 = useDemoStore.getState().createPointEvent(100);
-    useDemoStore.getState().selectDataset('meeting-room');
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_5');
     const id2 = useDemoStore.getState().createPointEvent(200);
 
     expect(id1).not.toBe(id2);

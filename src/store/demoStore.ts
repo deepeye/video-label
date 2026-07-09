@@ -12,7 +12,8 @@ import type {
   Speed,
   TimelineTool,
 } from '../types';
-import { createSnapshot, type RevealProgress, type Snapshot } from './snapshots';
+import { createLoadingSnapshot, createSnapshot, createSnapshotFromDataset, type RevealProgress, type Snapshot } from './snapshots';
+import { loadRealDataset } from '../data';
 import { applySceneTagUndo, applyUndo, pushUndo } from './undo';
 
 function createEmptyEvent(id: string): EventMarker {
@@ -43,7 +44,7 @@ function cloneEvent(event: EventMarker): EventMarker {
 export interface DemoStore extends Snapshot {
   goToStep: (step: DemoStep) => void;
   setSpeed: (s: Speed) => void;
-  selectDataset: (id: DatasetId) => void;
+  selectDataset: (id: DatasetId) => Promise<void>;
   reset: () => void;
   createPointEvent: (timeMs: number) => string;
   createRangeEvent: (startMs: number, endMs: number) => string;
@@ -73,7 +74,7 @@ export interface DemoStore extends Snapshot {
   canAdvanceFromStep4: () => boolean;
 }
 
-const initial = createSnapshot('city-road');
+const initial = createLoadingSnapshot();
 let nextEventId = 1;
 
 export const useDemoStore = create<DemoStore>()(
@@ -90,18 +91,38 @@ export const useDemoStore = create<DemoStore>()(
         s.speed = speed;
       }),
 
-    selectDataset: (id) => {
-      const fresh = createSnapshot(id);
-      const currentSpeed = get().speed;
-      set(() => ({ ...fresh, speed: currentSpeed }));
+    selectDataset: async (id) => {
+      set((s) => {
+        s.loadingDataset = true;
+        s.loadingDatasetError = null;
+      });
+      try {
+        const dataset = await loadRealDataset(id);
+        const fresh = createSnapshotFromDataset(dataset, id);
+        const currentSpeed = get().speed;
+        set(() => ({ ...fresh, speed: currentSpeed }));
+      } catch (e) {
+        set((s) => {
+          s.loadingDataset = false;
+          s.loadingDatasetError = (e as Error).message;
+        });
+      }
     },
 
     reset: () => {
       const id = get().activeDatasetId;
-      const fresh = createSnapshot(id);
-      const currentSpeed = get().speed;
-      nextEventId = 1;
-      set(() => ({ ...fresh, activeDatasetId: id, speed: currentSpeed }));
+      try {
+        const fresh = createSnapshot(id);
+        const currentSpeed = get().speed;
+        nextEventId = 1;
+        set(() => ({ ...fresh, activeDatasetId: id, speed: currentSpeed }));
+      } catch {
+        // 如果数据集还未加载（不应发生），重置为 loading 状态
+        const fresh = createLoadingSnapshot();
+        const currentSpeed = get().speed;
+        nextEventId = 1;
+        set(() => ({ ...fresh, activeDatasetId: id, speed: currentSpeed }));
+      }
     },
 
     createPointEvent: (timeMs) => {
