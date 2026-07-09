@@ -1,32 +1,59 @@
-import { describe, it, expect } from 'vitest';
-import { defaultDatasets, defaultDatasetId, getDataset } from '@/data';
+import { describe, expect, it, vi } from 'vitest';
+import { defaultDatasetId, loadRealDataset, getDataset } from '@/data';
 
 describe('dataset registry', () => {
-  it('loads city-road and passes zod validation', () => {
-    const ds = getDataset('city-road');
-    expect(ds.dataset_id).toBe('city-road');
-    expect(ds.annotations.length).toBe(47);
-    expect(ds.demo_script.review_focus_ids).toEqual(['trk_2', 'trk_9', 'trk_5']);
+  it('defaultDatasetId is the first real dataset', () => {
+    expect(defaultDatasetId).toBe('jiazhengnvhuang_13');
   });
 
-  it('default dataset id matches', () => {
-    expect(defaultDatasetId).toBe('city-road');
-    expect(defaultDatasets[defaultDatasetId]).toBeDefined();
+  it('getDataset throws when dataset not loaded', () => {
+    expect(() => getDataset('jiazhengnvhuang_13')).toThrow('not loaded yet');
   });
 
-  it('all 3 focus items exist in annotations', () => {
-    const ds = getDataset('city-road');
-    const ids = ds.annotations.map(a => a.track_id);
-    expect(ids).toContain('trk_2');
-    expect(ids).toContain('trk_9');
-    expect(ids).toContain('trk_5');
-  });
+  it('loadRealDataset fetches and caches', async () => {
+    // mock fetch
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{ frame_index: 0, subtitle_text: '', parts: [], objects: [] }],
+      }),
+    });
 
-  it('focus items have low confidence', () => {
-    const ds = getDataset('city-road');
-    const focus = ds.annotations.filter(a =>
-      ds.demo_script.review_focus_ids.includes(a.track_id),
-    );
-    focus.forEach(a => expect(a.confidence).toBeLessThan(0.5));
+    // mock video element so loadedmetadata fires immediately in jsdom
+    const originalCreateElement = document.createElement;
+    const mockVideo = {
+      preload: '',
+      muted: false,
+      crossOrigin: '',
+      src: '',
+      currentTime: 0,
+      duration: 10,
+      videoWidth: 1920,
+      videoHeight: 1080,
+      remove: vi.fn(),
+      addEventListener: vi.fn((event: string, handler: () => void) => {
+        if (event === 'loadedmetadata') {
+          handler();
+        }
+      }),
+    };
+    document.createElement = vi.fn((tag: string) => {
+      if (tag === 'video') return mockVideo as unknown as HTMLVideoElement;
+      return originalCreateElement.call(document, tag);
+    });
+
+    const ds = await loadRealDataset('jiazhengnvhuang_13');
+    expect(ds.dataset_id).toBe('jiazhengnvhuang_13');
+    expect(ds.display).toBe('家政女皇·肉片穿衣');
+
+    // 缓存后 getDataset 可用
+    const cached = getDataset('jiazhengnvhuang_13');
+    expect(cached).toBe(ds);
+
+    globalThis.fetch = originalFetch;
+    document.createElement = originalCreateElement;
   });
 });
