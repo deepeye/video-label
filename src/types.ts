@@ -2,7 +2,12 @@
 
 export type Speed = '1x' | '2x' | 'instant';
 export type DemoStep = 1 | 2 | 3 | 4 | 5;
-export type DatasetId = 'city-road' | 'meeting-room' | 'retail-cam';
+export type DatasetId =
+  | 'jiazhengnvhuang_13'
+  | 'jiazhengnvhuang_5'
+  | 'meilihebeisegment_001_2'
+  | 'mingyilaile_17-0'
+  | 'mingyilaile_17-4';
 export type BBox = [x: number, y: number, w: number, h: number];
 export type Point = [x: number, y: number];
 export type AnnotationSource = 'machine' | 'human';
