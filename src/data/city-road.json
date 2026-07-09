@@ -5081,40 +5081,40 @@
       "clip_src": "/mock/storyboard/jiazhengnvhuang_13.mp4",
       "start_ms": 0,
       "end_ms": 10680,
-      "camera_movement": "固定",
-      "shot_type": "中景"
+      "title": "家政女皇：软炒肉片",
+      "content_type": "美食"
     },
     {
       "id": "seg-2",
       "clip_src": "/mock/storyboard/jiazhengnvhuang_5-result.mp4",
       "start_ms": 10680,
       "end_ms": 43760,
-      "camera_movement": "推",
-      "shot_type": "近景"
+      "title": "广告：益安宁丸",
+      "content_type": "广告"
     },
     {
       "id": "seg-3",
       "clip_src": "/mock/storyboard/meilihebeisegment_001_2-result.mp4",
       "start_ms": 43760,
       "end_ms": 92000,
-      "camera_movement": "摇",
-      "shot_type": "远景"
+      "title": "张家口康巴诺尔湿地",
+      "content_type": "纪录片"
     },
     {
       "id": "seg-4",
       "clip_src": "/mock/storyboard/mingyilaile_17-0-result.mp4",
       "start_ms": 92000,
       "end_ms": 152000,
-      "camera_movement": "跟",
-      "shot_type": "中景"
+      "title": "名医来了：访谈节目",
+      "content_type": "访谈"
     },
     {
       "id": "seg-5",
       "clip_src": "/mock/storyboard/mingyilaile_17-4-result.mp4",
       "start_ms": 152000,
       "end_ms": 185080,
-      "camera_movement": "移",
-      "shot_type": "全景"
+      "title": "名医来了：科学应对儿童遗尿症",
+      "content_type": "医疗"
     }
   ]
 }
