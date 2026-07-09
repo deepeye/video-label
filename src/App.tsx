@@ -5,7 +5,7 @@ import { tokens } from './styles/tokens';
 import type { DatasetId, DemoStep, Speed } from './types';
 import { Step1Upload } from './steps/Step1Upload';
 import { Step2Metadata } from './steps/Step2Metadata';
-import { Step3AutoAnnotate } from './steps/Step3AutoAnnotate';
+import { Step3Storyboard } from './steps/Step3Storyboard';
 import { Step4Review } from './steps/Step4Review';
 import { Step5Export } from './steps/Step5Export';
 
@@ -98,7 +98,7 @@ export default function App() {
       >
         {demoStep === 1 && <Step1Upload />}
         {demoStep === 2 && <Step2Metadata />}
-        {demoStep === 3 && <Step3AutoAnnotate />}
+        {demoStep === 3 && <Step3Storyboard />}
         {demoStep === 4 && <Step4Review />}
         {demoStep === 5 && <Step5Export />}
       </main>

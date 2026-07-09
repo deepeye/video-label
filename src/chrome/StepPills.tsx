@@ -5,7 +5,7 @@ import type { DemoStep } from '../types';
 const STEPS: { id: DemoStep; label: string }[] = [
   { id: 1, label: '①上传' },
   { id: 2, label: '②元信息' },
-  { id: 3, label: '③标注' },
+  { id: 3, label: '③分镜' },
   { id: 4, label: '④审核' },
   { id: 5, label: '⑤导出' },
 ];
