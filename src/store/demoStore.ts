@@ -13,8 +13,17 @@ import type {
   TimelineTool,
 } from '../types';
 import { createLoadingSnapshot, createSnapshot, createSnapshotFromDataset, type RevealProgress, type Snapshot } from './snapshots';
-import { loadRealDataset } from '../data';
-import { applySceneTagUndo, applyUndo, pushUndo } from './undo';
+import { getDataset, loadRealDataset } from '../data';
+import { applyFrameTextUndo, applySceneTagUndo, applyUndo, pushUndo } from './undo';
+
+function resolveOriginalPartText(
+  dataset: { frame_boxes?: { frames: Array<{ frame_index: number; parts: Array<{ part_id: number; text: string }> }> } },
+  frameIndex: number,
+  partId: number,
+): string {
+  const frame = dataset.frame_boxes?.frames.find((f) => f.frame_index === frameIndex);
+  return frame?.parts.find((p) => p.part_id === partId)?.text ?? '';
+}
 
 function createEmptyEvent(id: string): EventMarker {
   return {
@@ -57,6 +66,7 @@ export interface DemoStore extends Snapshot {
   upsertKeyframeGeometry: (trackId: string, frameNo: number, timestampMs: number, geometry: Geometry) => void;
   deleteKeyframe: (trackId: string, frameNo: number) => void;
   setSceneTags: (frameNo: number, timestampMs: number, tags: string[]) => void;
+  setFrameTextPart: (frameIndex: number, partId: number, text: string) => void;
   startPolygonDraft: () => void;
   addPolygonPoint: (point: Point) => void;
   updatePolygonPoint: (index: number, point: Point) => void;
@@ -275,6 +285,32 @@ export const useDemoStore = create<DemoStore>()(
         });
       }),
 
+    setFrameTextPart: (frameIndex, partId, text) =>
+      set((s) => {
+        const dataset = getDataset(s.activeDatasetId);
+        const originalText = resolveOriginalPartText(dataset, frameIndex, partId);
+        const existing = s.frameTextEdits.find(
+          (e) => e.frame_index === frameIndex && e.part_id === partId,
+        );
+        const currentText = existing ? existing.text : originalText;
+        if (text === currentText) return;
+
+        const prevText = currentText === originalText ? null : currentText;
+        if (text === originalText) {
+          const idx = s.frameTextEdits.findIndex(
+            (e) => e.frame_index === frameIndex && e.part_id === partId,
+          );
+          if (idx >= 0) s.frameTextEdits.splice(idx, 1);
+        } else if (existing) {
+          existing.text = text;
+        } else {
+          s.frameTextEdits.push({ frame_index: frameIndex, part_id: partId, text });
+        }
+
+        s.dirty = true;
+        s.undoStack = pushUndo(s.undoStack, { type: 'set-frame-text', frameIndex, partId, prevText });
+      }),
+
     startPolygonDraft: () =>
       set((s) => {
         s.draftPolygon = [];
@@ -346,6 +382,10 @@ export const useDemoStore = create<DemoStore>()(
 
         if (action.type === 'set-scene-tags') {
           applySceneTagUndo(s.frameTags, action);
+          return;
+        }
+        if (action.type === 'set-frame-text') {
+          applyFrameTextUndo(s.frameTextEdits, action);
           return;
         }
 

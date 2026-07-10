@@ -312,4 +312,154 @@ describe('demoStore', () => {
     expect(id1).not.toBe(id2);
     expect(useDemoStore.getState().events).toHaveLength(1);
   });
+
+  it('setFrameTextPart writes an edit, marks dirty, and tracks undo', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始OCR', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正后');
+
+    const s = useDemoStore.getState();
+    expect(s.frameTextEdits).toEqual([{ frame_index: 0, part_id: 0, text: '修正后' }]);
+    expect(s.dirty).toBe(true);
+    expect(s.undoStack).toHaveLength(1);
+    expect(s.undoStack[0]).toMatchObject({ type: 'set-frame-text', frameIndex: 0, partId: 0, prevText: null });
+  });
+
+  it('setFrameTextPart is a no-op when text equals current resolved value', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始OCR', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+
+    useDemoStore.getState().setFrameTextPart(0, 0, '原始OCR');
+
+    const s = useDemoStore.getState();
+    expect(s.frameTextEdits).toEqual([]);
+    expect(s.dirty).toBe(false);
+    expect(s.undoStack).toEqual([]);
+  });
+
+  it('setFrameTextPart back to original removes the edit and records prevText', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始OCR', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正A');
+    useDemoStore.getState().setFrameTextPart(0, 0, '原始OCR');
+
+    const s = useDemoStore.getState();
+    expect(s.frameTextEdits).toEqual([]);
+    expect(s.undoStack).toHaveLength(2);
+    expect(s.undoStack[1]).toMatchObject({ type: 'set-frame-text', frameIndex: 0, partId: 0, prevText: '修正A' });
+  });
+
+  it('undo reverts setFrameTextPart back to original (no edit)', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始OCR', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正后');
+    useDemoStore.getState().undo();
+
+    expect(useDemoStore.getState().frameTextEdits).toEqual([]);
+  });
+
+  it('undo of A->B->A chain restores each step', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+
+    useDemoStore.getState().setFrameTextPart(0, 0, 'A');
+    useDemoStore.getState().setFrameTextPart(0, 0, 'B');
+    useDemoStore.getState().setFrameTextPart(0, 0, '原始');
+
+    useDemoStore.getState().undo();
+    expect(useDemoStore.getState().frameTextEdits[0]?.text).toBe('B');
+    useDemoStore.getState().undo();
+    expect(useDemoStore.getState().frameTextEdits[0]?.text).toBe('A');
+    useDemoStore.getState().undo();
+    expect(useDemoStore.getState().frameTextEdits).toEqual([]);
+  });
+
+  it('reset clears frameTextEdits and undoStack', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        video_name: 'test.mp4',
+        concatenated_subtitles: '',
+        all_frames: [{
+          frame_index: 0,
+          subtitle_text: '',
+          parts: [{ part_id: 0, text: '原始', box: [[0,0],[100,0],[100,50],[0,50]] }],
+          objects: [],
+        }],
+      }),
+    });
+    await useDemoStore.getState().selectDataset('jiazhengnvhuang_13');
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正');
+    expect(useDemoStore.getState().frameTextEdits).toHaveLength(1);
+
+    useDemoStore.getState().reset();
+
+    const s = useDemoStore.getState();
+    expect(s.frameTextEdits).toEqual([]);
+    expect(s.undoStack).toEqual([]);
+    expect(s.dirty).toBe(false);
+  });
 });
