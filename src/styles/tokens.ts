@@ -15,7 +15,7 @@ export const tokens = {
     success: { 50: '#ECFDF5', 500: '#10B981' },
     warning: { 50: '#FFF7ED', 500: '#F97316' },
     info: { 50: '#EFF6FF', 500: '#3B82F6' },
-    danger: { 500: '#EF4444' },
+    danger: { 50: '#FEF2F2', 500: '#EF4444' },
     rejectedStroke: '#71717A',
   },
   brandGradient: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
