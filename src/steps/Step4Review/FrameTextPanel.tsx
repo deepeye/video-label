@@ -98,8 +98,8 @@ export function FrameTextPanel() {
           </div>
         ) : (
           parts.map((part) => {
-            const edited = resolvedText(part.part_id, part.text) !== part.text;
             const text = resolvedText(part.part_id, part.text);
+            const edited = text !== part.text;
             const isEditing = editingPartId === part.part_id;
             return (
               <div
