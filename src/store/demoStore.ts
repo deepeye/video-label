@@ -389,7 +389,7 @@ export const useDemoStore = create<DemoStore>()(
           return;
         }
 
-        const selectedEventId = applyUndo(s.events, action as Exclude<ReviewAction, { type: 'set-scene-tags' }>);
+        const selectedEventId = applyUndo(s.events, action as Exclude<ReviewAction, { type: 'set-scene-tags' } | { type: 'set-frame-text' }>);
         if (selectedEventId !== undefined) {
           s.selectedEventId = selectedEventId;
         }

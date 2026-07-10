@@ -34,6 +34,7 @@ export function FrameTextPanel() {
   }, [dataset, currentTimeMs]);
 
   const [editingPartId, setEditingPartId] = useState<number | null>(null);
+  const [editingFrameIndex, setEditingFrameIndex] = useState<number | null>(null);
   const [draft, setDraft] = useState('');
 
   if (loadingDataset) {
@@ -74,16 +75,22 @@ export function FrameTextPanel() {
 
   const startEdit = (partId: number, current: string) => {
     setEditingPartId(partId);
+    setEditingFrameIndex(frameIndex);
     setDraft(current);
   };
 
   const commitEdit = (partId: number) => {
-    setFrameTextPart(frameIndex, partId, draft);
+    // Commit to the frame the edit was started on, even if playback has since moved.
+    if (editingFrameIndex !== null) {
+      setFrameTextPart(editingFrameIndex, partId, draft);
+    }
     setEditingPartId(null);
+    setEditingFrameIndex(null);
   };
 
   const cancelEdit = () => {
     setEditingPartId(null);
+    setEditingFrameIndex(null);
   };
 
   return (
