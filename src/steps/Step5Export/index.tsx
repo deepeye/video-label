@@ -15,6 +15,7 @@ export function Step5Export() {
   const annotations = useDemoStore((s) => s.annotations);
   const events = useDemoStore((s) => s.events);
   const frameTags = useDemoStore((s) => s.frameTags);
+  const frameTextEdits = useDemoStore((s) => s.frameTextEdits);
   const loadingDataset = useDemoStore((s) => s.loadingDataset);
   const loadingDatasetError = useDemoStore((s) => s.loadingDatasetError);
   const [format, setFormat] = useState<ExportFormat>('native');
@@ -39,7 +40,7 @@ export function Step5Export() {
     return format === 'native'
       ? toNative(events, dataset, 0)
       : toCocoVideo(annotations, dataset, 0, frameTags, events);
-  }, [format, annotations, dataset, events, frameTags]);
+  }, [format, annotations, dataset, events, frameTags, frameTextEdits]);
 
   const stats = useMemo(() => {
     return {
@@ -47,8 +48,9 @@ export function Step5Export() {
       point: events.filter((event) => event.mode === 'point').length,
       range: events.filter((event) => event.mode === 'range').length,
       withRegion: events.filter((event) => event.regionBox !== null).length,
+      textEdits: frameTextEdits.length,
     };
-  }, [events]);
+  }, [events, frameTextEdits]);
 
   const handleDownload = async () => {
     setDownloading(true);
@@ -60,6 +62,7 @@ export function Step5Export() {
         dataset,
         exportedAt: Date.now(),
         frameTags,
+        frameTextEdits,
       });
     } finally {
       setDownloading(false);
@@ -112,6 +115,7 @@ export function Step5Export() {
               <Stat label="点事件" value={stats.point} color={tokens.color.success[500]} />
               <Stat label="范围事件" value={stats.range} color={tokens.color.info[500]} />
               <Stat label="带框事件" value={stats.withRegion} color={tokens.color.warning[500]} />
+              <Stat label="已修正文本" value={stats.textEdits} color={tokens.color.brand[500]} />
             </div>
           </div>
 

@@ -30,12 +30,13 @@ export interface ExportArgs {
   frameTextEdits?: FrameTextEdit[];
 }
 
-function buildEventStats(events: EventMarker[]) {
+function buildEventStats(events: EventMarker[], textEdits: FrameTextEdit[] = []) {
   return {
     total: events.length,
     point: events.filter((event) => event.mode === 'point').length,
     range: events.filter((event) => event.mode === 'range').length,
     with_region: events.filter((event) => event.regionBox !== null).length,
+    text_edits: textEdits.length,
   };
 }
 
@@ -87,7 +88,7 @@ export async function buildExportZip(args: ExportArgs): Promise<Blob> {
     dataset,
     format,
     exportedAt,
-    statistics: buildEventStats(events),
+    statistics: buildEventStats(events, frameTextEdits),
     files,
   });
   zip.file('manifest.json', JSON.stringify(manifest, null, 2));

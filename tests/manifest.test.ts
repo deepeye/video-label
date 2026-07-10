@@ -16,7 +16,7 @@ describe('buildManifest', () => {
       dataset: ds,
       format: 'native',
       exportedAt: 1718700000000,
-      statistics: { total: 47, point: 30, range: 17, with_region: 5 },
+      statistics: { total: 47, point: 30, range: 17, with_region: 5, text_edits: 0 },
       files: ['annotations/native.json', 'frames/00003333.jpg'],
     });
     expect(m.dataset_id).toBe('jiazhengnvhuang_13');

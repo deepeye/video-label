@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createElement } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import JSZip from 'jszip';
 import { buildExportZip } from '@/steps/Step5Export/exportZip';
 import { Step5Export } from '@/steps/Step5Export';
@@ -196,5 +196,28 @@ describe('buildExportZip', () => {
     const zip = await JSZip.loadAsync(blob);
     const m = JSON.parse(await zip.files['manifest.json']!.async('string'));
     expect(m.files).toContain('annotations/frame_boxes.json');
+  });
+
+  it('manifest statistics includes text_edits count', async () => {
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正');
+    const ds = getDataset('jiazhengnvhuang_13');
+    const blob = await buildExportZip({
+      format: 'native',
+      events: [],
+      dataset: ds,
+      exportedAt: 1,
+      frameTextEdits: useDemoStore.getState().frameTextEdits,
+    });
+    const zip = await JSZip.loadAsync(blob);
+    const m = JSON.parse(await zip.files['manifest.json']!.async('string'));
+    expect(m.statistics.text_edits).toBe(1);
+  });
+
+  it('Step5Export shows edited text count stat', async () => {
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正');
+    render(createElement(Step5Export));
+    expect(screen.getByText('已修正文本')).toBeInTheDocument();
+    const statRow = screen.getByText('已修正文本').closest('div')!;
+    expect(within(statRow).getByText('1')).toBeInTheDocument();
   });
 });

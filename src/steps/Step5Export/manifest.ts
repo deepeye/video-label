@@ -14,6 +14,7 @@ export interface Manifest {
     point: number;
     range: number;
     with_region: number;
+    text_edits: number;
   };
   metadata: Dataset['metadata'];
   files: string[];
