@@ -6,6 +6,7 @@ import type {
   DemoStep,
   EventMarker,
   FrameTagEntry,
+  FrameTextEdit,
   ReviewAction,
   ShotSegment,
   Speed,
@@ -34,6 +35,7 @@ export interface Snapshot {
   annotationTool: AnnotationTool;
   draftPolygon: [number, number][];
   frameTags: FrameTagEntry[];
+  frameTextEdits: FrameTextEdit[];
   currentTimeMs: number;
   playbackState: 'playing' | 'paused';
   pendingSeekMs: number | null;
@@ -63,6 +65,7 @@ export function createLoadingSnapshot(): Snapshot {
     annotationTool: 'select',
     draftPolygon: [],
     frameTags: [],
+    frameTextEdits: [],
     currentTimeMs: 0,
     playbackState: 'paused',
     pendingSeekMs: null,
@@ -93,6 +96,7 @@ export function createSnapshotFromDataset(dataset: Dataset, id: DatasetId): Snap
     annotationTool: 'select',
     draftPolygon: [],
     frameTags: [],
+    frameTextEdits: [],
     currentTimeMs: 0,
     playbackState: 'paused',
     pendingSeekMs: null,

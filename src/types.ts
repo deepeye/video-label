@@ -134,6 +134,12 @@ export interface DemoScript {
 
 export type AnnotationState = Annotation;
 
+export interface FrameTextEdit {
+  frame_index: number;
+  part_id: number;
+  text: string;
+}
+
 export type ReviewAction =
   | {
       type: 'create-event';
@@ -156,4 +162,10 @@ export type ReviewAction =
       frameNo: number;
       prevTags: string[];
       prevTimestampMs: number | null;
+    }
+  | {
+      type: 'set-frame-text';
+      frameIndex: number;
+      partId: number;
+      prevText: string;
     };

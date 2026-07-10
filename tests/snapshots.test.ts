@@ -76,4 +76,15 @@ describe('snapshot factory', () => {
     a.annotations[0]!.review.status = 'accepted';
     expect(b.annotations[0]!.review.status).toBe('pending');
   });
+
+  it('createLoadingSnapshot initializes frameTextEdits to empty array', () => {
+    const snap = createLoadingSnapshot();
+    expect(snap.frameTextEdits).toEqual([]);
+  });
+
+  it('createSnapshotFromDataset initializes frameTextEdits to empty array', () => {
+    const ds = makeDataset('jiazhengnvhuang_13');
+    const snap = createSnapshotFromDataset(ds, 'jiazhengnvhuang_13');
+    expect(snap.frameTextEdits).toEqual([]);
+  });
 });
