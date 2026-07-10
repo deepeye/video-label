@@ -1,4 +1,4 @@
-import type { EventMarker, ReviewAction } from '../types';
+import type { EventMarker, FrameTextEdit, ReviewAction } from '../types';
 
 export const UNDO_STACK_LIMIT = 20;
 
@@ -54,5 +54,23 @@ export function applySceneTagUndo(
         source: 'human',
       });
     }
+  }
+}
+
+export function applyFrameTextUndo(
+  edits: FrameTextEdit[],
+  action: Extract<ReviewAction, { type: 'set-frame-text' }>,
+): void {
+  const idx = edits.findIndex(
+    (e) => e.frame_index === action.frameIndex && e.part_id === action.partId,
+  );
+  if (action.prevText === null) {
+    if (idx >= 0) edits.splice(idx, 1);
+    return;
+  }
+  if (idx >= 0) {
+    edits[idx]!.text = action.prevText;
+  } else {
+    edits.push({ frame_index: action.frameIndex, part_id: action.partId, text: action.prevText });
   }
 }

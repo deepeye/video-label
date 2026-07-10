@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { applySceneTagUndo, applyUndo, pushUndo, UNDO_STACK_LIMIT } from '@/store/undo';
-import type { EventMarker, ReviewAction } from '@/types';
+import { applyFrameTextUndo, applySceneTagUndo, applyUndo, pushUndo, UNDO_STACK_LIMIT } from '@/store/undo';
+import type { EventMarker, FrameTextEdit, ReviewAction } from '@/types';
 
 function makeEvent(overrides: Partial<EventMarker> = {}): EventMarker {
   return {
@@ -108,5 +108,54 @@ describe('undo stack', () => {
     expect(frameTags).toEqual([
       { frame_no: 32, timestamp_ms: 1067, tags: ['夜间', '风险'], source: 'human' },
     ]);
+  });
+
+  it('applyFrameTextUndo upserts the edit when prevText is a string', () => {
+    const edits: FrameTextEdit[] = [];
+    const action: Extract<ReviewAction, { type: 'set-frame-text' }> = {
+      type: 'set-frame-text',
+      frameIndex: 5,
+      partId: 2,
+      prevText: '之前文本',
+    };
+    applyFrameTextUndo(edits, action);
+    expect(edits).toEqual([{ frame_index: 5, part_id: 2, text: '之前文本' }]);
+  });
+
+  it('applyFrameTextUndo replaces an existing edit with prevText', () => {
+    const edits: FrameTextEdit[] = [{ frame_index: 5, part_id: 2, text: '现在文本' }];
+    const action: Extract<ReviewAction, { type: 'set-frame-text' }> = {
+      type: 'set-frame-text',
+      frameIndex: 5,
+      partId: 2,
+      prevText: '之前文本',
+    };
+    applyFrameTextUndo(edits, action);
+    expect(edits).toEqual([{ frame_index: 5, part_id: 2, text: '之前文本' }]);
+    expect(edits.length).toBe(1);
+  });
+
+  it('applyFrameTextUndo removes the edit when prevText is null', () => {
+    const edits: FrameTextEdit[] = [{ frame_index: 5, part_id: 2, text: '现在文本' }];
+    const action: Extract<ReviewAction, { type: 'set-frame-text' }> = {
+      type: 'set-frame-text',
+      frameIndex: 5,
+      partId: 2,
+      prevText: null,
+    };
+    applyFrameTextUndo(edits, action);
+    expect(edits).toEqual([]);
+  });
+
+  it('applyFrameTextUndo is a no-op when prevText is null and no edit exists', () => {
+    const edits: FrameTextEdit[] = [];
+    const action: Extract<ReviewAction, { type: 'set-frame-text' }> = {
+      type: 'set-frame-text',
+      frameIndex: 5,
+      partId: 2,
+      prevText: null,
+    };
+    applyFrameTextUndo(edits, action);
+    expect(edits).toEqual([]);
   });
 });

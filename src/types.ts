@@ -167,5 +167,5 @@ export type ReviewAction =
       type: 'set-frame-text';
       frameIndex: number;
       partId: number;
-      prevText: string;
+      prevText: string | null;
     };
