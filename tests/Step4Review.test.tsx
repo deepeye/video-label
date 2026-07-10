@@ -69,7 +69,7 @@ describe('Step4Review integration', () => {
     expect(screen.getByRole('button', { name: '区域' })).toBeInTheDocument();
     expect(screen.getByTestId('step4-video-stage')).toBeInTheDocument();
     expect(screen.getByTestId('step4-timeline-surface')).toBeInTheDocument();
-    expect(screen.getByText('事件列表')).toBeInTheDocument();
+    expect(screen.getByText('画面文本')).toBeInTheDocument();
     expect(screen.queryByTestId('btn-accept')).not.toBeInTheDocument();
     expect(screen.queryByTestId('queue-card-trk_2')).not.toBeInTheDocument();
     expect(playSpy).not.toHaveBeenCalled();

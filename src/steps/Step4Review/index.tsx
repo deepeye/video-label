@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
 import type { TimelineTool } from '../../types';
 import { useDemoStore } from '../../store/demoStore';
 import { tokens } from '../../styles/tokens';
-import { Step4EventEditor } from './Step4EventEditor';
-import { Step4EventList } from './Step4EventList';
+import { FrameTextPanel } from './FrameTextPanel';
 import { Step4TimelineConnected } from './Step4Timeline';
 import { Step4VideoStage } from './Step4VideoStage';
 
@@ -15,24 +13,11 @@ const TIMELINE_TOOLS: Array<{ value: TimelineTool; label: string }> = [
 ];
 
 export function Step4Review() {
-  const events = useDemoStore((s) => s.events);
-  const selectedEventId = useDemoStore((s) => s.selectedEventId);
   const timelineTool = useDemoStore((s) => s.timelineTool);
   const playbackState = useDemoStore((s) => s.playbackState);
-  const selectEvent = useDemoStore((s) => s.selectEvent);
   const setTimelineTool = useDemoStore((s) => s.setTimelineTool);
   const play = useDemoStore((s) => s.play);
   const pause = useDemoStore((s) => s.pause);
-
-  const sortedEvents = useMemo(
-    () =>
-      [...events].sort((a, b) => {
-        const aTime = a.mode === 'range' ? a.startMs ?? Number.MAX_SAFE_INTEGER : a.timeMs ?? Number.MAX_SAFE_INTEGER;
-        const bTime = b.mode === 'range' ? b.startMs ?? Number.MAX_SAFE_INTEGER : b.timeMs ?? Number.MAX_SAFE_INTEGER;
-        return aTime - bTime;
-      }),
-    [events],
-  );
 
   return (
     <div
@@ -128,8 +113,7 @@ export function Step4Review() {
           overflowY: 'auto',
         }}
       >
-        <Step4EventList events={sortedEvents} selectedEventId={selectedEventId} onSelect={selectEvent} />
-        <Step4EventEditor />
+        <FrameTextPanel />
       </aside>
     </div>
   );
