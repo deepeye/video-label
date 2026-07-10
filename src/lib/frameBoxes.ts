@@ -1,4 +1,5 @@
-import type { FrameBox, FrameEntry, FrameBoxesOverlay } from '../types';
+import type { Dataset, FrameBox, FrameBoxesOverlay, FrameEntry, FrameTextEdit } from '../types';
+import { deepClone } from './deepClone';
 
 /**
  * 给定视频 currentTimeMs，返回 overlay.frames 中最近的 FrameEntry。
@@ -68,4 +69,22 @@ export function quadToBox(quad: Array<[number, number]>): [number, number, numbe
   const w = Math.max(...xs) - x;
   const h = Math.max(...ys) - y;
   return [x, y, w, h];
+}
+
+/**
+ * 深拷贝 dataset.frame_boxes，并把 frameTextEdits 覆盖到对应 parts[].text。
+ * dataset.frame_boxes 不存在时返回 undefined。不修改入参 dataset。
+ */
+export function mergeFrameTextOverrides(
+  dataset: Dataset,
+  edits: FrameTextEdit[],
+): FrameBoxesOverlay | undefined {
+  if (!dataset.frame_boxes) return undefined;
+  const overlay = deepClone(dataset.frame_boxes);
+  for (const edit of edits) {
+    const frame = overlay.frames.find((f) => f.frame_index === edit.frame_index);
+    const part = frame?.parts.find((p) => p.part_id === edit.part_id);
+    if (part) part.text = edit.text;
+  }
+  return overlay;
 }

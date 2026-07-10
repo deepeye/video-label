@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { findFrameAt, visibleBoxes } from '@/lib/frameBoxes';
-import type { FrameBoxesOverlay } from '@/types';
+import { findFrameAt, visibleBoxes, mergeFrameTextOverrides } from '@/lib/frameBoxes';
+import type { FrameBoxesOverlay, Dataset, FrameTextEdit } from '@/types';
 
 const makeOverlay = (frameIndexes: number[]): FrameBoxesOverlay => ({
   fps: 30,
@@ -101,5 +101,63 @@ describe('visibleBoxes', () => {
       boxes: [{ label: 'person', probability: 0.9, box: [100, 100, 50, 80] }],
     });
     expect(result.map((b) => b.label)).toEqual(['text', 'person']);
+  });
+});
+
+function makeDatasetWithFrames(parts: Array<{ part_id: number; text: string }>): Dataset {
+  const frameParts = parts.map((p) => ({ ...p, box: [[0, 0], [1, 0], [1, 1], [0, 1]] as Array<[number, number]> }));
+  return {
+    version: '2.0-demo',
+    dataset_id: 'jiazhengnvhuang_13',
+    display: 't',
+    video_src: '/mock/t.mp4',
+    thumb: '',
+    metadata: { duration_ms: 1000, frame_count: 30, fps: 30, width: 1920, height: 1080, codec: 'h264', audio_tracks: 1, sampled_frames: 0 },
+    annotations: [],
+    demo_script: { metadata_reveal_ms: 0, inference_reveal_ms: 0, review_focus_ids: [] },
+    segments: [],
+    frame_boxes: {
+      fps: 30,
+      video_size: [1920, 1080],
+      frames: [{ frame_index: 0, timestamp_ms: 0, subtitle_text: null, parts: frameParts, boxes: [] }],
+    },
+  };
+}
+
+describe('mergeFrameTextOverrides', () => {
+  it('returns undefined when dataset has no frame_boxes', () => {
+    const ds: Dataset = { ...makeDatasetWithFrames([]), frame_boxes: undefined };
+    expect(mergeFrameTextOverrides(ds, [])).toBeUndefined();
+  });
+
+  it('returns a deep clone with no changes when edits is empty', () => {
+    const ds = makeDatasetWithFrames([{ part_id: 0, text: 'OCR' }]);
+    const merged = mergeFrameTextOverrides(ds, []);
+    expect(merged).toEqual(ds.frame_boxes);
+    expect(merged).not.toBe(ds.frame_boxes);
+    expect(merged!.frames[0]!.parts[0]).not.toBe(ds.frame_boxes!.frames[0]!.parts[0]);
+  });
+
+  it('applies edits to the matching part text', () => {
+    const ds = makeDatasetWithFrames([{ part_id: 0, text: 'OCR' }]);
+    const edits: FrameTextEdit[] = [{ frame_index: 0, part_id: 0, text: '修正' }];
+    const merged = mergeFrameTextOverrides(ds, edits);
+    expect(merged!.frames[0]!.parts[0]!.text).toBe('修正');
+  });
+
+  it('does not mutate the source dataset', () => {
+    const ds = makeDatasetWithFrames([{ part_id: 0, text: 'OCR' }]);
+    mergeFrameTextOverrides(ds, [{ frame_index: 0, part_id: 0, text: '修正' }]);
+    expect(ds.frame_boxes!.frames[0]!.parts[0]!.text).toBe('OCR');
+  });
+
+  it('leaves edits for non-existent frames/parts as no-ops', () => {
+    const ds = makeDatasetWithFrames([{ part_id: 0, text: 'OCR' }]);
+    const edits: FrameTextEdit[] = [
+      { frame_index: 99, part_id: 0, text: 'X' },
+      { frame_index: 0, part_id: 99, text: 'Y' },
+    ];
+    const merged = mergeFrameTextOverrides(ds, edits);
+    expect(merged!.frames[0]!.parts[0]!.text).toBe('OCR');
   });
 });
