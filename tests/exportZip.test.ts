@@ -162,4 +162,39 @@ describe('buildExportZip', () => {
     expect(screen.getByTestId('format-native')).toHaveAttribute('data-active', 'true');
     expect(screen.getByTestId('json-preview')).toHaveTextContent('"events"');
   });
+
+  it('includes frame_boxes.json with merged text edits when frame_boxes exists', async () => {
+    useDemoStore.getState().setFrameTextPart(0, 0, '修正后的OCR');
+
+    const ds = getDataset('jiazhengnvhuang_13');
+    const events = useDemoStore.getState().events;
+    const frameTextEdits = useDemoStore.getState().frameTextEdits;
+    const blob = await buildExportZip({
+      format: 'native',
+      events,
+      dataset: ds,
+      exportedAt: 1,
+      frameTextEdits,
+    });
+    const zip = await JSZip.loadAsync(blob);
+    expect(zip.files['annotations/frame_boxes.json']).toBeDefined();
+
+    const text = await zip.files['annotations/frame_boxes.json']!.async('string');
+    const data = JSON.parse(text);
+    const part = data.frames[0].parts.find((p: { part_id: number }) => p.part_id === 0);
+    expect(part.text).toBe('修正后的OCR');
+  });
+
+  it('manifest files list includes frame_boxes.json', async () => {
+    const ds = getDataset('jiazhengnvhuang_13');
+    const blob = await buildExportZip({
+      format: 'native',
+      events: [],
+      dataset: ds,
+      exportedAt: 1,
+    });
+    const zip = await JSZip.loadAsync(blob);
+    const m = JSON.parse(await zip.files['manifest.json']!.async('string'));
+    expect(m.files).toContain('annotations/frame_boxes.json');
+  });
 });

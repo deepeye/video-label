@@ -1,8 +1,9 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import type { Annotation, Dataset, EventMarker, FrameTagEntry } from '../../types';
+import type { Annotation, Dataset, EventMarker, FrameTagEntry, FrameTextEdit } from '../../types';
 import { toNative } from '../../lib/format/native';
 import { toCocoVideo } from '../../lib/format/cocoVideo';
+import { mergeFrameTextOverrides } from '../../lib/frameBoxes';
 import { buildManifest, type ExportFormat } from './manifest';
 
 const README_CONTENT = `视频语料标注 Demo · 导出包
@@ -26,6 +27,7 @@ export interface ExportArgs {
   exportedAt: number;
   annotations?: Annotation[];
   frameTags?: FrameTagEntry[];
+  frameTextEdits?: FrameTextEdit[];
 }
 
 function buildEventStats(events: EventMarker[]) {
@@ -41,7 +43,7 @@ function buildEventStats(events: EventMarker[]) {
  * 生成 zip Blob (不触发下载)。便于测试。
  */
 export async function buildExportZip(args: ExportArgs): Promise<Blob> {
-  const { format, events, dataset, exportedAt, annotations = [], frameTags } = args;
+  const { format, events, dataset, exportedAt, annotations = [], frameTags, frameTextEdits = [] } = args;
   const zip = new JSZip();
 
   const annFolder = zip.folder('annotations')!;
@@ -73,12 +75,20 @@ export async function buildExportZip(args: ExportArgs): Promise<Blob> {
     }
   }
 
+  const files: string[] = [annFile, ...frameFiles];
+
+  const mergedFrameBoxes = mergeFrameTextOverrides(dataset, frameTextEdits);
+  if (mergedFrameBoxes) {
+    annFolder.file('frame_boxes.json', JSON.stringify(mergedFrameBoxes, null, 2));
+    files.push('annotations/frame_boxes.json');
+  }
+
   const manifest = buildManifest({
     dataset,
     format,
     exportedAt,
     statistics: buildEventStats(events),
-    files: [annFile, ...frameFiles],
+    files,
   });
   zip.file('manifest.json', JSON.stringify(manifest, null, 2));
 
